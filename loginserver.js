@@ -1,15 +1,27 @@
 var net = require("net");
 var Blowfish = require("./util/blowfish.js");
+var log = require("./util/log.js");
 var config = require("./config/config.js");
 var serverPackets = require("./loginserver/serverpackets/serverPackets.js");
+var clientPackets = require("./loginserver/clientpackets/clientPackets.js");
 var blowfish = new Blowfish(config.base.blowfish.key);
 
 function handlerSocket(socket) {
 	socket.on("data", data => {
-		//
-		var packet = Array.prototype.slice.call(new Buffer.from(data, "binary"),2);
-		var decrypt = blowfish.decrypt(packet);
-		console.log(decrypt);
+		var packet = new Buffer.from(data, "binary").slice(2);
+		var decryptedPacket = new Buffer.from(blowfish.decrypt(packet));
+		var packetType = decryptedPacket[0];
+
+		loadPacketByType(packetType, decryptedPacket);
+
+		function loadPacketByType(type, packet) {
+			switch(type) {
+				case 0x00:
+					var requestAuthLogin = new clientPackets.RequestAuthLogin(packet);
+					log(`user ${requestAuthLogin.getUserName()} requesting auth login`);
+					break;
+			}
+		}
 		//
 		// for test
 		// var loginOk = [0x03, 0x55, 0x55, 0x55, 0x55, 0x44, 0x44, 0x44, 0x44, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
@@ -17,11 +29,11 @@ function handlerSocket(socket) {
 	})
 
 	socket.on("close", data => {
-		console.log(`Connection to login server has closed: ${socket.remoteAddress}:${socket.remotePort}`);
+		log(`Connection to login server has closed: ${socket.remoteAddress}:${socket.remotePort}`);
 	})
 
 	function userHasJoined() {
-		console.log(`Connected to login server: ${socket.remoteAddress}:${socket.remotePort}`);
+		log(`Connected to login server: ${socket.remoteAddress}:${socket.remotePort}`);
 	}
 
 	function Init() {
@@ -34,7 +46,9 @@ function handlerSocket(socket) {
 }
 
 function Init() {
-	net.createServer(handlerSocket).listen(config.loginserver.port, config.loginserver.host);
+	net.createServer(handlerSocket).listen(config.loginserver.port, config.loginserver.host, () => {
+		log(`Login server listening on ${config.loginserver.host}:${config.loginserver.port}`)
+	});
 }
 
 Init();

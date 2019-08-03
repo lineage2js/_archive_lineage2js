@@ -1,0 +1,32 @@
+Login server listening on 127.0.0.1:2106
+Connected to login server: 127.0.0.1:5472
+Login server listening on 127.0.0.1:2106
+Connected to login server: 127.0.0.1:5579
+[object Object]
+Connection to login server has closed: 127.0.0.1:5579
+Login server listening on 127.0.0.1:2106
+Connected to login server: 127.0.0.1:5752
+[object Object]
+Connection to login server has closed: 127.0.0.1:5752
+Login server listening on 127.0.0.1:2106
+Connected to login server: 127.0.0.1:5978
+[object Object]
+Connection to login server has closed: 127.0.0.1:5978
+Login server listening on 127.0.0.1:2106
+Connected to login server: 127.0.0.1:7014
+[object Object]
+Connected to login server: 127.0.0.1:7033
+[object Object]
+Connected to login server: 127.0.0.1:7054
+[object Object]
+Connected to login server: 127.0.0.1:7079
+[object Object]
+Connection to login server has closed: 127.0.0.1:7079
+Login server listening on 127.0.0.1:2106
+Connected to login server: 127.0.0.1:7165
+[object Object]
+Connection to login server has closed: 127.0.0.1:7165
+Login server listening on 127.0.0.1:2106
+Connected to login server: 127.0.0.1:7647
+user test requesting auth login
+Connection to login server has closed: 127.0.0.1:7647
