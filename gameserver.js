@@ -1,23 +1,28 @@
 var net = require("net");
-var Blowfish = require("./util/blowfish.js");
 var log = require("./util/log.js");
 var SendPacket = require("./util/SendPacket.js");
 var config = require("./config/config.js");
-var blowfish = new Blowfish(config.base.blowfish.key);
+var serverPackets = require("./gameserver/serverpackets/serverPackets.js");
+var clientPackets = require("./gameserver/clientpackets/clientPackets.js");
 
 function handlerSocket(socket) {
-	var sendPacket = new SendPacket(blowfish, socket);
+	//var sendPacket = new SendPacket(blowfish, socket);
 
 	socket.on("data", data => {
 		var packet = new Buffer.from(data, "binary").slice(2); // slice(2) - without byte responsible for packet size
-		var decryptedPacket = new Buffer.from(blowfish.decrypt(packet));
-		var packetType = decryptedPacket[0];
+		var packetType = packet[0];
 
-		loadPacketByType(packetType, decryptedPacket);
-		log("kek")
+		loadPacketByType(packetType, packet);
+
 		function loadPacketByType(type, packet) {
 			switch(type) {
-				
+				case 0x00:
+					var protocolVersion = new clientPackets.ProtocolVersion(packet);
+					
+					if(protocolVersion.getVersion() === 419) {
+						log("It's work");
+					}
+					break;
 			}
 		}
 	})

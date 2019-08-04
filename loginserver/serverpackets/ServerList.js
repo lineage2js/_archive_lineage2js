@@ -3,9 +3,9 @@ var ServerPacket = require("./ServerPacket.js");
 function ServerList(host, port, maxPlayer) {
 	host = host.split(".");
 
-	this._packet = new ServerPacket(40);
+	this._packet = new ServerPacket(20);
 	this._packet.writeC(0x04)
-		.writeC(2) // Number of servers
+		.writeC(1) // Number of servers
 		.writeC(0) // LS Number
 		.writeC(1) // Server ID
 		.writeC(host[0]) // Server IP
