@@ -9,6 +9,7 @@ var blowfish = new Blowfish(config.base.blowfish.key);
 
 function handlerSocket(socket) {
 	var sendPacket = new SendPacket(blowfish, socket);
+	var sessionKey1Server = [0x55555555, 0x44444444];
 
 	socket.on("data", data => {
 		var packet = new Buffer.from(data, "binary").slice(2);
@@ -28,7 +29,7 @@ function handlerSocket(socket) {
 					userStatus = checkUser(requestAuthLogin.getUserName(), requestAuthLogin.getPassword());
 
 					if(userStatus === "success") {
-						sendPacket.send(serverPackets.LoginOk());
+						sendPacket.send(serverPackets.LoginOk(sessionKey1Server));
 					} else {
 						sendPacket.send(serverPackets.LoginFail(userStatus));
 					}
@@ -39,7 +40,21 @@ function handlerSocket(socket) {
 					break;
 				case 0x05:
 					log("RequestServerList");
+					var requestServerList = new clientPackets.RequestServerList(packet);
+					var sessionKey1Client = requestServerList.getSessionKey1();
+
+					if(keyComparison(sessionKey1Server, sessionKey1Client)) {
+						// send ServerList
+					}
 					break;
+			}
+		}
+
+		function keyComparison(keyServer, keyClient) {
+			if(keyServer[0] === parseInt(keyClient[0], 16) && keyServer[1] === parseInt(keyClient[1], 16)) {
+				return true;
+			} else {
+				return false;
 			}
 		}
 
