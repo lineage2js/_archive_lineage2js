@@ -6,10 +6,14 @@ var base = {
 
 var loginserver = {
 	host: "127.0.0.1",
-	port: "2106"
+	port: 2106
 };
 
-var gameserver = {};
+var gameserver = {
+	host: "127.0.0.1",
+	port: 7777,
+	maxPlayer: 100
+};
 
 module.exports = {
 	base: base,

@@ -43,7 +43,7 @@ function handlerSocket(socket) {
 					var sessionKey1Client = requestServerList.getSessionKey1();
 
 					if(keyComparison(sessionKey1Server, sessionKey1Client)) {
-						sendPacket.send(new serverPackets.ServerList());
+						sendPacket.send(new serverPackets.ServerList(config.gameserver.host, config.gameserver.port, config.gameserver.maxPlayer));
 					}
 					break;
 			}
