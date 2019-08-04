@@ -1,9 +1,8 @@
 var ServerPacket = require("./ServerPacket.js");
 
 function LoginOk(SessionKey1) {
-	var packet = new ServerPacket(48);
-
-	packet.writeC(0x03)
+	this._packet = new ServerPacket(48);
+	this._packet.writeC(0x03)
 		.writeD(SessionKey1[0])
 		.writeD(SessionKey1[1])
 		.writeD(0x00)
@@ -13,7 +12,7 @@ function LoginOk(SessionKey1) {
 		.writeD(0x00)
 		.writeD(0x02);
 
-	return packet._buffer;
+	return this._packet.getBuffer();
 }
 
 module.exports = LoginOk;

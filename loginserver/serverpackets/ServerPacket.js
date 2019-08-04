@@ -9,21 +9,21 @@ function ServerPacket(size) {
 // writeF - 8 byte
 
 ServerPacket.prototype.writeC = function(value) {
-	this._buffer.writeInt8(value, this._offset);
+	this._buffer.writeUInt8(value, this._offset);
 	this._offset++;
 
 	return this;
 }
 
 ServerPacket.prototype.writeH = function(value) {
-	this._buffer.writeInt16LE(value, this._offset);
+	this._buffer.writeUInt16LE(value, this._offset);
 	this._offset += 2;
 
 	return this;
 }
 
 ServerPacket.prototype.writeD = function(value) {
-	this._buffer.writeInt32LE(value, this._offset);
+	this._buffer.writeUInt32LE(value, this._offset);
 	this._offset += 4;
 
 	return this;
@@ -34,6 +34,10 @@ ServerPacket.prototype.writeF = function(value) {
     this._offset += 8;
     
     return this;
+};
+
+ServerPacket.prototype.getBuffer = function() {
+    return this._buffer;
 };
 
 module.exports = ServerPacket;

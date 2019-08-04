@@ -12,7 +12,7 @@ function handlerSocket(socket) {
 	var sessionKey1Server = [0x55555555, 0x44444444];
 
 	socket.on("data", data => {
-		var packet = new Buffer.from(data, "binary").slice(2);
+		var packet = new Buffer.from(data, "binary").slice(2); // slice(2) - without byte responsible for packet size
 		var decryptedPacket = new Buffer.from(blowfish.decrypt(packet));
 		var packetType = decryptedPacket[0];
 
@@ -20,7 +20,7 @@ function handlerSocket(socket) {
 
 		function loadPacketByType(type, packet) {
 			switch(type) {
-				case 0x00:
+				case 0x00: // RequestAuthLogin
 					var requestAuthLogin = new clientPackets.RequestAuthLogin(packet);
 					var userStatus;
 
@@ -29,22 +29,21 @@ function handlerSocket(socket) {
 					userStatus = checkUser(requestAuthLogin.getUserName(), requestAuthLogin.getPassword());
 
 					if(userStatus === "success") {
-						sendPacket.send(serverPackets.LoginOk(sessionKey1Server));
+						sendPacket.send(new serverPackets.LoginOk(sessionKey1Server));
 					} else {
-						sendPacket.send(serverPackets.LoginFail(userStatus));
+						sendPacket.send(new serverPackets.LoginFail(userStatus));
 					}
 					
 					break;
-				case 0x02:
+				case 0x02: // RequestServerLogin
 					log("RequestServerLogin");
 					break;
-				case 0x05:
-					log("RequestServerList");
+				case 0x05: // RequestServerList
 					var requestServerList = new clientPackets.RequestServerList(packet);
 					var sessionKey1Client = requestServerList.getSessionKey1();
 
 					if(keyComparison(sessionKey1Server, sessionKey1Client)) {
-						// send ServerList
+						sendPacket.send(new serverPackets.ServerList());
 					}
 					break;
 			}
@@ -91,8 +90,7 @@ function handlerSocket(socket) {
 
 	function Init() {
 		socket.setEncoding("binary");
-		//socket.write(serverPackets.InitLS());
-		sendPacket.send(serverPackets.InitLS(), false);
+		sendPacket.send(new serverPackets.InitLS(), false);
 		userHasJoined();
 	}
 

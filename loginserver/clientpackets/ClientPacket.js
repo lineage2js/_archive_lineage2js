@@ -12,7 +12,7 @@ function ClientPacket(buffer) {
 
 ClientPacket.prototype.readC = function() {
 	this._data.push(
-        this._buffer.readInt8(this._offset)
+        this._buffer.readUInt8(this._offset)
     );
     this._offset++;
 
@@ -21,7 +21,7 @@ ClientPacket.prototype.readC = function() {
 
 ClientPacket.prototype.readH = function() {
 	this._data.push(
-        this._buffer.readInt16LE(this._offset)
+        this._buffer.readUInt16LE(this._offset)
     );
     this._offset += 2;
 
@@ -30,7 +30,7 @@ ClientPacket.prototype.readH = function() {
 
 ClientPacket.prototype.readD = function() {
     this._data.push(
-        this._buffer.readInt32LE(this._offset)
+        this._buffer.readUInt32LE(this._offset)
     );
     this._offset += 4;
 
@@ -53,6 +53,10 @@ ClientPacket.prototype.readB = function(length) {
     this._offset += length;
 
     return this;
+}
+
+ClientPacket.prototype.getData = function() {
+    return this._data;
 }
 
 module.exports = ClientPacket;
