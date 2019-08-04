@@ -1,6 +1,6 @@
 function ServerPacket(size) {
-	this._buffer = new Buffer.allocUnsafe(size + 2);
-	this._offset = 2;
+	this._buffer = new Buffer.alloc(size + 4 + (size + 4) % 8); // (size + 4) % 8 - checksum. the packet is a multiple of 8.
+	this._offset = 0;
 }
 
 // writeC - 1 byte
@@ -28,5 +28,12 @@ ServerPacket.prototype.writeD = function(value) {
 
 	return this;
 }
+
+ServerPacket.prototype.writeF = function(value) {
+    this._buffer.writeDoubleLE(value, this._offset);
+    this._offset += 8;
+    
+    return this;
+};
 
 module.exports = ServerPacket;

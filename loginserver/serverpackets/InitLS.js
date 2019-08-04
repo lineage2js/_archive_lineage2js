@@ -10,8 +10,6 @@ function InitLS() {
 		.writeD(sessionID)
 		.writeD(protocol);
 
-	packet._buffer.writeInt16LE(packet._buffer.length);
-
 	return packet._buffer;
 }
 
