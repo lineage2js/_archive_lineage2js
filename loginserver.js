@@ -10,6 +10,7 @@ var blowfish = new Blowfish(config.base.blowfish.key);
 function handlerSocket(socket) {
 	var sendPacket = new SendPacket(blowfish, socket);
 	var sessionKey1Server = [0x55555555, 0x44444444];
+	var sessionKey2Server = [0x55555555, 0x44444444];
 
 	socket.on("data", data => {
 		var packet = new Buffer.from(data, "binary").slice(2); // slice(2) - without byte responsible for packet size
@@ -36,7 +37,22 @@ function handlerSocket(socket) {
 					
 					break;
 				case 0x02: // RequestServerLogin
-					log("RequestServerLogin");
+					var requestServerLogin = new clientPackets.RequestServerLogin(packet);
+					var sessionKey1Client = requestServerLogin.getSessionKey1();
+					var serverNumber = requestServerLogin.getServerNumber();
+
+					if(keyComparison(sessionKey1Server, sessionKey1Client)) {
+						//
+						if(true) {
+							sendPacket.send(new serverPackets.PlayOk(sessionKey2Server));
+						} else {
+							// 0x01 - System error, please log in again later.
+							// 0x02 - Password does not match this acount.
+							// 0x04 - Access failed. Please try agen later...
+							sendPacket.send(new serverPackets.PlayFail(0x0f))
+						}
+						//
+					}
 					break;
 				case 0x05: // RequestServerList
 					var requestServerList = new clientPackets.RequestServerList(packet);
