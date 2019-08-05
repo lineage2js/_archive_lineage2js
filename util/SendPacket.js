@@ -1,5 +1,5 @@
-function SendPacket(blowfish, socket) {
-	this.blowfish = blowfish;
+function SendPacket(encryptionEngine, socket) {
+	this.encryptionEngine = encryptionEngine;
 	this.socket = socket;
 }
 
@@ -8,7 +8,7 @@ SendPacket.prototype.send = function(packet, encoding = true) {
 	packetLength.writeInt16LE(packet.length + 2);
 
 	if(encoding) {
-		packet = new Buffer.from(this.blowfish.encrypt(packet));
+		packet = new Buffer.from(this.encryptionEngine.encrypt(packet));
 		packet = Buffer.concat([packetLength, packet]);
 		this.socket.write(packet);
 	} else {

@@ -5,9 +5,9 @@ var SendPacket = require("./util/SendPacket.js");
 var config = require("./config/config.js");
 var serverPackets = require("./loginserver/serverpackets/serverPackets.js");
 var clientPackets = require("./loginserver/clientpackets/clientPackets.js");
-var blowfish = new Blowfish(config.base.blowfish.key);
+var blowfish = new Blowfish(config.base.key.blowfish);
 
-function handlerSocket(socket) {
+function socketHandler(socket) {
 	var sendPacket = new SendPacket(blowfish, socket);
 	var sessionKey1Server = [0x55555555, 0x44444444];
 	var sessionKey2Server = [0x55555555, 0x44444444];
@@ -17,11 +17,11 @@ function handlerSocket(socket) {
 		var decryptedPacket = new Buffer.from(blowfish.decrypt(packet));
 		var packetType = decryptedPacket[0];
 
-		loadPacketByType(packetType, decryptedPacket);
+		packetHandler(packetType, decryptedPacket);
 
-		function loadPacketByType(type, packet) {
+		function packetHandler(type, packet) {
 			switch(type) {
-				case 0x00: // RequestAuthLogin
+				case 0x00:
 					var requestAuthLogin = new clientPackets.RequestAuthLogin(packet);
 					var userStatus;
 
@@ -36,13 +36,13 @@ function handlerSocket(socket) {
 					}
 					
 					break;
-				case 0x02: // RequestServerLogin
+				case 0x02:
 					var requestServerLogin = new clientPackets.RequestServerLogin(packet);
 					var sessionKey1Client = requestServerLogin.getSessionKey1();
 					var serverNumber = requestServerLogin.getServerNumber();
 
 					if(keyComparison(sessionKey1Server, sessionKey1Client)) {
-						//
+						// Проверка на доступность сервера
 						if(true) {
 							sendPacket.send(new serverPackets.PlayOk(sessionKey2Server));
 						} else {
@@ -54,7 +54,7 @@ function handlerSocket(socket) {
 						//
 					}
 					break;
-				case 0x05: // RequestServerList
+				case 0x05:
 					var requestServerList = new clientPackets.RequestServerList(packet);
 					var sessionKey1Client = requestServerList.getSessionKey1();
 
@@ -97,11 +97,11 @@ function handlerSocket(socket) {
 	})
 
 	socket.on("close", data => {
-		log(`Connection to login server has closed: ${socket.remoteAddress}:${socket.remotePort}`);
+		log(`Connection to the login server is closed for: ${socket.remoteAddress}:${socket.remotePort}`);
 	})
 
 	function userHasJoined() {
-		log(`Connected to login server: ${socket.remoteAddress}:${socket.remotePort}`);
+		log(`Connected to the login server: ${socket.remoteAddress}:${socket.remotePort}`);
 	}
 
 	function Init() {
@@ -114,7 +114,7 @@ function handlerSocket(socket) {
 }
 
 function Init() {
-	net.createServer(handlerSocket).listen(config.loginserver.port, config.loginserver.host, () => {
+	net.createServer(socketHandler).listen(config.loginserver.port, config.loginserver.host, () => {
 		log(`Login server listening on ${config.loginserver.host}:${config.loginserver.port}`)
 	});
 }
