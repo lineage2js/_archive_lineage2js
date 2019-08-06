@@ -1,21 +1,29 @@
 var net = require("net");
+var XOR = require("./util/XOR.js");
 var log = require("./util/log.js");
 var SendPacket = require("./util/SendPacket.js");
 var config = require("./config/config.js");
+var errorCodes = require("./config/errorCOdes.js");
 var serverPackets = require("./gameserver/serverpackets/serverPackets.js");
 var clientPackets = require("./gameserver/clientpackets/clientPackets.js");
+var xor = new XOR(config.base.key.XOR);
+var encryption = false;
 
 function socketHandler(socket) {
-	var sendPacket = new SendPacket(null /* remove */, socket);
-	// confog.base.key.XOR
+	var sendPacket = new SendPacket(xor, socket);
+	var sessionKey1Server = [0x55555555, 0x44444444];
+	var sessionKey2Server = [0x55555555, 0x44444444];
 
 	socket.on("data", data => {
 		var packet = new Buffer.from(data, "binary").slice(2); // slice(2) - without byte responsible for packet size
+		var decryptedPacket = new Buffer.from(encryption ? xor.decrypt(packet) : packet);
 		var packetType = packet[0];
-		log(packet)
-		log(packetType)
+		//
+		log(packet);
+		log(packetType);
+		//
 
-		packetHandler(packetType, packet);
+		packetHandler(packetType, decryptedPacket);
 
 		function packetHandler(type, packet) {
 			switch(type) {
@@ -23,16 +31,40 @@ function socketHandler(socket) {
 					var protocolVersion = new clientPackets.ProtocolVersion(packet);
 					
 					if(protocolVersion.getVersion() === config.base.PROTOCOL_VERSION.CLIENT) {
-						sendPacket.send(new serverPackets.CryptInit(), false /* remove */);	
+						sendPacket.send(new serverPackets.CryptInit(config.base.key.XOR), false);
+						encryption = true; // The first packet is not encrypted
 					}
 					break;
-				case 0x08: // RequestAuthLogin Login, SK2_2 SK2_1 SK1_1 SK1_2
+				case 0x08:
 					var requestAuthLogin = new clientPackets.RequestAuthLogin(packet);
+					var sessionKey1Client = requestAuthLogin.getSessionKey1();
+					var sessionKey2Client = requestAuthLogin.getSessionKey2();
 
-					if(true) {
-						sendPacket.send(new serverPackets.CharSelectInfo(), false /* remove */);
+					if(keyComparison(sessionKey1Server, sessionKey1Client) && keyComparison(sessionKey2Server, sessionKey2Client)) {
+						sendPacket.send(new serverPackets.CharSelectInfo());
+					} else {
+						sendPacket.send(new serverPackets.AuthLoginFail(errorCodes.gameserver.AuthLoginFail.REASON_SYSTEM_ERROR));
 					}
 					break;
+				case 0x0e:
+					var newCharacter = new clientPackets.NewCharacter(packet);
+					if(newCharacter.getStatus()) {
+					log("work ?")
+						sendPacket.send(new serverPackets.CharTemplates());
+					}
+					break;
+				case 0x09: // logout
+					xor = new XOR(config.base.key.XOR);
+					encryption = false;
+					break;
+			}
+		}
+
+		function keyComparison(keyServer, keyClient) {
+			if(keyServer[0] === parseInt(keyClient[0], 16) && keyServer[1] === parseInt(keyClient[1], 16)) {
+				return true;
+			} else {
+				return false;
 			}
 		}
 	})

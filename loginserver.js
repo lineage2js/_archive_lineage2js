@@ -3,6 +3,7 @@ var Blowfish = require("./util/blowfish.js");
 var log = require("./util/log.js");
 var SendPacket = require("./util/SendPacket.js");
 var config = require("./config/config.js");
+var errorCodes = require("./config/errorCOdes.js");
 var serverPackets = require("./loginserver/serverpackets/serverPackets.js");
 var clientPackets = require("./loginserver/clientpackets/clientPackets.js");
 var blowfish = new Blowfish(config.base.key.blowfish);
@@ -46,12 +47,8 @@ function socketHandler(socket) {
 						if(true) {
 							sendPacket.send(new serverPackets.PlayOk(sessionKey2Server));
 						} else {
-							// 0x01 - System error, please log in again later.
-							// 0x02 - Password does not match this acount.
-							// 0x04 - Access failed. Please try agen later...
-							sendPacket.send(new serverPackets.PlayFail(0x0f))
+							sendPacket.send(new serverPackets.PlayFail(errorCodes.loginserver.PlayFail.REASON_SYSTEM_ERROR))
 						}
-						//
 					}
 					break;
 				case 0x05:
@@ -74,24 +71,7 @@ function socketHandler(socket) {
 		}
 
 		function checkUser(userName, password) {
-			// 0x01 - системная ошибка
-			// return 0x01;
-
-			// 0x02 - неправельный пароль
-			// return 0x02;
-			
-			// 0x03 - логин или пароль неверен
-			// return 0x03;
-			
-			// 0x04 - доступ запрещен
-			// return 0x04;
-
-			// 0x07 - аккаунт уже используется
-			// return 0x07;
-			
-			// 0x09 - аккаунт забанен
-			// return 0x09;
-			
+			// example: return errorCodes.loginserver.LoginFail.REASON_SYSTEM_ERROR
 			return "success";
 		}
 	})
