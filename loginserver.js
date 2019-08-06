@@ -6,9 +6,9 @@ var config = require("./config/config.js");
 var errorCodes = require("./config/errorCOdes.js");
 var serverPackets = require("./loginserver/serverpackets/serverPackets.js");
 var clientPackets = require("./loginserver/clientpackets/clientPackets.js");
-var blowfish = new Blowfish(config.base.key.blowfish);
 
 function socketHandler(socket) {
+	var blowfish = new Blowfish(config.base.key.blowfish);
 	var sendPacket = new SendPacket(blowfish, socket);
 	var sessionKey1Server = [0x55555555, 0x44444444];
 	var sessionKey2Server = [0x55555555, 0x44444444];

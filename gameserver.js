@@ -6,10 +6,10 @@ var config = require("./config/config.js");
 var errorCodes = require("./config/errorCOdes.js");
 var serverPackets = require("./gameserver/serverpackets/serverPackets.js");
 var clientPackets = require("./gameserver/clientpackets/clientPackets.js");
-var xor = new XOR(config.base.key.XOR);
-var encryption = false;
 
 function socketHandler(socket) {
+	var encryption = false;
+	var xor = new XOR(config.base.key.XOR);
 	var sendPacket = new SendPacket(xor, socket);
 	var sessionKey1Server = [0x55555555, 0x44444444];
 	var sessionKey2Server = [0x55555555, 0x44444444];
@@ -18,7 +18,7 @@ function socketHandler(socket) {
 		var packet = new Buffer.from(data, "binary").slice(2); // slice(2) - without byte responsible for packet size
 		var decryptedPacket = new Buffer.from(encryption ? xor.decrypt(packet) : packet);
 		var packetType = packet[0];
-		//
+		// for test
 		log(packet);
 		log(packetType);
 		//
@@ -49,13 +49,16 @@ function socketHandler(socket) {
 				case 0x0e:
 					var newCharacter = new clientPackets.NewCharacter(packet);
 					if(newCharacter.getStatus()) {
-					log("work ?")
 						sendPacket.send(new serverPackets.CharTemplates());
 					}
 					break;
-				case 0x09: // logout
-					xor = new XOR(config.base.key.XOR);
-					encryption = false;
+				case 0x09:
+					var logout = new clientPackets.Logout(packet);
+
+					if(logout.getStatus()) {
+						xor = new XOR(config.base.key.XOR);
+						encryption = false;
+					}
 					break;
 			}
 		}
