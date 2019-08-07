@@ -50,6 +50,7 @@ function socketHandler(socket) {
 					var sessionKey2Client = requestAuthLogin.getSessionKey2();
 
 					if(keyComparison(sessionKey1Server, sessionKey1Client) && keyComparison(sessionKey2Server, sessionKey2Client)) {
+						// Загружать из БД список персонажей
 						sendPacket.send(new serverPackets.CharacterSelectInfo());
 					} else {
 						sendPacket.send(new serverPackets.AuthLoginFail(errorCodes.gameserver.AuthLoginFail.REASON_SYSTEM_ERROR));
@@ -86,13 +87,18 @@ function socketHandler(socket) {
 				case 0x0b:
 					var characterCreate = new clientPackets.CharacterCreate(packet);
 
-					log(characterCreate.getNickName());
-					log(characterCreate.getRace());
-					log(characterCreate.getGender());
-					log(characterCreate.getClassId());
-					log(characterCreate.getHairStyle());
-					log(characterCreate.getHairColor());
-					log(characterCreate.getFace());
+					if(true) {
+						sendPacket.send(new serverPackets.CharacterCreateSuccess());
+						// Загружать из БД список персонажей
+						sendPacket.send(new serverPackets.CharacterSelectInfo());
+					} else {
+						// REASON_CREATION_FAILED = 0x00;
+						// REASON_TOO_MANY_CHARACTERS = 0x01;
+						// REASON_NAME_ALREADY_EXISTS = 0x02;
+						// REASON_16_ENG_CHARS = 0x03;
+						sendPacket.send(new serverPackets.CharacterCreateFail(0x03));
+					}
+
 			}
 		}
 
@@ -107,6 +113,10 @@ function socketHandler(socket) {
 
 	socket.on("close", data => {
 		log(`Connection to the game server is closed for: ${socket.remoteAddress}:${socket.remotePort}`);
+	})
+
+	socket.on("error", data => {
+		log(`Client connection lost for: ${socket.remoteAddress}:${socket.remotePort}`);
 	})
 
 	function userHasJoined() {
@@ -128,18 +138,3 @@ function Init() {
 }
 
 Init();
-
-var characterTemplateTable = (new tables.CharacterTemplateTable(characterTemplatesData)).getData();
-						var characterTamplates = [
-							new templates.L2CharacterTemplate(characterTemplateTable[classId.fighter]),
-							new templates.L2CharacterTemplate(characterTemplateTable[classId.mage]),
-							new templates.L2CharacterTemplate(characterTemplateTable[classId.elvenFighter]),
-							new templates.L2CharacterTemplate(characterTemplateTable[classId.elvenMage]),
-							new templates.L2CharacterTemplate(characterTemplateTable[classId.darkFighter]),
-							new templates.L2CharacterTemplate(characterTemplateTable[classId.darkMage]),
-							new templates.L2CharacterTemplate(characterTemplateTable[classId.orcFighter]),
-							new templates.L2CharacterTemplate(characterTemplateTable[classId.orcMage]),
-							new templates.L2CharacterTemplate(characterTemplateTable[classId.dwarvenFighter]),
-						];
-
-						log(characterTamplates)

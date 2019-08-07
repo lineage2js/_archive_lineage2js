@@ -1,11 +1,11 @@
 var ServerPacket = require("./ServerPacket.js");
 
-function CharacterSelectInfo() {
+function CharacterCreateFail(reason) {
 	this._packet = new ServerPacket(10);
-	this._packet.writeC(0x1f)
-		.writeD(0x00);
+	this._packet.writeC(0x26)
+		.writeD(reason);
 		
 	return this._packet.getBuffer();
 }
 
-module.exports = CharacterSelectInfo;
+module.exports = CharacterCreateFail;

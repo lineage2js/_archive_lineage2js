@@ -1,6 +1,6 @@
 var ServerPacket = require("./ServerPacket.js");
 
-function CharTemplates(data) {
+function CharacterTemplates(data) {
 	this._packet = new ServerPacket(80 * data.length);
 	this._packet.writeC(0x23)
 		.writeD(data.length)
@@ -31,4 +31,4 @@ function CharTemplates(data) {
 	return this._packet.getBuffer();
 }
 
-module.exports = CharTemplates;
+module.exports = CharacterTemplates;

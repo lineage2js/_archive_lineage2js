@@ -80,6 +80,10 @@ function socketHandler(socket) {
 		log(`Connection to the login server is closed for: ${socket.remoteAddress}:${socket.remotePort}`);
 	})
 
+	socket.on("error", data => {
+		log(`Client connection lost for: ${socket.remoteAddress}:${socket.remotePort}`);
+	})
+
 	function userHasJoined() {
 		log(`Connected to the login server: ${socket.remoteAddress}:${socket.remotePort}`);
 	}
