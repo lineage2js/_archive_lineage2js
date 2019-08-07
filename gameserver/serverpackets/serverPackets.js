@@ -1,11 +1,11 @@
 var CryptInit = require("./CryptInit.js");
-var CharSelectInfo = require("./CharSelectInfo.js");
-var CharTemplates = require("./CharTemplates.js");
+var CharacterSelectInfo = require("./CharacterSelectInfo.js");
+var CharacterTemplates = require("./CharacterTemplates.js");
 var AuthLoginFail = require("./AuthLoginFail.js");
 
 module.exports = {
 	CryptInit: CryptInit,
-	CharSelectInfo: CharSelectInfo,
-	CharTemplates: CharTemplates,
+	CharacterSelectInfo: CharacterSelectInfo,
+	CharacterTemplates: CharacterTemplates,
 	AuthLoginFail: AuthLoginFail
 }

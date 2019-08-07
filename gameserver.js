@@ -1,4 +1,5 @@
 var net = require("net");
+var file = require("fs");
 var XOR = require("./util/XOR.js");
 var log = require("./util/log.js");
 var SendPacket = require("./util/SendPacket.js");
@@ -6,6 +7,14 @@ var config = require("./config/config.js");
 var errorCodes = require("./config/errorCOdes.js");
 var serverPackets = require("./gameserver/serverpackets/serverPackets.js");
 var clientPackets = require("./gameserver/clientpackets/clientPackets.js");
+var tables = require("./gameserver/tables/tables.js");
+var templates = require("./gameserver/templates/templates.js");
+var classId = require("./data/class_id.js");
+var characterTemplatesData = require("./data/character_templates.js");
+
+// Data - файл
+// Table - сериализация данных
+// Template - взаимодействие с данными через get/set
 
 function socketHandler(socket) {
 	var encryption = false;
@@ -41,7 +50,7 @@ function socketHandler(socket) {
 					var sessionKey2Client = requestAuthLogin.getSessionKey2();
 
 					if(keyComparison(sessionKey1Server, sessionKey1Client) && keyComparison(sessionKey2Server, sessionKey2Client)) {
-						sendPacket.send(new serverPackets.CharSelectInfo());
+						sendPacket.send(new serverPackets.CharacterSelectInfo());
 					} else {
 						sendPacket.send(new serverPackets.AuthLoginFail(errorCodes.gameserver.AuthLoginFail.REASON_SYSTEM_ERROR));
 					}
@@ -49,7 +58,21 @@ function socketHandler(socket) {
 				case 0x0e:
 					var newCharacter = new clientPackets.NewCharacter(packet);
 					if(newCharacter.getStatus()) {
-						sendPacket.send(new serverPackets.CharTemplates());
+						// Получаем и преобразуем данные из одного объекта в другой чтобы удобно было доставать данные по classId
+						var characterTemplateTable = (new tables.CharacterTemplateTable(characterTemplatesData)).getData();
+						var characterTamplates = [
+							new templates.L2CharacterTemplate(characterTemplateTable[classId.fighter]),
+							new templates.L2CharacterTemplate(characterTemplateTable[classId.mage]),
+							new templates.L2CharacterTemplate(characterTemplateTable[classId.elvenFighter]),
+							new templates.L2CharacterTemplate(characterTemplateTable[classId.elvenMage]),
+							new templates.L2CharacterTemplate(characterTemplateTable[classId.darkFighter]),
+							new templates.L2CharacterTemplate(characterTemplateTable[classId.darkMage]),
+							new templates.L2CharacterTemplate(characterTemplateTable[classId.orcFighter]),
+							new templates.L2CharacterTemplate(characterTemplateTable[classId.orcMage]),
+							new templates.L2CharacterTemplate(characterTemplateTable[classId.dwarvenFighter]),
+						];
+						
+						sendPacket.send(new serverPackets.CharacterTemplates(characterTamplates));
 					}
 					break;
 				case 0x09:
@@ -60,6 +83,16 @@ function socketHandler(socket) {
 						encryption = false;
 					}
 					break;
+				case 0x0b:
+					var characterCreate = new clientPackets.CharacterCreate(packet);
+
+					log(characterCreate.getNickName());
+					log(characterCreate.getRace());
+					log(characterCreate.getGender());
+					log(characterCreate.getClassId());
+					log(characterCreate.getHairStyle());
+					log(characterCreate.getHairColor());
+					log(characterCreate.getFace());
 			}
 		}
 
@@ -95,3 +128,18 @@ function Init() {
 }
 
 Init();
+
+var characterTemplateTable = (new tables.CharacterTemplateTable(characterTemplatesData)).getData();
+						var characterTamplates = [
+							new templates.L2CharacterTemplate(characterTemplateTable[classId.fighter]),
+							new templates.L2CharacterTemplate(characterTemplateTable[classId.mage]),
+							new templates.L2CharacterTemplate(characterTemplateTable[classId.elvenFighter]),
+							new templates.L2CharacterTemplate(characterTemplateTable[classId.elvenMage]),
+							new templates.L2CharacterTemplate(characterTemplateTable[classId.darkFighter]),
+							new templates.L2CharacterTemplate(characterTemplateTable[classId.darkMage]),
+							new templates.L2CharacterTemplate(characterTemplateTable[classId.orcFighter]),
+							new templates.L2CharacterTemplate(characterTemplateTable[classId.orcMage]),
+							new templates.L2CharacterTemplate(characterTemplateTable[classId.dwarvenFighter]),
+						];
+
+						log(characterTamplates)
