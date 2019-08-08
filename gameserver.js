@@ -4,7 +4,7 @@ var XOR = require("./util/XOR.js");
 var log = require("./util/log.js");
 var SendPacket = require("./util/SendPacket.js");
 var config = require("./config/config.js");
-var errorCodes = require("./config/errorCOdes.js");
+var errorCodes = require("./config/errorCodes.js");
 var serverPackets = require("./gameserver/serverpackets/serverPackets.js");
 var clientPackets = require("./gameserver/clientpackets/clientPackets.js");
 var tables = require("./gameserver/tables/tables.js");
@@ -53,7 +53,7 @@ function socketHandler(socket) {
 						// Загружать из БД список персонажей
 						sendPacket.send(new serverPackets.CharacterSelectInfo());
 					} else {
-						sendPacket.send(new serverPackets.AuthLoginFail(errorCodes.gameserver.AuthLoginFail.REASON_SYSTEM_ERROR));
+						sendPacket.send(new serverPackets.AuthLoginFail(errorCodes.gameserver.authLoginFail.REASON_SYSTEM_ERROR));
 					}
 					break;
 				case 0x0e:
@@ -86,19 +86,34 @@ function socketHandler(socket) {
 					break;
 				case 0x0b:
 					var characterCreate = new clientPackets.CharacterCreate(packet);
-
-					if(true) {
-						sendPacket.send(new serverPackets.CharacterCreateSuccess());
-						// Загружать из БД список персонажей
-						sendPacket.send(new serverPackets.CharacterSelectInfo());
+					var nickName = characterCreate.getNickName();
+					log(nickName.length)
+					if(nickName.length <= 16 && isAlphaNumeric(nickName)) {
+						if(nickName != "space2pacman") { // Проверка на доступность имени
+							sendPacket.send(new serverPackets.CharacterCreateSuccess());
+							// Загружать из БД список персонажей
+							sendPacket.send(new serverPackets.CharacterSelectInfo());
+						} else {
+							sendPacket.send(new serverPackets.CharacterCreateFail(errorCodes.gameserver.characterCreateFail.REASON_NAME_ALREADY_EXISTS));
+						}
 					} else {
-						// REASON_CREATION_FAILED = 0x00;
-						// REASON_TOO_MANY_CHARACTERS = 0x01;
-						// REASON_NAME_ALREADY_EXISTS = 0x02;
-						// REASON_16_ENG_CHARS = 0x03;
-						sendPacket.send(new serverPackets.CharacterCreateFail(0x03));
+						sendPacket.send(new serverPackets.CharacterCreateFail(errorCodes.gameserver.characterCreateFail.REASON_16_ENG_CHARS));
 					}
-
+					function isAlphaNumeric(string) {
+						var charCode;
+						
+						for(var i = 0; i < string.length; i++) {
+					  		charCode = string[i].charCodeAt();
+						  	
+						  	if (!(charCode > 47 && charCode < 58) && // numeric (0-9)
+						        !(charCode > 64 && charCode < 91) && // upper alpha (A-Z)
+						        !(charCode > 96 && charCode < 123)) { // lower alpha (a-z)
+						    	return false;
+						    }
+						}
+					  
+					  return true;
+					}
 			}
 		}
 

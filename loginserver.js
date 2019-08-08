@@ -3,7 +3,7 @@ var Blowfish = require("./util/blowfish.js");
 var log = require("./util/log.js");
 var SendPacket = require("./util/SendPacket.js");
 var config = require("./config/config.js");
-var errorCodes = require("./config/errorCOdes.js");
+var errorCodes = require("./config/errorCodes.js");
 var serverPackets = require("./loginserver/serverpackets/serverPackets.js");
 var clientPackets = require("./loginserver/clientpackets/clientPackets.js");
 
@@ -47,7 +47,7 @@ function socketHandler(socket) {
 						if(true) {
 							sendPacket.send(new serverPackets.PlayOk(sessionKey2Server));
 						} else {
-							sendPacket.send(new serverPackets.PlayFail(errorCodes.loginserver.PlayFail.REASON_SYSTEM_ERROR))
+							sendPacket.send(new serverPackets.PlayFail(errorCodes.loginserver.playFail.REASON_SYSTEM_ERROR))
 						}
 					}
 					break;
@@ -71,7 +71,7 @@ function socketHandler(socket) {
 		}
 
 		function checkUser(userName, password) {
-			// example: return errorCodes.loginserver.LoginFail.REASON_SYSTEM_ERROR
+			// example: return errorCodes.loginserver.loginFail.REASON_SYSTEM_ERROR
 			return "success";
 		}
 	})
