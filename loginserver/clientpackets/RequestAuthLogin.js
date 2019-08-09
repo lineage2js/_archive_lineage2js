@@ -6,12 +6,12 @@ function RequestAuthLogin(buffer) {
 		.readB(14) // login length
 		.readB(16) // password length
 
-	this._userName = this._packet.getData()[1].toString("ascii").replace(/\u0000/gi, "");
+	this._login = this._packet.getData()[1].toString("ascii").replace(/\u0000/gi, "");
 	this._password = this._packet.getData()[2].toString("ascii").replace(/\u0000/gi, "");
 }
 
-RequestAuthLogin.prototype.getUserName = function() {
-	return this._userName;
+RequestAuthLogin.prototype.getLogin = function() {
+	return this._login;
 }
 
 RequestAuthLogin.prototype.getPassword = function() {

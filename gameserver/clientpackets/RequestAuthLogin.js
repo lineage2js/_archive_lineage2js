@@ -10,7 +10,7 @@ function RequestAuthLogin(buffer) {
 		.readD();
 }
 
-RequestAuthLogin.prototype.getUserName = function() {
+RequestAuthLogin.prototype.getLogin = function() {
 	return this._packet.getData()[1];
 }
 

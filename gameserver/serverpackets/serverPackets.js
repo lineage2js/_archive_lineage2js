@@ -4,6 +4,7 @@ var CharacterTemplates = require("./CharacterTemplates.js");
 var AuthLoginFail = require("./AuthLoginFail.js");
 var CharacterCreateSuccess = require("./CharacterCreateSuccess.js");
 var CharacterCreateFail = require("./CharacterCreateFail.js");
+var CharacterSelected = require("./CharacterSelected.js");
 
 module.exports = {
 	CryptInit: CryptInit,
@@ -11,5 +12,6 @@ module.exports = {
 	CharacterTemplates: CharacterTemplates,
 	AuthLoginFail: AuthLoginFail,
 	CharacterCreateSuccess: CharacterCreateSuccess,
-	CharacterCreateFail: CharacterCreateFail
+	CharacterCreateFail: CharacterCreateFail,
+	CharacterSelected: CharacterSelected
 }

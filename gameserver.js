@@ -11,6 +11,11 @@ var tables = require("./gameserver/tables/tables.js");
 var templates = require("./gameserver/templates/templates.js");
 var classId = require("./data/class_id.js");
 var characterTemplatesData = require("./data/character_templates.js");
+// DB
+var low = require("lowdb");
+var FileSync = require("lowdb/adapters/FileSync");
+var database = new FileSync("data/database.json");
+var db = low(database);
 
 // Data - файл
 // Table - сериализация данных
@@ -22,6 +27,7 @@ function socketHandler(socket) {
 	var sendPacket = new SendPacket(xor, socket);
 	var sessionKey1Server = [0x55555555, 0x44444444];
 	var sessionKey2Server = [0x55555555, 0x44444444];
+	var login;
 
 	socket.on("data", data => {
 		var packet = new Buffer.from(data, "binary").slice(2); // slice(2) - without byte responsible for packet size
@@ -48,13 +54,23 @@ function socketHandler(socket) {
 					var requestAuthLogin = new clientPackets.RequestAuthLogin(packet);
 					var sessionKey1Client = requestAuthLogin.getSessionKey1();
 					var sessionKey2Client = requestAuthLogin.getSessionKey2();
+					var charactersData;
+					var charactersList = [];
+
+					login = requestAuthLogin.getLogin();
+					charactersData = db.get("characters").filter({"accountName": login}).value();
+
+					for(var i = 0; i < charactersData.length; i++) {
+						charactersList.push(new templates.L2CharacterTemplate(charactersData[i]));
+					}
 
 					if(keyComparison(sessionKey1Server, sessionKey1Client) && keyComparison(sessionKey2Server, sessionKey2Client)) {
 						// Загружать из БД список персонажей
-						sendPacket.send(new serverPackets.CharacterSelectInfo());
+						sendPacket.send(new serverPackets.CharacterSelectInfo(charactersList, login));
 					} else {
 						sendPacket.send(new serverPackets.AuthLoginFail(errorCodes.gameserver.authLoginFail.REASON_SYSTEM_ERROR));
 					}
+
 					break;
 				case 0x0e:
 					var newCharacter = new clientPackets.NewCharacter(packet);
@@ -75,6 +91,7 @@ function socketHandler(socket) {
 						
 						sendPacket.send(new serverPackets.CharacterTemplates(characterTamplates));
 					}
+
 					break;
 				case 0x09:
 					var logout = new clientPackets.Logout(packet);
@@ -83,22 +100,70 @@ function socketHandler(socket) {
 						xor = new XOR(config.base.key.XOR);
 						encryption = false;
 					}
+
 					break;
 				case 0x0b:
 					var characterCreate = new clientPackets.CharacterCreate(packet);
-					var nickName = characterCreate.getNickName();
-					log(nickName.length)
-					if(nickName.length <= 16 && isAlphaNumeric(nickName)) {
-						if(nickName != "space2pacman") { // Проверка на доступность имени
+					var characterName = characterCreate.getCharacterName();
+					var characterTemplateTable = (new tables.CharacterTemplateTable(characterTemplatesData)).getData();
+					var characterQuantity = db.get("characters").filter({"accountName": login}).value().length;
+					var MAXIMUM_QUANTITY_CHARACTERS = 7;
+
+					if(characterQuantity === MAXIMUM_QUANTITY_CHARACTERS) {
+						sendPacket.send(new serverPackets.CharacterCreateFail(errorCodes.gameserver.characterCreateFail.REASON_TOO_MANY_CHARACTERS));
+						break;
+					}
+
+					if(characterName.length <= 16 && isAlphaNumeric(characterName)) {
+						if(characterNameisExist(characterName)) { // Проверка на доступность имени
+							var character = new templates.L2CharacterTemplate(characterTemplateTable[characterCreate.getClassId()]);
+							var charactersData;
+							var charactersList = [];
+
+							character.setAccountName(login);
+							character.setCharacterName(characterCreate.getCharacterName());
+							character.setMaximumHp(character.getHp());
+							character.setMaximumMp(character.getMp());
+							character.setExp(0);
+							character.setSp(0);
+							character.setGender(characterCreate.getGender());
+							character.setHairStyle(characterCreate.getHairStyle());
+							character.setHairColor(characterCreate.getHairColor());
+							character.setFace(characterCreate.getFace());
+							character.setLevel(1);
+							character.setAccessLevel(0);
+							character.setClanId(0);
+							character.setOnline(0);
+							character.setOnlineTime(0);
+
+							db.get("characters").push(character.getData()).write();
+							charactersData = db.get("characters").filter({"accountName": login}).value();
+							
+							for(var i = 0; i < charactersData.length; i++) {
+								charactersList.push(new templates.L2CharacterTemplate(charactersData[i]));
+							}
+
 							sendPacket.send(new serverPackets.CharacterCreateSuccess());
-							// Загружать из БД список персонажей
-							sendPacket.send(new serverPackets.CharacterSelectInfo());
+							sendPacket.send(new serverPackets.CharacterSelectInfo(charactersList, login));
 						} else {
 							sendPacket.send(new serverPackets.CharacterCreateFail(errorCodes.gameserver.characterCreateFail.REASON_NAME_ALREADY_EXISTS));
 						}
 					} else {
 						sendPacket.send(new serverPackets.CharacterCreateFail(errorCodes.gameserver.characterCreateFail.REASON_16_ENG_CHARS));
 					}
+
+					function characterNameisExist(characterName) {
+						var names = db.get("characters").map("characterName").value();
+
+						for(var i = 0; i < names.length; i++) {
+							if(names[i].toLowerCase() === characterName.toLowerCase()) {
+								return false;
+							}
+						}
+
+						return true;
+					}
+
 					function isAlphaNumeric(string) {
 						var charCode;
 						
@@ -114,6 +179,15 @@ function socketHandler(socket) {
 					  
 					  return true;
 					}
+
+					break;
+				case 0x0d:
+					var characterSelected = new clientPackets.CharacterSelected(packet);
+					var characterSlot = characterSelected.getCharacterSlot();
+					var characterData = db.get("characters").filter({"accountName": login}).value()[characterSlot];
+					var character = new templates.L2CharacterTemplate(characterData);
+
+					sendPacket.send(new serverPackets.CharacterSelected(character));
 			}
 		}
 
@@ -126,11 +200,11 @@ function socketHandler(socket) {
 		}
 	})
 
-	socket.on("close", data => {
+	socket.on("close", () => {
 		log(`Connection to the game server is closed for: ${socket.remoteAddress}:${socket.remotePort}`);
 	})
 
-	socket.on("error", data => {
+	socket.on("error", () => {
 		log(`Client connection lost for: ${socket.remoteAddress}:${socket.remotePort}`);
 	})
 

@@ -3,11 +3,13 @@ var RequestAuthLogin = require("./RequestAuthLogin.js");
 var NewCharacter = require("./NewCharacter.js");
 var Logout = require("./Logout.js");
 var CharacterCreate = require("./CharacterCreate.js");
+var CharacterSelected = require("./CharacterSelected.js");
 
 module.exports = {
 	ProtocolVersion: ProtocolVersion,
 	RequestAuthLogin: RequestAuthLogin,
 	NewCharacter: NewCharacter,
 	Logout: Logout,
-	CharacterCreate: CharacterCreate
+	CharacterCreate: CharacterCreate,
+	CharacterSelected: CharacterSelected
 }

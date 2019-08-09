@@ -6,6 +6,11 @@ var config = require("./config/config.js");
 var errorCodes = require("./config/errorCodes.js");
 var serverPackets = require("./loginserver/serverpackets/serverPackets.js");
 var clientPackets = require("./loginserver/clientpackets/clientPackets.js");
+// DB
+var low = require("lowdb");
+var FileSync = require("lowdb/adapters/FileSync");
+var database = new FileSync("data/database.json");
+var db = low(database);
 
 function socketHandler(socket) {
 	var blowfish = new Blowfish(config.base.key.blowfish);
@@ -24,16 +29,36 @@ function socketHandler(socket) {
 			switch(type) {
 				case 0x00:
 					var requestAuthLogin = new clientPackets.RequestAuthLogin(packet);
-					var userStatus;
+					var accountStatus;
 
-					log(`user ${requestAuthLogin.getUserName()} requesting auth login`);
+					log(`user ${requestAuthLogin.getLogin()} requesting auth login`);
 					
-					userStatus = checkUser(requestAuthLogin.getUserName(), requestAuthLogin.getPassword());
+					accountStatus = checkAccount(requestAuthLogin.getLogin(), requestAuthLogin.getPassword());
 
-					if(userStatus === "success") {
+					if(accountStatus === "success") {
 						sendPacket.send(new serverPackets.LoginOk(sessionKey1Server));
 					} else {
-						sendPacket.send(new serverPackets.LoginFail(userStatus));
+						sendPacket.send(new serverPackets.LoginFail(accountStatus));
+					}
+
+					function checkAccount(login, password) {
+						var account = {
+							login: function() {
+								return db.get("accounts").find({"login": login}).value();
+							}
+						}
+						if(account.login()) {
+							if(!(account.login().password === password)) {
+								return errorCodes.loginserver.loginFail.REASON_PASS_WRONG;	
+							}
+							if(account.login().accessLevel < 0) {
+								return errorCodes.loginserver.loginFail.REASON_ACCOUNT_BANNED;
+							}
+
+							return "success";
+						} else {
+							return errorCodes.loginserver.loginFail.REASON_USER_OR_PASS_WRONG;
+						}
 					}
 					
 					break;
@@ -50,6 +75,7 @@ function socketHandler(socket) {
 							sendPacket.send(new serverPackets.PlayFail(errorCodes.loginserver.playFail.REASON_SYSTEM_ERROR))
 						}
 					}
+
 					break;
 				case 0x05:
 					var requestServerList = new clientPackets.RequestServerList(packet);
@@ -58,6 +84,7 @@ function socketHandler(socket) {
 					if(keyComparison(sessionKey1Server, sessionKey1Client)) {
 						sendPacket.send(new serverPackets.ServerList(config.gameserver.host, config.gameserver.port, config.gameserver.maxPlayer));
 					}
+					
 					break;
 			}
 		}
@@ -69,18 +96,13 @@ function socketHandler(socket) {
 				return false;
 			}
 		}
-
-		function checkUser(userName, password) {
-			// example: return errorCodes.loginserver.loginFail.REASON_SYSTEM_ERROR
-			return "success";
-		}
 	})
 
-	socket.on("close", data => {
+	socket.on("close", () => {
 		log(`Connection to the login server is closed for: ${socket.remoteAddress}:${socket.remotePort}`);
 	})
 
-	socket.on("error", data => {
+	socket.on("error", () => {
 		log(`Client connection lost for: ${socket.remoteAddress}:${socket.remotePort}`);
 	})
 

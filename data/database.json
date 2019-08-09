@@ -1,0 +1,73 @@
+{
+  "accounts": [
+    {
+      "login": "test",
+      "password": "test",
+      "accessLevel": 0
+    },
+    {
+      "login": "pacman",
+      "password": "pacman",
+      "accessLevel": -1
+    }
+  ],
+  "characters": [
+    {
+      "accountName": "test",
+      "characterName": "A",
+      "level": 1,
+      "gender": 0,
+      "hairStyle": 0,
+      "hairColor": 0,
+      "face": 0,
+      "accessLevel": 0,
+      "online": 0,
+      "onlineTime": 0,
+      "classId": 0,
+      "className": "Human Fighter",
+      "raceId": 0,
+      "clanId": 0,
+      "str": 40,
+      "dex": 30,
+      "con": 43,
+      "int": 21,
+      "wit": 11,
+      "men": 25,
+      "hp": 126,
+      "maximumHp": 126,
+      "mp": 38,
+      "maximumMp": 38,
+      "exp": 0,
+      "sp": 0,
+      "pAtk": 4,
+      "pDef": 72,
+      "mAtk": 3,
+      "mDef": 47,
+      "pSpd": 330,
+      "mSpd": 213,
+      "accuracy": 33,
+      "critical": 44,
+      "evasion": 33,
+      "moveSpd": 115,
+      "load": 81900,
+      "x": -70880,
+      "y": 257360,
+      "z": -3080,
+      "canCraft": 0,
+      "maleMovementMultiplier": 1.1,
+      "maleAttackSpeedMultiplier": 1.188,
+      "maleCollisionRadius": 9,
+      "maleCollisionHeight": 23,
+      "femaleMovementMultiplier": 1.1,
+      "femaleAttackSpeedMultiplier": 1.188,
+      "femaleCollisionRadius": 8,
+      "femaleCollisionHeight": 23.5,
+      "items": [
+        1147,
+        1146,
+        10,
+        2369
+      ]
+    }
+  ]
+}

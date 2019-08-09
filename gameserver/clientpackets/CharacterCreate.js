@@ -2,23 +2,23 @@ var ClientPacket = require("./ClientPacket.js");
 
 function CharacterCreate(buffer) {
 	this._packet = new ClientPacket(buffer);
-		this._packet.readC()
-			.readS()
-			.readD()
-			.readD()
-			.readD()
-			.readD()
-			.readD()
-			.readD()
-			.readD()
-			.readD()
-			.readD()
-			.readD()
-			.readD()
-			.readD();
+	this._packet.readC()
+		.readS()
+		.readD()
+		.readD()
+		.readD()
+		.readD()
+		.readD()
+		.readD()
+		.readD()
+		.readD()
+		.readD()
+		.readD()
+		.readD()
+		.readD();
 }
 
-CharacterCreate.prototype.getNickName = function() {
+CharacterCreate.prototype.getCharacterName = function() {
 	return this._packet.getData()[1];
 }
 

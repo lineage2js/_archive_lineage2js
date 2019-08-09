@@ -31,7 +31,7 @@ ClientPacket.prototype.readH = function() {
 
 ClientPacket.prototype.readD = function() {
     this._data.push(
-        this._buffer.readUInt32LE(this._offset)
+        this._buffer.readInt32LE(this._offset)
     );
     this._offset += 4;
 
@@ -63,7 +63,7 @@ ClientPacket.prototype.readS = function() {
         }
     }
     this._data.push(
-        this._buffer.toString('ucs2', this._offset, i)
+        this._buffer.toString("ucs2", this._offset, i)
     );
     this._offset += i + 1;
 
