@@ -1,8 +1,8 @@
 var ClientPacket = require("./ClientPacket.js");
 
-function NewCharacter(buffer) {
+function EnterWorld(buffer) {
 	this._packet = new ClientPacket(buffer);
-	this._packet.readC();
+	this._packet.readC()
 }
 
-module.exports = NewCharacter;
+module.exports = EnterWorld;

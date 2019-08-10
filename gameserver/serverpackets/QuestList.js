@@ -1,0 +1,12 @@
+var ServerPacket = require("./ServerPacket.js");
+
+function QuestList(quests) {
+	this._packet = new ServerPacket(10);
+	this._packet.writeC(0x98)
+		.writeH(0x00)
+		.writeH(0x00);
+
+	return this._packet.getBuffer();
+}
+
+module.exports = QuestList;

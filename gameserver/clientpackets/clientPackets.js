@@ -4,6 +4,8 @@ var NewCharacter = require("./NewCharacter.js");
 var Logout = require("./Logout.js");
 var CharacterCreate = require("./CharacterCreate.js");
 var CharacterSelected = require("./CharacterSelected.js");
+var RequestQuestList = require("./RequestQuestList.js");
+var EnterWorld = require("./EnterWorld.js");
 
 module.exports = {
 	ProtocolVersion: ProtocolVersion,
@@ -11,5 +13,7 @@ module.exports = {
 	NewCharacter: NewCharacter,
 	Logout: Logout,
 	CharacterCreate: CharacterCreate,
-	CharacterSelected: CharacterSelected
+	CharacterSelected: CharacterSelected,
+	RequestQuestList: RequestQuestList,
+	EnterWorld: EnterWorld
 }

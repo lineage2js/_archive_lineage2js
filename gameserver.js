@@ -28,6 +28,7 @@ function socketHandler(socket) {
 	var sessionKey1Server = [0x55555555, 0x44444444];
 	var sessionKey2Server = [0x55555555, 0x44444444];
 	var login;
+	var characterSlot;
 
 	socket.on("data", data => {
 		var packet = new Buffer.from(data, "binary").slice(2); // slice(2) - without byte responsible for packet size
@@ -74,32 +75,28 @@ function socketHandler(socket) {
 					break;
 				case 0x0e:
 					var newCharacter = new clientPackets.NewCharacter(packet);
-					if(newCharacter.getStatus()) {
-						// Получаем и преобразуем данные из одного объекта в другой чтобы удобно было доставать данные по classId
-						var characterTemplateTable = (new tables.CharacterTemplateTable(characterTemplatesData)).getData();
-						var characterTamplates = [
-							new templates.L2CharacterTemplate(characterTemplateTable[classId.fighter]),
-							new templates.L2CharacterTemplate(characterTemplateTable[classId.mage]),
-							new templates.L2CharacterTemplate(characterTemplateTable[classId.elvenFighter]),
-							new templates.L2CharacterTemplate(characterTemplateTable[classId.elvenMage]),
-							new templates.L2CharacterTemplate(characterTemplateTable[classId.darkFighter]),
-							new templates.L2CharacterTemplate(characterTemplateTable[classId.darkMage]),
-							new templates.L2CharacterTemplate(characterTemplateTable[classId.orcFighter]),
-							new templates.L2CharacterTemplate(characterTemplateTable[classId.orcMage]),
-							new templates.L2CharacterTemplate(characterTemplateTable[classId.dwarvenFighter]),
-						];
+					// Получаем и преобразуем данные из одного объекта в другой чтобы удобно было доставать данные по classId
+					var characterTemplateTable = (new tables.CharacterTemplateTable(characterTemplatesData)).getData();
+					var characterTamplates = [
+						new templates.L2CharacterTemplate(characterTemplateTable[classId.fighter]),
+						new templates.L2CharacterTemplate(characterTemplateTable[classId.mage]),
+						new templates.L2CharacterTemplate(characterTemplateTable[classId.elvenFighter]),
+						new templates.L2CharacterTemplate(characterTemplateTable[classId.elvenMage]),
+						new templates.L2CharacterTemplate(characterTemplateTable[classId.darkFighter]),
+						new templates.L2CharacterTemplate(characterTemplateTable[classId.darkMage]),
+						new templates.L2CharacterTemplate(characterTemplateTable[classId.orcFighter]),
+						new templates.L2CharacterTemplate(characterTemplateTable[classId.orcMage]),
+						new templates.L2CharacterTemplate(characterTemplateTable[classId.dwarvenFighter]),
+					];
 						
-						sendPacket.send(new serverPackets.CharacterTemplates(characterTamplates));
-					}
+					sendPacket.send(new serverPackets.CharacterTemplates(characterTamplates));
 
 					break;
 				case 0x09:
 					var logout = new clientPackets.Logout(packet);
 
-					if(logout.getStatus()) {
-						xor = new XOR(config.base.key.XOR);
-						encryption = false;
-					}
+					xor = new XOR(config.base.key.XOR);
+					encryption = false;
 
 					break;
 				case 0x0b:
@@ -183,11 +180,27 @@ function socketHandler(socket) {
 					break;
 				case 0x0d:
 					var characterSelected = new clientPackets.CharacterSelected(packet);
-					var characterSlot = characterSelected.getCharacterSlot();
+					characterSlot = characterSelected.getCharacterSlot();
 					var characterData = db.get("characters").filter({"accountName": login}).value()[characterSlot];
 					var character = new templates.L2CharacterTemplate(characterData);
 
 					sendPacket.send(new serverPackets.CharacterSelected(character));
+
+					break;
+				case 0x63:
+					var requestQuestList = new clientPackets.RequestQuestList(packet);
+
+					sendPacket.send(new serverPackets.QuestList(/* remove */)); // database - quests
+
+					break;
+				case 0x03:
+					var enterWorld = new clientPackets.EnterWorld(packet);
+					var characterData = db.get("characters").filter({"accountName": login}).value()[characterSlot];
+					var character = new templates.L2CharacterTemplate(characterData);
+					
+					sendPacket.send(new serverPackets.UserInfo(character));
+
+					break;
 			}
 		}
 
