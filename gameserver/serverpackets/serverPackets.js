@@ -7,6 +7,8 @@ var CharacterCreateFail = require("./CharacterCreateFail.js");
 var CharacterSelected = require("./CharacterSelected.js");
 var QuestList = require("./QuestList.js");
 var UserInfo = require("./UserInfo.js");
+var CharacterMoveToLocation = require("./CharacterMoveToLocation.js");
+var LogoutOK = require("./LogoutOK.js");
 
 module.exports = {
 	CryptInit: CryptInit,
@@ -17,5 +19,7 @@ module.exports = {
 	CharacterCreateFail: CharacterCreateFail,
 	CharacterSelected: CharacterSelected,
 	QuestList: QuestList,
-	UserInfo: UserInfo
+	UserInfo: UserInfo,
+	CharacterMoveToLocation: CharacterMoveToLocation,
+	LogoutOK: LogoutOK
 }

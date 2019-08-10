@@ -7,7 +7,7 @@ function UserInfo(character) {
 		.writeD(character.getY())
 		.writeD(character.getZ())
 		.writeD(0x00) // getHeading
-		.writeD(0x00) // getObjectId
+		.writeD(0x01) // getObjectId
 		.writeS(character.getCharacterName())
 		.writeD(character.getRaceId())
 		.writeD(character.getGender())
@@ -100,7 +100,7 @@ function UserInfo(character) {
 		.writeD(character.getClanId()) // pledge id
 		.writeD(character.getClanId()) // pledge crest id
 		.writeD(0x00) // getAllyId - ally id
-		.writeD(0x00) // ally crest id
+		.writeD(0x00) // getAllyId - ally crest id
 		.writeD(0x00) // 0x60 ???
 		.writeC(0x00)
 		.writeC(0x00) // getPrivateStoreType

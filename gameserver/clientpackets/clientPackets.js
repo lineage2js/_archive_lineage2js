@@ -6,6 +6,7 @@ var CharacterCreate = require("./CharacterCreate.js");
 var CharacterSelected = require("./CharacterSelected.js");
 var RequestQuestList = require("./RequestQuestList.js");
 var EnterWorld = require("./EnterWorld.js");
+var MoveBackwardToLocation = require("./MoveBackwardToLocation.js");
 
 module.exports = {
 	ProtocolVersion: ProtocolVersion,
@@ -15,5 +16,6 @@ module.exports = {
 	CharacterCreate: CharacterCreate,
 	CharacterSelected: CharacterSelected,
 	RequestQuestList: RequestQuestList,
-	EnterWorld: EnterWorld
+	EnterWorld: EnterWorld,
+	MoveBackwardToLocation: MoveBackwardToLocation
 }

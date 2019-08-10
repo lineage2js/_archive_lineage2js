@@ -97,6 +97,7 @@ function socketHandler(socket) {
 
 					xor = new XOR(config.base.key.XOR);
 					encryption = false;
+					sendPacket.send(new serverPackets.LogoutOK());
 
 					break;
 				case 0x0b:
@@ -199,6 +200,24 @@ function socketHandler(socket) {
 					var character = new templates.L2CharacterTemplate(characterData);
 					
 					sendPacket.send(new serverPackets.UserInfo(character));
+
+					break;
+				case 0x01:
+					var moveBackwardToLocation = new clientPackets.MoveBackwardToLocation(packet);
+					var positions = {
+						target: {
+							x: moveBackwardToLocation.getTargetX(),
+							y: moveBackwardToLocation.getTargetY(),
+							z: moveBackwardToLocation.getTargetZ()
+						},
+						origin: {
+							x: moveBackwardToLocation.getOriginX(),
+							y: moveBackwardToLocation.getOriginY(),
+							z: moveBackwardToLocation.getOriginZ()
+						}
+					}
+
+					sendPacket.send(new serverPackets.CharacterMoveToLocation(positions));
 
 					break;
 			}

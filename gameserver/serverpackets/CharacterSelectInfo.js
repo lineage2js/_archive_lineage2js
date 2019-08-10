@@ -8,7 +8,7 @@ function CharacterSelectInfo(characters, login) {
 		this._packet.writeD(characters.length)  // character length
 		for(var i = 0; i < characters.length; i++) {
 			this._packet.writeS(characters[i].getCharacterName())
-				.writeD(0x00)	// getObjectId
+				.writeD(0x01)	// getObjectId
 				.writeS(login)
 				.writeD(0x55555555)	// getSessionId
 				.writeD(characters[i].getClanId())
