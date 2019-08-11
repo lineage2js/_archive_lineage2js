@@ -1,16 +1,23 @@
 function L2CharTemplate(data) {
 	this._data = data
 
+	this._objectId = null;
 	this._accountName = null;
     this._characterName = null;
+    this._title = null;
     this._level = null;
 	this._gender = null;
 	this._hairStyle = null;
 	this._hairColor = null;
 	this._face = null;
+	this._heading = null;
     this._accessLevel = null;
     this._online = null;
     this._onlineTime = null;
+
+    this._pvp = null;
+    this._pk = null;
+    this._karma = null;
 
 	this._classId = null;
 	this._className = null;
@@ -40,7 +47,7 @@ function L2CharTemplate(data) {
 	this._critical = null;
 	this._evasion = null;
 	this._moveSpd = null;
-	this._load = null;
+	this._maximumLoad = null;
 	
 	this._x = null;
 	this._y = null;
@@ -63,6 +70,14 @@ function L2CharTemplate(data) {
 	this.fillData();
 }
 
+L2CharTemplate.prototype.getObjectId = function() {
+	return this._objectId;
+}
+
+L2CharTemplate.prototype.setObjectId = function(objectId) {
+	this._objectId = objectId;
+}
+
 L2CharTemplate.prototype.getAccountName = function() {
 	return this._accountName;
 }
@@ -77,6 +92,14 @@ L2CharTemplate.prototype.getCharacterName = function() {
 
 L2CharTemplate.prototype.setCharacterName = function(characterName) {
 	this._characterName = characterName;
+}
+
+L2CharTemplate.prototype.getTitle = function() {
+	return this._title;
+}
+
+L2CharTemplate.prototype.setTitle = function(title) {
+	this._title = title;
 }
 
 L2CharTemplate.prototype.getLevel = function() {
@@ -119,6 +142,14 @@ L2CharTemplate.prototype.setFace = function(face) {
 	this._face = face;
 }
 
+L2CharTemplate.prototype.getHeading = function() {
+	return this._heading;
+}
+
+L2CharTemplate.prototype.setHeading = function(heading) {
+	this._heading = heading;
+}
+
 L2CharTemplate.prototype.getAccessLevel = function() {
 	return this._accessLevel;
 }
@@ -141,6 +172,30 @@ L2CharTemplate.prototype.getOnlineTime = function() {
 
 L2CharTemplate.prototype.setOnlineTime = function(onlineTime) {
 	this._onlineTime = onlineTime;
+}
+
+L2CharTemplate.prototype.getPvp = function() {
+	return this._pvp;
+}
+
+L2CharTemplate.prototype.setPvp = function(pvp) {
+	this._pvp = pvp;
+}
+
+L2CharTemplate.prototype.getPk = function() {
+	return this._pk;
+}
+
+L2CharTemplate.prototype.setPk = function(pk) {
+	this._pk = pk;
+}
+
+L2CharTemplate.prototype.getKarma = function() {
+	return this._karma;
+}
+
+L2CharTemplate.prototype.setKarma = function(karma) {
+	this._karma = karma;
 }
 
 L2CharTemplate.prototype.getClassId = function() {
@@ -351,12 +406,12 @@ L2CharTemplate.prototype.setMoveSpd = function(moveSpd) {
 	this._moveSpd = moveSpd;
 }
 
-L2CharTemplate.prototype.getLoad = function() {
-	return this._load;
+L2CharTemplate.prototype.getMaximumLoad = function() {
+	return this._maximumLoad;
 }
 
-L2CharTemplate.prototype.setLoad = function(load) {
-	this._load = load;
+L2CharTemplate.prototype.setMaximumLoad = function(maximumLoad) {
+	this._maximumLoad = maximumLoad;
 }
 
 L2CharTemplate.prototype.getX = function() {

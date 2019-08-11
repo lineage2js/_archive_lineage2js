@@ -5,10 +5,10 @@ function CharacterSelectInfo(characters, login) {
 	this._packet.writeC(0x1f);
 
 	if(characters) {
-		this._packet.writeD(characters.length)  // character length
+		this._packet.writeD(characters.length)
 		for(var i = 0; i < characters.length; i++) {
 			this._packet.writeS(characters[i].getCharacterName())
-				.writeD(0x01)	// getObjectId
+				.writeD(characters[i].getObjectId())
 				.writeS(login)
 				.writeD(0x55555555)	// getSessionId
 				.writeD(characters[i].getClanId())
@@ -31,8 +31,8 @@ function CharacterSelectInfo(characters, login) {
 				.writeD(characters[i].getSp())
 				.writeD(characters[i].getExp())
 				.writeD(characters[i].getLevel())
-
-				.writeD(0x00) 
+				.writeD(characters[i].getKarma())
+				 
 				.writeD(0x00) 
 				.writeD(0x00) 
 				.writeD(0x00) 

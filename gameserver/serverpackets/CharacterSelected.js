@@ -4,8 +4,8 @@ function CharacterSelected(character) {
 	this._packet = new ServerPacket(400);
 	this._packet.writeC(0x21)
 		.writeS(character.getCharacterName())
-		.writeD(0x01) // getObjectId
-		.writeS("title") // getTitle
+		.writeD(character.getObjectId())
+		.writeS(character.getTitle())
 		.writeD(0x55555555)
 		.writeD(character.getClanId())
 		.writeD(0x00)
@@ -35,7 +35,7 @@ function CharacterSelected(character) {
 	}
 
 	this._packet.writeD(0x00); // in-game time 
-		
+	
 	return this._packet.getBuffer();
 }
 

@@ -2,6 +2,7 @@ var net = require("net");
 var file = require("fs");
 var XOR = require("./util/XOR.js");
 var log = require("./util/log.js");
+var IdFactory = require("./util/IdFactory.js");
 var SendPacket = require("./util/SendPacket.js");
 var config = require("./config/config.js");
 var errorCodes = require("./config/errorCodes.js");
@@ -11,11 +12,14 @@ var tables = require("./gameserver/tables/tables.js");
 var templates = require("./gameserver/templates/templates.js");
 var classId = require("./data/class_id.js");
 var characterTemplatesData = require("./data/character_templates.js");
+var sockets = [];
 // DB
 var low = require("lowdb");
 var FileSync = require("lowdb/adapters/FileSync");
 var database = new FileSync("data/database.json");
 var db = low(database);
+// Init IdFacroty
+var idFactory = new IdFactory("data/idstate.json");
 
 // Data - файл
 // Table - сериализация данных
@@ -24,7 +28,7 @@ var db = low(database);
 function socketHandler(socket) {
 	var encryption = false;
 	var xor = new XOR(config.base.key.XOR);
-	var sendPacket = new SendPacket(xor, socket);
+	var sendPacket = new SendPacket(xor, socket, sockets);
 	var sessionKey1Server = [0x55555555, 0x44444444];
 	var sessionKey2Server = [0x55555555, 0x44444444];
 	var login;
@@ -119,7 +123,9 @@ function socketHandler(socket) {
 							var charactersList = [];
 
 							character.setAccountName(login);
+							character.setObjectId(idFactory.getNextId());
 							character.setCharacterName(characterCreate.getCharacterName());
+							character.setTitle("");
 							character.setMaximumHp(character.getHp());
 							character.setMaximumMp(character.getMp());
 							character.setExp(0);
@@ -127,8 +133,12 @@ function socketHandler(socket) {
 							character.setGender(characterCreate.getGender());
 							character.setHairStyle(characterCreate.getHairStyle());
 							character.setHairColor(characterCreate.getHairColor());
+							character.setHeading(0);
 							character.setFace(characterCreate.getFace());
 							character.setLevel(1);
+							character.setPvp(0);
+							character.setPk(0);
+							character.setKarma(0);
 							character.setAccessLevel(0);
 							character.setClanId(0);
 							character.setOnline(0);
@@ -200,10 +210,18 @@ function socketHandler(socket) {
 					var character = new templates.L2CharacterTemplate(characterData);
 					
 					sendPacket.send(new serverPackets.UserInfo(character));
+					//
+					sendPacket.send(new serverPackets.NpcInfo());
+					// sendPacket.send(new serverPackets.MoveToLocation(/* npc */));
+					//
+					sendPacket.send(new serverPackets.SunRise()); // восход
+					//
 
 					break;
 				case 0x01:
 					var moveBackwardToLocation = new clientPackets.MoveBackwardToLocation(packet);
+					var characterData = db.get("characters").filter({"accountName": login}).value()[characterSlot];
+					var character = new templates.L2CharacterTemplate(characterData);
 					var positions = {
 						target: {
 							x: moveBackwardToLocation.getTargetX(),
@@ -216,8 +234,8 @@ function socketHandler(socket) {
 							z: moveBackwardToLocation.getOriginZ()
 						}
 					}
-
-					sendPacket.send(new serverPackets.CharacterMoveToLocation(positions));
+					
+					sendPacket.send(new serverPackets.MoveToLocation(positions, character));
 
 					break;
 			}

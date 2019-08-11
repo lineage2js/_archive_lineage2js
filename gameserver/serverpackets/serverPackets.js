@@ -7,8 +7,11 @@ var CharacterCreateFail = require("./CharacterCreateFail.js");
 var CharacterSelected = require("./CharacterSelected.js");
 var QuestList = require("./QuestList.js");
 var UserInfo = require("./UserInfo.js");
-var CharacterMoveToLocation = require("./CharacterMoveToLocation.js");
+var MoveToLocation = require("./MoveToLocation.js");
 var LogoutOK = require("./LogoutOK.js");
+var NpcInfo = require("./NpcInfo.js");
+var SunRise = require("./SunRise.js");
+var SunSet = require("./SunSet.js");
 
 module.exports = {
 	CryptInit: CryptInit,
@@ -20,6 +23,9 @@ module.exports = {
 	CharacterSelected: CharacterSelected,
 	QuestList: QuestList,
 	UserInfo: UserInfo,
-	CharacterMoveToLocation: CharacterMoveToLocation,
-	LogoutOK: LogoutOK
+	MoveToLocation: MoveToLocation,
+	LogoutOK: LogoutOK,
+	NpcInfo: NpcInfo,
+	SunRise: SunRise,
+	SunSet: SunSet
 }

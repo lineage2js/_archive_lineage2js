@@ -1,9 +1,9 @@
 var ServerPacket = require("./ServerPacket.js");
 
-function CharacterMoveToLocation(positions) {
+function MoveToLocation(positions, character) {
 	this._packet = new ServerPacket(30);
 	this._packet.writeC(0x01)
-		.writeD(0x01) // getObjectId
+		.writeD(character.getObjectId())
 		.writeD(positions.target.x)
 		.writeD(positions.target.y)
 		.writeD(positions.target.z)
@@ -14,4 +14,4 @@ function CharacterMoveToLocation(positions) {
 	return this._packet.getBuffer();
 }
 
-module.exports = CharacterMoveToLocation;
+module.exports = MoveToLocation;
