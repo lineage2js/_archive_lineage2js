@@ -10,12 +10,12 @@ var base = {
 };
 
 var loginserver = {
-	host: "127.0.0.1",
+	host: "192.168.1.24",
 	port: 2106
 };
 
 var gameserver = {
-	host: "127.0.0.1",
+	host: "192.168.1.24",
 	port: 7777,
 	maxPlayer: 100
 };

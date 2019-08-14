@@ -10,9 +10,10 @@ SendPacket.prototype.send = function(packet, encoding = true) {
 	for(var i = 0; i < this.players.length; i++) {
 		if(this.players[i].socket === this.socket) {
 			if(encoding) {
-				packet = new Buffer.from(this.players[i].xor.encrypt(packet));
-				packet = Buffer.concat([packetLength, packet]);
-				this.players[i].socket.write(packet);
+				var packetCopy = new Buffer.from(packet);
+				var packetEncrypted = new Buffer.from(this.players[i].xor.encrypt(packetCopy));
+				packetEncrypted = Buffer.concat([packetLength, packetEncrypted]);
+				this.players[i].socket.write(packetEncrypted);
 			} else {
 				packet = Buffer.concat([packetLength, packet]);
 				this.players[i].socket.write(packet);
@@ -28,9 +29,13 @@ SendPacket.prototype.broadcast = function(packet) {
 
 	for(var i = 0; i < this.players.length; i++) {
 		if(this.players[i].socket !== this.socket) {
-			packet = new Buffer.from(this.players[i].xor.encrypt(packet));
-			packet = Buffer.concat([packetLength, packet]);
-			this.players[i].socket.write(packet);
+			var packetCopy = new Buffer.from(packet);
+			// console.log("---DEFAULT")
+			// console.log(packet)
+			// console.log("---//////////DEFAULT")
+			var packetEncrypted = new Buffer.from(this.players[i].xor.encrypt(packetCopy));
+			packetEncrypted = Buffer.concat([packetLength, packetEncrypted]);
+			this.players[i].socket.write(packetEncrypted);
 		}
 	}
 }

@@ -1,6 +1,6 @@
 function XOR(key) {
-	this.decryptKey = key.slice();
-	this.encryptKey = key.slice();
+	this.decryptKey = new Buffer.from(key);
+	this.encryptKey = new Buffer.from(key);
 }
 
 XOR.prototype.decrypt = function(data) {
