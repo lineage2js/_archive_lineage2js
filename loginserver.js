@@ -1,9 +1,9 @@
 var net = require("net");
 var Blowfish = require("./util/blowfish.js");
 var log = require("./util/log.js");
-var SendPacket = require("./util/SendPacket.js");
 var config = require("./config/config.js");
 var errorCodes = require("./config/errorCodes.js");
+var SendPacket = require("./loginserver/SendPacket.js");
 var serverPackets = require("./loginserver/serverpackets/serverPackets.js");
 var clientPackets = require("./loginserver/clientpackets/clientPackets.js");
 // DB

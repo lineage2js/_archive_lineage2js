@@ -3,23 +3,24 @@ var file = require("fs");
 var XOR = require("./util/XOR.js");
 var log = require("./util/log.js");
 var IdFactory = require("./util/IdFactory.js");
-var SendPacket = require("./util/SendPacket.js");
 var config = require("./config/config.js");
 var errorCodes = require("./config/errorCodes.js");
+var Players = require("./gameserver/Players.js");
+var SendPacket = require("./gameserver/SendPacket.js");
 var serverPackets = require("./gameserver/serverpackets/serverPackets.js");
 var clientPackets = require("./gameserver/clientpackets/clientPackets.js");
 var tables = require("./gameserver/tables/tables.js");
 var templates = require("./gameserver/templates/templates.js");
 var classId = require("./data/class_id.js");
 var characterTemplatesData = require("./data/character_templates.js");
-var sockets = [];
 // DB
 var low = require("lowdb");
 var FileSync = require("lowdb/adapters/FileSync");
 var database = new FileSync("data/database.json");
 var db = low(database);
-// Init IdFacroty
+// Init object
 var idFactory = new IdFactory("data/idstate.json");
+var players = new Players();
 
 // Data - файл
 // Table - сериализация данных
@@ -28,7 +29,7 @@ var idFactory = new IdFactory("data/idstate.json");
 function socketHandler(socket) {
 	var encryption = false;
 	var xor = new XOR(config.base.key.XOR);
-	var sendPacket = new SendPacket(xor, socket, sockets);
+	var sendPacket = new SendPacket(socket, players.getAllPlayers());  ///////////////////// 
 	var sessionKey1Server = [0x55555555, 0x44444444];
 	var sessionKey2Server = [0x55555555, 0x44444444];
 	var login;
@@ -36,11 +37,12 @@ function socketHandler(socket) {
 
 	socket.on("data", data => {
 		var packet = new Buffer.from(data, "binary").slice(2); // slice(2) - without byte responsible for packet size
-		var decryptedPacket = new Buffer.from(encryption ? xor.decrypt(packet) : packet);
+		var player = players.getActivePlayer(socket);
+		var decryptedPacket = new Buffer.from(encryption ? player.xor.decrypt(packet) : packet);
 		var packetType = packet[0];
+		
 		// for test
 		log(packet);
-		log(packetType);
 		//
 
 		packetHandler(packetType, decryptedPacket);
@@ -117,7 +119,7 @@ function socketHandler(socket) {
 					}
 
 					if(characterName.length <= 16 && isAlphaNumeric(characterName)) {
-						if(characterNameisExist(characterName)) { // Проверка на доступность имени
+						if(characterNameisExist(characterName)) {
 							var character = new templates.L2CharacterTemplate(characterTemplateTable[characterCreate.getClassId()]);
 							var charactersData;
 							var charactersList = [];
@@ -211,7 +213,8 @@ function socketHandler(socket) {
 					
 					sendPacket.send(new serverPackets.UserInfo(character));
 					//
-					sendPacket.send(new serverPackets.NpcInfo());
+					sendPacket.broadcast(new serverPackets.CharacterInfo(character));
+					// sendPacket.send(new serverPackets.NpcInfo());
 					// sendPacket.send(new serverPackets.MoveToLocation(/* npc */));
 					//
 					sendPacket.send(new serverPackets.SunRise()); // восход
@@ -234,8 +237,9 @@ function socketHandler(socket) {
 							z: moveBackwardToLocation.getOriginZ()
 						}
 					}
-					
+
 					sendPacket.send(new serverPackets.MoveToLocation(positions, character));
+					sendPacket.broadcast(new serverPackets.MoveToLocation(positions, character));
 
 					break;
 			}
@@ -264,6 +268,7 @@ function socketHandler(socket) {
 
 	function Init() {
 		socket.setEncoding("binary");
+		players.addPlayer({ socket: socket, xor: xor });
 		userHasJoined();
 	}
 

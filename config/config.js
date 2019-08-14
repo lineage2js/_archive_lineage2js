@@ -5,7 +5,7 @@ var base = {
 	},
 	PROTOCOL_VERSION: {
 		CLIENT: 419,
-		SERVER: 0x785a
+		SERVER: 30810 // 0x785a
 	}
 };
 

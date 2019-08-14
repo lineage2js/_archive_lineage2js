@@ -107,7 +107,7 @@ function UserInfo(character) {
 	this._packet.writeD(character.getHairStyle())
 		.writeD(character.getHairColor())
 		.writeD(character.getFace())
-		.writeD(0x01) // if GM - 0x01
+		.writeD(0x00) // if GM - 0x01
 		.writeS(character.getTitle())
 		.writeD(character.getClanId()) // pledge id
 		.writeD(character.getClanId()) // pledge crest id

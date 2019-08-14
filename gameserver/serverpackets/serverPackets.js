@@ -12,6 +12,7 @@ var LogoutOK = require("./LogoutOK.js");
 var NpcInfo = require("./NpcInfo.js");
 var SunRise = require("./SunRise.js");
 var SunSet = require("./SunSet.js");
+var CharacterInfo = require("./CharacterInfo.js");
 
 module.exports = {
 	CryptInit: CryptInit,
@@ -27,5 +28,6 @@ module.exports = {
 	LogoutOK: LogoutOK,
 	NpcInfo: NpcInfo,
 	SunRise: SunRise,
-	SunSet: SunSet
+	SunSet: SunSet,
+	CharacterInfo: CharacterInfo
 }
