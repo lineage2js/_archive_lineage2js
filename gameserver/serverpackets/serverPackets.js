@@ -13,6 +13,7 @@ var NpcInfo = require("./NpcInfo.js");
 var SunRise = require("./SunRise.js");
 var SunSet = require("./SunSet.js");
 var CharacterInfo = require("./CharacterInfo.js");
+var SocialAction = require("./SocialAction.js");
 
 module.exports = {
 	CryptInit: CryptInit,
@@ -29,5 +30,6 @@ module.exports = {
 	NpcInfo: NpcInfo,
 	SunRise: SunRise,
 	SunSet: SunSet,
-	CharacterInfo: CharacterInfo
+	CharacterInfo: CharacterInfo,
+	SocialAction: SocialAction
 }

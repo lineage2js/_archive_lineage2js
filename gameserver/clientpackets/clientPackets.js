@@ -7,6 +7,7 @@ var CharacterSelected = require("./CharacterSelected.js");
 var RequestQuestList = require("./RequestQuestList.js");
 var EnterWorld = require("./EnterWorld.js");
 var MoveBackwardToLocation = require("./MoveBackwardToLocation.js");
+var RequestSocialAction = require("./RequestSocialAction.js");
 
 module.exports = {
 	ProtocolVersion: ProtocolVersion,
@@ -17,5 +18,6 @@ module.exports = {
 	CharacterSelected: CharacterSelected,
 	RequestQuestList: RequestQuestList,
 	EnterWorld: EnterWorld,
-	MoveBackwardToLocation: MoveBackwardToLocation
+	MoveBackwardToLocation: MoveBackwardToLocation,
+	RequestSocialAction: RequestSocialAction
 }

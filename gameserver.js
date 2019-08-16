@@ -5,6 +5,7 @@ var log = require("./util/log.js");
 var IdFactory = require("./util/IdFactory.js");
 var config = require("./config/config.js");
 var errorCodes = require("./config/errorCodes.js");
+var Player = require("./gameserver/Player.js");
 var Players = require("./gameserver/Players.js");
 var SendPacket = require("./gameserver/SendPacket.js");
 var serverPackets = require("./gameserver/serverpackets/serverPackets.js");
@@ -29,15 +30,13 @@ var players = new Players();
 function socketHandler(socket) {
 	var encryption = false;
 	var xor = new XOR(config.base.key.XOR);
-	var sendPacket = new SendPacket(socket, players.getAllPlayers());  ///////////////////// 
+	var player = new Player();
+	var sendPacket = new SendPacket(player, players.getPlayers());
 	var sessionKey1Server = [0x55555555, 0x44444444];
 	var sessionKey2Server = [0x55555555, 0x44444444];
-	var login;
-	var characterSlot;
 
 	socket.on("data", data => {
 		var packet = new Buffer.from(data, "binary").slice(2); // slice(2) - without byte responsible for packet size
-		var player = players.getActivePlayer(socket);
 		var decryptedPacket = new Buffer.from(encryption ? player.xor.decrypt(packet) : packet);
 		var packetType = packet[0];
 		
@@ -61,11 +60,11 @@ function socketHandler(socket) {
 					var requestAuthLogin = new clientPackets.RequestAuthLogin(packet);
 					var sessionKey1Client = requestAuthLogin.getSessionKey1();
 					var sessionKey2Client = requestAuthLogin.getSessionKey2();
-					var charactersData;
 					var charactersList = [];
+					var charactersData;
 
-					login = requestAuthLogin.getLogin();
-					charactersData = db.get("characters").filter({"accountName": login}).value();
+					player.login = requestAuthLogin.getLogin();
+					charactersData = db.get("characters").filter({"accountName": player.login}).value();
 
 					for(var i = 0; i < charactersData.length; i++) {
 						charactersList.push(new templates.L2CharacterTemplate(charactersData[i]));
@@ -73,7 +72,7 @@ function socketHandler(socket) {
 
 					if(keyComparison(sessionKey1Server, sessionKey1Client) && keyComparison(sessionKey2Server, sessionKey2Client)) {
 						// Загружать из БД список персонажей
-						sendPacket.send(new serverPackets.CharacterSelectInfo(charactersList, login));
+						sendPacket.send(new serverPackets.CharacterSelectInfo(charactersList, player.login));
 					} else {
 						sendPacket.send(new serverPackets.AuthLoginFail(errorCodes.gameserver.authLoginFail.REASON_SYSTEM_ERROR));
 					}
@@ -110,7 +109,7 @@ function socketHandler(socket) {
 					var characterCreate = new clientPackets.CharacterCreate(packet);
 					var characterName = characterCreate.getCharacterName();
 					var characterTemplateTable = (new tables.CharacterTemplateTable(characterTemplatesData)).getData();
-					var characterQuantity = db.get("characters").filter({"accountName": login}).value().length;
+					var characterQuantity = db.get("characters").filter({"accountName": player.login}).value().length;
 					var MAXIMUM_QUANTITY_CHARACTERS = 7;
 
 					if(characterQuantity === MAXIMUM_QUANTITY_CHARACTERS) {
@@ -124,7 +123,7 @@ function socketHandler(socket) {
 							var charactersData;
 							var charactersList = [];
 
-							character.setAccountName(login);
+							character.setAccountName(player.login);
 							character.setObjectId(idFactory.getNextId());
 							character.setCharacterName(characterCreate.getCharacterName());
 							character.setTitle("");
@@ -147,14 +146,14 @@ function socketHandler(socket) {
 							character.setOnlineTime(0);
 
 							db.get("characters").push(character.getData()).write();
-							charactersData = db.get("characters").filter({"accountName": login}).value();
+							charactersData = db.get("characters").filter({"accountName": player.login}).value();
 							
 							for(var i = 0; i < charactersData.length; i++) {
 								charactersList.push(new templates.L2CharacterTemplate(charactersData[i]));
 							}
 
 							sendPacket.send(new serverPackets.CharacterCreateSuccess());
-							sendPacket.send(new serverPackets.CharacterSelectInfo(charactersList, login));
+							sendPacket.send(new serverPackets.CharacterSelectInfo(charactersList, player.login));
 						} else {
 							sendPacket.send(new serverPackets.CharacterCreateFail(errorCodes.gameserver.characterCreateFail.REASON_NAME_ALREADY_EXISTS));
 						}
@@ -193,8 +192,8 @@ function socketHandler(socket) {
 					break;
 				case 0x0d:
 					var characterSelected = new clientPackets.CharacterSelected(packet);
-					characterSlot = characterSelected.getCharacterSlot();
-					var characterData = db.get("characters").filter({"accountName": login}).value()[characterSlot];
+					player.characterSlot = characterSelected.getCharacterSlot();
+					var characterData = db.get("characters").filter({"accountName": player.login}).value()[player.characterSlot];
 					var character = new templates.L2CharacterTemplate(characterData);
 
 					sendPacket.send(new serverPackets.CharacterSelected(character));
@@ -208,22 +207,54 @@ function socketHandler(socket) {
 					break;
 				case 0x03:
 					var enterWorld = new clientPackets.EnterWorld(packet);
-					var characterData = db.get("characters").filter({"accountName": login}).value()[characterSlot];
+					var characterData = db.get("characters").filter({"accountName": player.login}).value()[player.characterSlot];
 					var character = new templates.L2CharacterTemplate(characterData);
 					
+					player.id = character.getObjectId();
+					player.positions = { x: character.getX(), y: character.getY(), z: character.getZ() };
+					player.online = true;
+
+					sendPacket.send(new serverPackets.SunRise()); // восход
 					sendPacket.send(new serverPackets.UserInfo(character));
 					//
 					sendPacket.broadcast(new serverPackets.CharacterInfo(character));
 					// sendPacket.send(new serverPackets.NpcInfo());
 					// sendPacket.send(new serverPackets.MoveToLocation(/* npc */));
-					//
-					sendPacket.send(new serverPackets.SunRise()); // восход
-					//
+
+					getVisiblePlayers();
+
+					function checkPointInCircle(x1, y1, x2, y2, radius) {
+					  var dx = x2 - x1;
+					  var dy = y2 - y1;
+					  var sqrtDist = dx*dx + dy*dy;
+					  var sqrtRadius = radius*radius;
+					  
+					  return sqrtDist < sqrtRadius;
+					}
+
+					function getVisiblePlayers() {
+						var allPlayers = players.getPlayers();
+						var radius = 2000;
+
+						for(var i = 0; i < allPlayers.length; i++) {
+							if(allPlayers[i].socket !== player.socket) {
+								if(allPlayers[i].online && checkPointInCircle(player.positions.x, player.positions.y, allPlayers[i].positions.x, allPlayers[i].positions.y, radius)) {
+									var characterData = db.get("characters").filter({"accountName": allPlayers[i].login}).value()[allPlayers[i].characterSlot];
+									var character = new templates.L2CharacterTemplate(characterData);
+									
+									character.setX(allPlayers[i].positions.x);
+									character.setY(allPlayers[i].positions.y);
+									character.setZ(allPlayers[i].positions.z);
+									sendPacket.send(new serverPackets.CharacterInfo(character));
+								}
+							}
+						}
+					}
 
 					break;
 				case 0x01:
 					var moveBackwardToLocation = new clientPackets.MoveBackwardToLocation(packet);
-					var characterData = db.get("characters").filter({"accountName": login}).value()[characterSlot];
+					var characterData = db.get("characters").filter({"accountName": player.login}).value()[player.characterSlot];
 					var character = new templates.L2CharacterTemplate(characterData);
 					var positions = {
 						target: {
@@ -240,6 +271,16 @@ function socketHandler(socket) {
 
 					sendPacket.send(new serverPackets.MoveToLocation(positions, character));
 					sendPacket.broadcast(new serverPackets.MoveToLocation(positions, character));
+
+					player.positions = { x: positions.target.x, y: positions.target.y, z: positions.target.z };
+
+					break;
+				case 0x1b:
+					var requestSocialAction = new clientPackets.RequestSocialAction(packet);
+					var actionId = requestSocialAction.getActionId();
+
+					sendPacket.send(new serverPackets.SocialAction(player.id, actionId));
+					sendPacket.broadcast(new serverPackets.SocialAction(player.id, actionId));
 
 					break;
 			}
@@ -267,8 +308,10 @@ function socketHandler(socket) {
 	}
 
 	function Init() {
+		player.socket = socket;
+		player.xor = xor;
+		players.addPlayer(player);
 		socket.setEncoding("binary");
-		players.addPlayer({ socket: socket, xor: xor });
 		userHasJoined();
 	}
 
