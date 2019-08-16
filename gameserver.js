@@ -213,15 +213,15 @@ function socketHandler(socket) {
 					player.id = character.getObjectId();
 					player.positions = { x: character.getX(), y: character.getY(), z: character.getZ() };
 					player.online = true;
+					player.characterName = character.getCharacterName();
 
 					sendPacket.send(new serverPackets.SunRise()); // восход
 					sendPacket.send(new serverPackets.UserInfo(character));
-					//
-					sendPacket.broadcast(new serverPackets.CharacterInfo(character));
+					sendPacket.broadcast(new serverPackets.CharacterInfo(character)); // Оповестить всех, что персонаж зашел в мир
 					// sendPacket.send(new serverPackets.NpcInfo());
 					// sendPacket.send(new serverPackets.MoveToLocation(/* npc */));
 
-					getVisiblePlayers();
+					getVisiblePlayers(players.getPlayers());
 
 					function checkPointInCircle(x1, y1, x2, y2, radius) {
 					  var dx = x2 - x1;
@@ -232,19 +232,18 @@ function socketHandler(socket) {
 					  return sqrtDist < sqrtRadius;
 					}
 
-					function getVisiblePlayers() {
-						var allPlayers = players.getPlayers();
+					function getVisiblePlayers(players) {
 						var radius = 2000;
 
-						for(var i = 0; i < allPlayers.length; i++) {
-							if(allPlayers[i].socket !== player.socket) {
-								if(allPlayers[i].online && checkPointInCircle(player.positions.x, player.positions.y, allPlayers[i].positions.x, allPlayers[i].positions.y, radius)) {
-									var characterData = db.get("characters").filter({"accountName": allPlayers[i].login}).value()[allPlayers[i].characterSlot];
+						for(var i = 0; i < players.length; i++) {
+							if(players[i].socket !== player.socket) {
+								if(players[i].online && checkPointInCircle(player.positions.x, player.positions.y, players[i].positions.x, players[i].positions.y, radius)) {
+									var characterData = db.get("characters").filter({"accountName": players[i].login}).value()[players[i].characterSlot];
 									var character = new templates.L2CharacterTemplate(characterData);
 									
-									character.setX(allPlayers[i].positions.x);
-									character.setY(allPlayers[i].positions.y);
-									character.setZ(allPlayers[i].positions.z);
+									character.setX(players[i].positions.x);
+									character.setY(players[i].positions.y);
+									character.setZ(players[i].positions.z);
 									sendPacket.send(new serverPackets.CharacterInfo(character));
 								}
 							}
@@ -281,6 +280,13 @@ function socketHandler(socket) {
 
 					sendPacket.send(new serverPackets.SocialAction(player.id, actionId));
 					sendPacket.broadcast(new serverPackets.SocialAction(player.id, actionId));
+
+					break;
+				case 0x38:
+					var say2 = new clientPackets.Say2(packet);
+
+					sendPacket.send(new serverPackets.CreateSay(player.id, say2.getType(), player.characterName, say2.getText()));
+					sendPacket.broadcast(new serverPackets.CreateSay(player.id, say2.getType(), player.characterName, say2.getText()));
 
 					break;
 			}

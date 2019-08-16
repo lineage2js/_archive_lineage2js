@@ -8,6 +8,7 @@ var RequestQuestList = require("./RequestQuestList.js");
 var EnterWorld = require("./EnterWorld.js");
 var MoveBackwardToLocation = require("./MoveBackwardToLocation.js");
 var RequestSocialAction = require("./RequestSocialAction.js");
+var Say2 = require("./Say2.js");
 
 module.exports = {
 	ProtocolVersion: ProtocolVersion,
@@ -19,5 +20,6 @@ module.exports = {
 	RequestQuestList: RequestQuestList,
 	EnterWorld: EnterWorld,
 	MoveBackwardToLocation: MoveBackwardToLocation,
-	RequestSocialAction: RequestSocialAction
+	RequestSocialAction: RequestSocialAction,
+	Say2: Say2
 }

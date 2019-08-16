@@ -14,6 +14,7 @@ var SunRise = require("./SunRise.js");
 var SunSet = require("./SunSet.js");
 var CharacterInfo = require("./CharacterInfo.js");
 var SocialAction = require("./SocialAction.js");
+var CreateSay = require("./CreateSay.js");
 
 module.exports = {
 	CryptInit: CryptInit,
@@ -31,5 +32,6 @@ module.exports = {
 	SunRise: SunRise,
 	SunSet: SunSet,
 	CharacterInfo: CharacterInfo,
-	SocialAction: SocialAction
+	SocialAction: SocialAction,
+	CreateSay: CreateSay
 }
