@@ -49,4 +49,8 @@ ServerPacket.prototype.getBuffer = function() {
     return this._buffer;
 };
 
+ServerPacket.strlen = function(str) {
+    return Buffer.byteLength(str, "ucs2") + 2;
+};
+
 module.exports = ServerPacket;

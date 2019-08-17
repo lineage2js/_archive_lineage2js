@@ -221,34 +221,15 @@ function socketHandler(socket) {
 					// sendPacket.send(new serverPackets.NpcInfo());
 					// sendPacket.send(new serverPackets.MoveToLocation(/* npc */));
 
-					getVisiblePlayers(players.getPlayers());
+					player.getVisiblePlayers(players.getPlayers(), function(players) {
+						var characterData = db.get("characters").filter({"accountName": players.login}).value()[players.characterSlot];
+						var character = new templates.L2CharacterTemplate(characterData);
 
-					function checkPointInCircle(x1, y1, x2, y2, radius) {
-					  var dx = x2 - x1;
-					  var dy = y2 - y1;
-					  var sqrtDist = dx*dx + dy*dy;
-					  var sqrtRadius = radius*radius;
-					  
-					  return sqrtDist < sqrtRadius;
-					}
-
-					function getVisiblePlayers(players) {
-						var radius = 2000;
-
-						for(var i = 0; i < players.length; i++) {
-							if(players[i].socket !== player.socket) {
-								if(players[i].online && checkPointInCircle(player.positions.x, player.positions.y, players[i].positions.x, players[i].positions.y, radius)) {
-									var characterData = db.get("characters").filter({"accountName": players[i].login}).value()[players[i].characterSlot];
-									var character = new templates.L2CharacterTemplate(characterData);
-									
-									character.setX(players[i].positions.x);
-									character.setY(players[i].positions.y);
-									character.setZ(players[i].positions.z);
-									sendPacket.send(new serverPackets.CharacterInfo(character));
-								}
-							}
-						}
-					}
+						character.setX(players.positions.x);
+						character.setY(players.positions.y);
+						character.setZ(players.positions.z);
+						sendPacket.send(new serverPackets.CharacterInfo(character));
+					});
 
 					break;
 				case 0x01:
@@ -287,6 +268,34 @@ function socketHandler(socket) {
 
 					sendPacket.send(new serverPackets.CreateSay(player.id, say2.getType(), player.characterName, say2.getText()));
 					sendPacket.broadcast(new serverPackets.CreateSay(player.id, say2.getType(), player.characterName, say2.getText()));
+
+					break;
+				case 0x36:
+					var stopMove = new clientPackets.StopMove(packet);
+
+					player.positions = { x: stopMove.getX(), y: stopMove.getY(), z: stopMove.getZ() };
+					sendPacket.send(new serverPackets.StopMoveWithLocation(player));
+
+					break;
+				case 0x45:
+					var requestActionUse = new clientPackets.RequestActionUse(packet);
+
+					switch(requestActionUse.getActionId()) {
+						case 0:
+							var waitType = player.getWaitType() ^ 0x01 // 1 => 0, 0 => 1
+
+							sendPacket.send(new serverPackets.ChangeWaitType(player, waitType));
+							sendPacket.broadcast(new serverPackets.ChangeWaitType(player, waitType));
+							player.setWaitType(waitType);
+
+							break;
+						case 1:
+							var moveType = player.getMoveType() ^ 0x01 // 1 => 0, 0 => 1
+
+							sendPacket.send(new serverPackets.ChangeMoveType(player, moveType));
+							sendPacket.broadcast(new serverPackets.ChangeMoveType(player, moveType));
+							player.setMoveType(moveType);
+					}
 
 					break;
 			}

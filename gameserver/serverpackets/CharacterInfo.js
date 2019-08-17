@@ -70,8 +70,8 @@ function CharacterInfo(character) {
 		.writeD(0x00)	// new in rev 417
 		.writeD(0x00)	// new in rev 417   siege-flags)
 
-		.writeC(1)
-		.writeC(1)
+		.writeC(1) // getWaitType
+		.writeC(1) // getMoveType
 
 		.writeC(0x00)
 		.writeC(0x00)

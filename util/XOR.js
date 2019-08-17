@@ -27,7 +27,7 @@ XOR.prototype.decrypt = function(data) {
 	this.decryptKey[1] = (old >> 0x08 &0xff);
 	this.decryptKey[2] = (old >> 0x10 &0xff);
 	this.decryptKey[3] = (old >> 0x18 &0xff);
-
+	
 	return data;
 }
 

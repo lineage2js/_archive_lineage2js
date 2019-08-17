@@ -15,6 +15,9 @@ var SunSet = require("./SunSet.js");
 var CharacterInfo = require("./CharacterInfo.js");
 var SocialAction = require("./SocialAction.js");
 var CreateSay = require("./CreateSay.js");
+var StopMoveWithLocation = require("./StopMoveWithLocation.js");
+var ChangeWaitType = require("./ChangeWaitType.js");
+var ChangeMoveType = require("./ChangeMoveType.js");
 
 module.exports = {
 	CryptInit: CryptInit,
@@ -33,5 +36,8 @@ module.exports = {
 	SunSet: SunSet,
 	CharacterInfo: CharacterInfo,
 	SocialAction: SocialAction,
-	CreateSay: CreateSay
+	CreateSay: CreateSay,
+	StopMoveWithLocation: StopMoveWithLocation,
+	ChangeWaitType: ChangeWaitType,
+	ChangeMoveType: ChangeMoveType
 }
