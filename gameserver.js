@@ -8,12 +8,13 @@ var errorCodes = require("./config/errorCodes.js");
 var Player = require("./gameserver/Player.js");
 var Players = require("./gameserver/Players.js");
 var SendPacket = require("./gameserver/SendPacket.js");
+var Announcements = require("./gameserver/Announcements.js");
 var serverPackets = require("./gameserver/serverpackets/serverPackets.js");
 var clientPackets = require("./gameserver/clientpackets/clientPackets.js");
 var tables = require("./gameserver/tables/tables.js");
 var templates = require("./gameserver/templates/templates.js");
-var classId = require("./data/class_id.js");
-var characterTemplatesData = require("./data/character_templates.js");
+var classId = require("./data/classId.js");
+var characterTemplatesData = require("./data/characterTemplates.js");
 // DB
 var low = require("lowdb");
 var FileSync = require("lowdb/adapters/FileSync");
@@ -22,6 +23,7 @@ var db = low(database);
 // Init object
 var idFactory = new IdFactory("data/idstate.json");
 var players = new Players();
+var announcements = new Announcements("data/announcements.json");
 
 // Data - файл
 // Table - сериализация данных
@@ -55,6 +57,7 @@ function socketHandler(socket) {
 						sendPacket.send(new serverPackets.CryptInit(config.base.key.XOR), false);
 						encryption = true; // The first packet is not encrypted
 					}
+
 					break;
 				case 0x08:
 					var requestAuthLogin = new clientPackets.RequestAuthLogin(packet);
@@ -64,7 +67,7 @@ function socketHandler(socket) {
 					var charactersData;
 
 					player.login = requestAuthLogin.getLogin();
-					charactersData = db.get("characters").filter({"accountName": player.login}).value();
+					charactersData = db.get("characters").filter({"login": player.login}).value();
 
 					for(var i = 0; i < charactersData.length; i++) {
 						charactersList.push(new templates.L2CharacterTemplate(charactersData[i]));
@@ -72,7 +75,7 @@ function socketHandler(socket) {
 
 					if(keyComparison(sessionKey1Server, sessionKey1Client) && keyComparison(sessionKey2Server, sessionKey2Client)) {
 						// Загружать из БД список персонажей
-						sendPacket.send(new serverPackets.CharacterSelectInfo(charactersList, player.login));
+						sendPacket.send(new serverPackets.CharacterSelectInfo(charactersList, player));
 					} else {
 						sendPacket.send(new serverPackets.AuthLoginFail(errorCodes.gameserver.authLoginFail.REASON_SYSTEM_ERROR));
 					}
@@ -82,7 +85,7 @@ function socketHandler(socket) {
 					var newCharacter = new clientPackets.NewCharacter(packet);
 					// Получаем и преобразуем данные из одного объекта в другой чтобы удобно было доставать данные по classId
 					var characterTemplateTable = (new tables.CharacterTemplateTable(characterTemplatesData)).getData();
-					var characterTamplates = [
+					var characterTemplates = [
 						new templates.L2CharacterTemplate(characterTemplateTable[classId.fighter]),
 						new templates.L2CharacterTemplate(characterTemplateTable[classId.mage]),
 						new templates.L2CharacterTemplate(characterTemplateTable[classId.elvenFighter]),
@@ -93,8 +96,8 @@ function socketHandler(socket) {
 						new templates.L2CharacterTemplate(characterTemplateTable[classId.orcMage]),
 						new templates.L2CharacterTemplate(characterTemplateTable[classId.dwarvenFighter]),
 					];
-						
-					sendPacket.send(new serverPackets.CharacterTemplates(characterTamplates));
+
+					sendPacket.send(new serverPackets.CharacterTemplates(characterTemplates));
 
 					break;
 				case 0x09:
@@ -109,11 +112,12 @@ function socketHandler(socket) {
 					var characterCreate = new clientPackets.CharacterCreate(packet);
 					var characterName = characterCreate.getCharacterName();
 					var characterTemplateTable = (new tables.CharacterTemplateTable(characterTemplatesData)).getData();
-					var characterQuantity = db.get("characters").filter({"accountName": player.login}).value().length;
+					var characterQuantity = db.get("characters").filter({"login": player.login}).value().length;
 					var MAXIMUM_QUANTITY_CHARACTERS = 7;
 
 					if(characterQuantity === MAXIMUM_QUANTITY_CHARACTERS) {
 						sendPacket.send(new serverPackets.CharacterCreateFail(errorCodes.gameserver.characterCreateFail.REASON_TOO_MANY_CHARACTERS));
+						
 						break;
 					}
 
@@ -123,37 +127,25 @@ function socketHandler(socket) {
 							var charactersData;
 							var charactersList = [];
 
-							character.setAccountName(player.login);
-							character.setObjectId(idFactory.getNextId());
-							character.setCharacterName(characterCreate.getCharacterName());
-							character.setTitle("");
-							character.setMaximumHp(character.getHp());
-							character.setMaximumMp(character.getMp());
-							character.setExp(0);
-							character.setSp(0);
-							character.setGender(characterCreate.getGender());
-							character.setHairStyle(characterCreate.getHairStyle());
-							character.setHairColor(characterCreate.getHairColor());
-							character.setHeading(0);
-							character.setFace(characterCreate.getFace());
-							character.setLevel(1);
-							character.setPvp(0);
-							character.setPk(0);
-							character.setKarma(0);
-							character.setAccessLevel(0);
-							character.setClanId(0);
-							character.setOnline(0);
-							character.setOnlineTime(0);
+							character.login = player.login;
+							character.objectId = idFactory.getNextId();
+							character.characterName = characterCreate.getCharacterName();
+							character.maximumHp = character.hp;
+							character.maximumMp = character.mp;
+							character.gender = characterCreate.getGender();
+							character.hairStyle = characterCreate.getHairStyle();
+							character.hairColor = characterCreate.getHairColor();
+							character.face = characterCreate.getFace();
 
 							db.get("characters").push(character.getData()).write();
-							charactersData = db.get("characters").filter({"accountName": player.login}).value();
+							charactersData = db.get("characters").filter({"login": player.login}).value();
 							
 							for(var i = 0; i < charactersData.length; i++) {
 								charactersList.push(new templates.L2CharacterTemplate(charactersData[i]));
 							}
 
 							sendPacket.send(new serverPackets.CharacterCreateSuccess());
-							sendPacket.send(new serverPackets.CharacterSelectInfo(charactersList, player.login));
+							sendPacket.send(new serverPackets.CharacterSelectInfo(charactersList, player));
 						} else {
 							sendPacket.send(new serverPackets.CharacterCreateFail(errorCodes.gameserver.characterCreateFail.REASON_NAME_ALREADY_EXISTS));
 						}
@@ -192,9 +184,12 @@ function socketHandler(socket) {
 					break;
 				case 0x0d:
 					var characterSelected = new clientPackets.CharacterSelected(packet);
-					player.characterSlot = characterSelected.getCharacterSlot();
-					var characterData = db.get("characters").filter({"accountName": player.login}).value()[player.characterSlot];
+					var characterData = db.get("characters").filter({"login": player.login}).value()[characterSelected.getCharacterSlot()];
 					var character = new templates.L2CharacterTemplate(characterData);
+
+					player.fillData(character);
+					player.characterSlot = characterSelected.getCharacterSlot();
+					player.online = true;
 
 					sendPacket.send(new serverPackets.CharacterSelected(character));
 
@@ -207,35 +202,22 @@ function socketHandler(socket) {
 					break;
 				case 0x03:
 					var enterWorld = new clientPackets.EnterWorld(packet);
-					var characterData = db.get("characters").filter({"accountName": player.login}).value()[player.characterSlot];
-					var character = new templates.L2CharacterTemplate(characterData);
-					
-					player.id = character.getObjectId();
-					player.positions = { x: character.getX(), y: character.getY(), z: character.getZ() };
-					player.online = true;
-					player.characterName = character.getCharacterName();
+
+					announcements.show(function(announcement) {
+						sendPacket.send(new serverPackets.CreateSay(player, 10, announcement)); // 10 - Announcements
+					})
 
 					sendPacket.send(new serverPackets.SunRise()); // восход
-					sendPacket.send(new serverPackets.UserInfo(character));
-					sendPacket.broadcast(new serverPackets.CharacterInfo(character)); // Оповестить всех, что персонаж зашел в мир
-					// sendPacket.send(new serverPackets.NpcInfo());
-					// sendPacket.send(new serverPackets.MoveToLocation(/* npc */));
+					sendPacket.send(new serverPackets.UserInfo(player));
+					sendPacket.broadcast(new serverPackets.CharacterInfo(player)); // Оповестить всех, что персонаж зашел в мир
 
 					player.getVisiblePlayers(players.getPlayers(), function(players) {
-						var characterData = db.get("characters").filter({"accountName": players.login}).value()[players.characterSlot];
-						var character = new templates.L2CharacterTemplate(characterData);
-
-						character.setX(players.positions.x);
-						character.setY(players.positions.y);
-						character.setZ(players.positions.z);
-						sendPacket.send(new serverPackets.CharacterInfo(character));
+						sendPacket.send(new serverPackets.CharacterInfo(players));
 					});
 
 					break;
 				case 0x01:
 					var moveBackwardToLocation = new clientPackets.MoveBackwardToLocation(packet);
-					var characterData = db.get("characters").filter({"accountName": player.login}).value()[player.characterSlot];
-					var character = new templates.L2CharacterTemplate(characterData);
 					var positions = {
 						target: {
 							x: moveBackwardToLocation.getTargetX(),
@@ -249,31 +231,35 @@ function socketHandler(socket) {
 						}
 					}
 
-					sendPacket.send(new serverPackets.MoveToLocation(positions, character));
-					sendPacket.broadcast(new serverPackets.MoveToLocation(positions, character));
+					sendPacket.send(new serverPackets.MoveToLocation(positions, player));
+					sendPacket.broadcast(new serverPackets.MoveToLocation(positions, player));
 
-					player.positions = { x: positions.target.x, y: positions.target.y, z: positions.target.z };
+					player.x = positions.target.x;
+					player.y = positions.target.y;
+					player.z = positions.target.z;
 
 					break;
 				case 0x1b:
 					var requestSocialAction = new clientPackets.RequestSocialAction(packet);
 					var actionId = requestSocialAction.getActionId();
 
-					sendPacket.send(new serverPackets.SocialAction(player.id, actionId));
-					sendPacket.broadcast(new serverPackets.SocialAction(player.id, actionId));
+					sendPacket.send(new serverPackets.SocialAction(player, actionId));
+					sendPacket.broadcast(new serverPackets.SocialAction(player, actionId));
 
 					break;
 				case 0x38:
 					var say2 = new clientPackets.Say2(packet);
 
-					sendPacket.send(new serverPackets.CreateSay(player.id, say2.getType(), player.characterName, say2.getText()));
-					sendPacket.broadcast(new serverPackets.CreateSay(player.id, say2.getType(), player.characterName, say2.getText()));
+					sendPacket.send(new serverPackets.CreateSay(player, say2.getType(), say2.getText()));
+					sendPacket.broadcast(new serverPackets.CreateSay(player, say2.getType(), say2.getText()));
 
 					break;
 				case 0x36:
 					var stopMove = new clientPackets.StopMove(packet);
 
-					player.positions = { x: stopMove.getX(), y: stopMove.getY(), z: stopMove.getZ() };
+					player.x = stopMove.getX();
+					player.y = stopMove.getY();
+					player.z = stopMove.getZ();
 					sendPacket.send(new serverPackets.StopMoveWithLocation(player));
 
 					break;
@@ -282,19 +268,19 @@ function socketHandler(socket) {
 
 					switch(requestActionUse.getActionId()) {
 						case 0:
-							var waitType = player.getWaitType() ^ 0x01 // 1 => 0, 0 => 1
+							var waitType = player.waitType ^ 0x01 // 1 => 0, 0 => 1
 
 							sendPacket.send(new serverPackets.ChangeWaitType(player, waitType));
 							sendPacket.broadcast(new serverPackets.ChangeWaitType(player, waitType));
-							player.setWaitType(waitType);
+							player.waitType = waitType;
 
 							break;
 						case 1:
-							var moveType = player.getMoveType() ^ 0x01 // 1 => 0, 0 => 1
+							var moveType = player.moveType ^ 0x01 // 1 => 0, 0 => 1
 
 							sendPacket.send(new serverPackets.ChangeMoveType(player, moveType));
 							sendPacket.broadcast(new serverPackets.ChangeMoveType(player, moveType));
-							player.setMoveType(moveType);
+							player.moveType = moveType;
 					}
 
 					break;

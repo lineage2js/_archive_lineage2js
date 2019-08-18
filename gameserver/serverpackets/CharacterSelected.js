@@ -1,34 +1,34 @@
 var ServerPacket = require("./ServerPacket.js");
 
 function CharacterSelected(character) {
-	this._packet = new ServerPacket(400);
+	this._packet = new ServerPacket(230 + ServerPacket.strlen(character.characterName) + ServerPacket.strlen(character.title));
 	this._packet.writeC(0x21)
-		.writeS(character.getCharacterName())
-		.writeD(character.getObjectId())
-		.writeS(character.getTitle())
+		.writeS(character.characterName)
+		.writeD(character.objectId)
+		.writeS(character.title)
 		.writeD(0x55555555)
-		.writeD(character.getClanId())
+		.writeD(character.clanId)
 		.writeD(0x00)
-		.writeD(character.getGender())
-		.writeD(character.getRaceId())
-		.writeD(character.getClassId())
+		.writeD(character.gender)
+		.writeD(character.raceId)
+		.writeD(character.classId)
 		.writeD(0x01)
-		.writeD(character.getX())	
-		.writeD(character.getY())	
-		.writeD(character.getZ())
-		.writeF(character.getHp())
-		.writeF(character.getMp())
-		.writeD(character.getSp())
-		.writeD(character.getExp())
-		.writeD(character.getLevel())
+		.writeD(character.x)	
+		.writeD(character.y)	
+		.writeD(character.z)
+		.writeF(character.hp)
+		.writeF(character.mp)
+		.writeD(character.sp)
+		.writeD(character.exp)
+		.writeD(character.level)
 		.writeD(0x0)
 		.writeD(0x0)
-		.writeD(character.getInt())
-		.writeD(character.getStr())
-		.writeD(character.getCon())
-		.writeD(character.getMen())
-		.writeD(character.getDex())
-		.writeD(character.getWit());
+		.writeD(character.int)
+		.writeD(character.str)
+		.writeD(character.con)
+		.writeD(character.men)
+		.writeD(character.dex)
+		.writeD(character.wit);
 
 	for (var i = 0; i < 30; i++) {
 		this._packet.writeD(0x00);

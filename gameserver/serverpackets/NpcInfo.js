@@ -1,7 +1,7 @@
 var ServerPacket = require("./ServerPacket.js");
 
 function NpcInfo(npc) {
-	this._packet = new ServerPacket(600);
+	this._packet = new ServerPacket(600); //
 	this._packet.writeC(0x22)
 
 			.writeD(0x02) // getObjectId

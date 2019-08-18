@@ -1,37 +1,37 @@
 var ServerPacket = require("./ServerPacket.js");
 
-function CharacterSelectInfo(characters, login) {
-	this._packet = new ServerPacket(characters ? characters.length*400 : 10);
+function CharacterSelectInfo(characters, player) {
+	this._packet = new ServerPacket(characters ? characters.length * 400 : 10); //
 	this._packet.writeC(0x1f);
 
 	if(characters) {
 		this._packet.writeD(characters.length)
 		for(var i = 0; i < characters.length; i++) {
-			this._packet.writeS(characters[i].getCharacterName())
-				.writeD(characters[i].getObjectId())
-				.writeS(login)
+			this._packet.writeS(characters[i].characterName)
+				.writeD(characters[i].objectId)
+				.writeS(player.login)
 				.writeD(0x55555555)	// getSessionId
-				.writeD(characters[i].getClanId())
+				.writeD(characters[i].clanId)
 
 				.writeD(0x00)
 
-				.writeD(characters[i].getGender())
-				.writeD(characters[i].getRaceId())
-				.writeD(characters[i].getClassId())
+				.writeD(characters[i].gender)
+				.writeD(characters[i].raceId)
+				.writeD(characters[i].classId)
 				
 				.writeD(0x01)
 
-				.writeD(characters[i].getX())	// no effect ?
-				.writeD(characters[i].getY())	// no effect ?
-				.writeD(characters[i].getZ())	// no effect ?
+				.writeD(characters[i].x)	// no effect ?
+				.writeD(characters[i].y)	// no effect ?
+				.writeD(characters[i].z)	// no effect ?
 
-				.writeF(characters[i].getHp())
-				.writeF(characters[i].getMp())
+				.writeF(characters[i].hp)
+				.writeF(characters[i].mp)
 
-				.writeD(characters[i].getSp())
-				.writeD(characters[i].getExp())
-				.writeD(characters[i].getLevel())
-				.writeD(characters[i].getKarma())
+				.writeD(characters[i].sp)
+				.writeD(characters[i].exp)
+				.writeD(characters[i].level)
+				.writeD(characters[i].karma)
 				 
 				.writeD(0x00) 
 				.writeD(0x00) 
@@ -77,12 +77,12 @@ function CharacterSelectInfo(characters, login) {
 				.writeD(0x00) //writeD(charInfoPackage.getInventory().getPaperdollItemId(Inventory.PAPERDOLL_BACK));
 				.writeD(0x00) //writeD(charInfoPackage.getInventory().getPaperdollItemId(Inventory.PAPERDOLL_LRHAND));
 
-				.writeD(characters[i].getHairStyle())
-				.writeD(characters[i].getHairColor())
-				.writeD(characters[i].getFace())
+				.writeD(characters[i].hairStyle)
+				.writeD(characters[i].hairColor)
+				.writeD(characters[i].face)
 				
-				.writeF(characters[i].getMaximumHp())
-				.writeF(characters[i].getMaximumMp())
+				.writeF(characters[i].maximumHp)
+				.writeF(characters[i].maximumMp)
 				
 				.writeD(0x00) //writeD(charInfoPackage.getDeleteTimer());  // days left before delete .. if != 0 then char is inactive
 		}

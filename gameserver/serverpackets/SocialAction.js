@@ -1,9 +1,9 @@
 var ServerPacket = require("./ServerPacket.js");
 
-function SocialAction(playerId, actionId) {
-	this._packet = new ServerPacket(10);
+function SocialAction(player, actionId) {
+	this._packet = new ServerPacket(9);
 	this._packet.writeC(0x3d)
-		.writeD(playerId)
+		.writeD(player.objectId)
 		.writeD(actionId);
 
 	return this._packet.getBuffer();

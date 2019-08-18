@@ -1,12 +1,12 @@
 var ServerPacket = require("./ServerPacket.js");
 // fix, id => getObjectId ?
 function StopMoveWithLocation(object) {
-	this._packet = new ServerPacket(30);
+	this._packet = new ServerPacket(17);
 	this._packet.writeC(0x5f)
-		.writeD(object.id)
-		.writeD(object.positions.x)
-		.writeD(object.positions.y)
-		.writeD(object.positions.z)
+		.writeD(object.objectId)
+		.writeD(object.x)
+		.writeD(object.y)
+		.writeD(object.z)
 		
 	return this._packet.getBuffer();
 }

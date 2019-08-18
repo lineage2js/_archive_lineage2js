@@ -1,11 +1,11 @@
 var ServerPacket = require("./ServerPacket.js");
 
-function CreateSay(objectId, messageType, characterName, message) {
-	this._packet = new ServerPacket(9 + ServerPacket.strlen(characterName) + ServerPacket.strlen(message)); // fix
+function CreateSay(player, messageType, message) {
+	this._packet = new ServerPacket(9 + ServerPacket.strlen(player.characterName) + ServerPacket.strlen(message)); // fix
 	this._packet.writeC(0x5d)
-		.writeD(objectId)
+		.writeD(player.objectId)
 		.writeD(messageType)
-		.writeS(characterName)
+		.writeS(player.characterName)
 		.writeS(message);
 
 	return this._packet.getBuffer();

@@ -1,31 +1,31 @@
 var ServerPacket = require("./ServerPacket.js");
 
-function CharacterTemplates(data) {
-	this._packet = new ServerPacket(80 * data.length);
+function CharacterTemplates(characters) {
+	this._packet = new ServerPacket(85 * characters.length);
 	this._packet.writeC(0x23)
-		.writeD(data.length)
+		.writeD(characters.length)
 
-	for(var i = 0; i < data.length; i++) {
-		this._packet.writeD(data[i].getRaceId())
-			.writeD(data[i].getClassId())
+	for(var i = 0; i < characters.length; i++) {
+		this._packet.writeD(characters[i].raceId)
+			.writeD(characters[i].classId)
 			.writeD(0x46)
-			.writeD(data[i].getStr())
+			.writeD(characters[i].str)
 			.writeD(0x0a)
 			.writeD(0x46)
-			.writeD(data[i].getDex())
+			.writeD(characters[i].dex)
 			.writeD(0x0a)
 			.writeD(0x46)
-			.writeD(data[i].getCon())
+			.writeD(characters[i].con)
 			.writeD(0x0a)
 			.writeD(0x46)
-			.writeD(data[i].getInt())
+			.writeD(characters[i].int)
 			.writeD(0x0a)
 			.writeD(0x46)
-			.writeD(data[i].getWit())
+			.writeD(characters[i].wit)
 			.writeD(0x0a)
 			.writeD(0x46)
-			.writeD(data[i].getMen())
-			.writeD(0x0a)
+			.writeD(characters[i].men)
+			.writeD(0x0a);
 	}
 
 	return this._packet.getBuffer();

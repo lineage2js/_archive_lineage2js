@@ -3,7 +3,7 @@ var ServerPacket = require("./ServerPacket.js");
 function ChangeWaitType(player, waitType) {
 	this._packet = new ServerPacket(21);
 	this._packet.writeC(0x3f)
-		.writeD(player.id)
+		.writeD(player.objectId)
 		.writeD(waitType)
 		.writeD(player.x)
 		.writeD(player.y)

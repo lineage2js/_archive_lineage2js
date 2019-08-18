@@ -1,17 +1,17 @@
 var ServerPacket = require("./ServerPacket.js");
 
 function CharacterInfo(character) {
-	this._packet = new ServerPacket(600);
+	this._packet = new ServerPacket(600); //
 	this._packet.writeC(0x03)
-		.writeD(character.getX())
-		.writeD(character.getY())
-		.writeD(character.getZ())
-		.writeD(character.getHeading())
-		.writeD(character.getObjectId())
-		.writeS(character.getCharacterName())
-		.writeD(character.getRaceId())
-		.writeD(character.getGender())
-		.writeD(character.getClassId())
+		.writeD(character.x)
+		.writeD(character.y)
+		.writeD(character.z)
+		.writeD(character.heading)
+		.writeD(character.objectId)
+		.writeS(character.characterName)
+		.writeD(character.raceId)
+		.writeD(character.gender)
+		.writeD(character.classId)
 		
 		.writeD(0x00)
 
@@ -27,51 +27,51 @@ function CharacterInfo(character) {
 		.writeD(0x00)
 
 		.writeD(0x00)
-		.writeD(character.getMspd())
-		.writeD(character.getPspd())
+		.writeD(character.mSpd)
+		.writeD(character.pSpd)
 		
 		.writeD(0x00) // pvp flag 0 - non pvp, 1 - pvp = violett name
-		.writeD(character.getKarma())
+		.writeD(character.karma)
 
-		.writeD(character.getMoveSpd()) // getRunSpeed
-		.writeD(character.getMoveSpd()) // getWalkSpeed
+		.writeD(character.moveSpd) // getRunSpeed
+		.writeD(character.moveSpd) // getWalkSpeed
 		.writeD(0x32) // swimspeed
 		.writeD(0x32) // swimspeed
-		.writeD(character.getMoveSpd()) // getFloatingRunSpeed
-		.writeD(character.getMoveSpd()) // getFloatingWalkSpeed
-		.writeD(character.getMoveSpd()) // getFlyingRunSpeed
-		.writeD(character.getMoveSpd()) // getFlyingWalkSpeed
+		.writeD(character.moveSpd) // getFloatingRunSpeed
+		.writeD(character.moveSpd) // getFloatingWalkSpeed
+		.writeD(character.moveSpd) // getFlyingRunSpeed
+		.writeD(character.moveSpd) // getFlyingWalkSpeed
 
 		// male
-	if(character.getGender() === 0) {
-		this._packet.writeF(character.getMaleMovementMultiplier())
-			.writeF(character.getMaleAttackSpeedMultiplier())
-			.writeF(character.getMaleCollisionRadius())
-			.writeF(character.getMaleCollisionHeight())
+	if(character.gender === 0) {
+		this._packet.writeF(character.maleMovementMultiplier)
+			.writeF(character.maleAttackSpeedMultiplier)
+			.writeF(character.maleCollisionRadius)
+			.writeF(character.maleCollisionHeight)
 	}
 
 	// female
-	if(character.getGender() === 1) {
-		this._packet.writeF(character.getFemaleMovementMultiplier())
-			.writeF(character.getFemaleAttackSpeedMultiplier())
-			.writeF(character.getFemaleCollisionRadius())
-			.writeF(character.getFemaleCollisionHeight())
+	if(character.gender === 1) {
+		this._packet.writeF(character.femaleMovementMultiplier)
+			.writeF(character.femaleAttackSpeedMultiplier)
+			.writeF(character.femaleCollisionRadius)
+			.writeF(character.femaleCollisionHeight)
 	}
 
-	this._packet.writeD(character.getHairStyle())
-		.writeD(character.getHairColor())
-		.writeD(character.getFace())
+	this._packet.writeD(character.hairStyle)
+		.writeD(character.hairColor)
+		.writeD(character.face)
 
-		.writeS(character.getTitle())
-		.writeD(character.getClanId()) // pledge id
-		.writeD(character.getClanId()) // pledge crest id
+		.writeS(character.title)
+		.writeD(character.clanId) // pledge id
+		.writeD(character.clanId) // pledge crest id
 		.writeD(0x10)
 
 		.writeD(0x00)	// new in rev 417
 		.writeD(0x00)	// new in rev 417   siege-flags)
 
-		.writeC(1) // getWaitType
-		.writeC(1) // getMoveType
+		.writeC(character.waitType) // getWaitType
+		.writeC(character.moveType) // getMoveType
 
 		.writeC(0x00)
 		.writeC(0x00)
