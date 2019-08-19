@@ -1,7 +1,7 @@
 var ServerPacket = require("./ServerPacket.js");
 
 function UserInfo(player) {
-	this._packet = new ServerPacket(600); //
+	this._packet = new ServerPacket(600 + ServerPacket.strlen(player.characterName)); //
 	this._packet.writeC(0x04)
 		.writeD(player.x)
 		.writeD(player.y)
@@ -25,44 +25,44 @@ function UserInfo(player) {
 		.writeD(player.maximumMp)
 		.writeD(player.mp)
 		.writeD(player.sp)
-		.writeD(player.getLoad()) // getLoad
+		.writeD(player.getLoad())
 		.writeD(player.maximumLoad)
 		
 		.writeD(0x28)
 		
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
+		.writeD(player.underwear.objectId)
+		.writeD(player.ear.right.objectId)
+		.writeD(player.ear.left.objectId)
+		.writeD(player.neck.objectId)
+		.writeD(player.finger.right.objectId)
+		.writeD(player.finger.left.objectId)
 
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
+		.writeD(player.head.objectId)
+		.writeD(player.hand.right.objectId)
+		.writeD(player.hand.left.objectId)
+		.writeD(player.gloves.objectId)
+		.writeD(player.chest.objectId)
+		.writeD(player.legs.objectId)
+		.writeD(player.feet.objectId)
+		.writeD(player.back.objectId)
+		.writeD(player.hand.leftAndRight.objectId)
 
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
+		.writeD(player.underwear.itemId)
+		.writeD(player.ear.right.itemId)
+		.writeD(player.ear.left.itemId)
+		.writeD(player.neck.itemId)
+		.writeD(player.finger.right.itemId)
+		.writeD(player.finger.left.itemId)
 
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
-		.writeD(0x00)
+		.writeD(player.head.itemId)
+		.writeD(player.hand.right.itemId)
+		.writeD(player.hand.left.itemId)
+		.writeD(player.gloves.itemId)
+		.writeD(player.chest.itemId)
+		.writeD(player.legs.itemId)
+		.writeD(player.feet.itemId)
+		.writeD(player.back.itemId)
+		.writeD(player.hand.leftAndRight.itemId)
 
 		.writeD(player.pAtk)
 		.writeD(player.pSpd)
@@ -76,13 +76,13 @@ function UserInfo(player) {
 		.writeD(player.pSpd)
 		.writeD(player.mDef)
 
-		.writeD(0x00) // pvp flag 0 - non pvp, 1 - pvp = violett name
+		.writeD(player.pvpFlag)
 		.writeD(player.karma)
 
 		.writeD(player.moveSpd) // getRunSpeed
 		.writeD(player.moveSpd) // getWalkSpeed
-		.writeD(0x32) // swimspeed
-		.writeD(0x32) // swimspeed
+		.writeD(player.swimsSpeed)
+		.writeD(player.swimsSpeed)
 		.writeD(player.moveSpd) // getFloatingRunSpeed
 		.writeD(player.moveSpd) // getFloatingWalkSpeed
 		.writeD(player.moveSpd) // getFlyingRunSpeed
@@ -107,15 +107,15 @@ function UserInfo(player) {
 	this._packet.writeD(player.hairStyle)
 		.writeD(player.hairColor)
 		.writeD(player.face)
-		.writeD(0x00) // if GM - 0x01
+		.writeD(player.gm)
 		.writeS(player.title)
 		.writeD(player.clanId) // pledge id
-		.writeD(player.clanId) // pledge crest id
-		.writeD(0x00) // getAllyId - ally id
-		.writeD(0x00) // getAllyId - ally crest id
-		.writeD(0x00) // 0x60 ???
+		.writeD(player.clanId) // pledge crest id, icon ?
+		.writeD(player.allianceId) // getAllyId - ally id
+		.writeD(player.allianceId) // getAllyId - ally crest id
+		.writeD(0x00) // 0x60 ??? // siege-flags
 		.writeC(0x00)
-		.writeC(0x00) // getPrivateStoreType
+		.writeC(player.privateStoreType)
 		.writeC(player.canCraft)
 		.writeD(player.pk)
 		.writeD(player.pvp)
@@ -125,7 +125,7 @@ function UserInfo(player) {
 //		.writeH(0x03) // 1-yellow 2-orange 3-ye
 //		.writeH(0x04) // 1-yellow 2-orange 3-yellow star  4-violett 5-blue cube  
 //		.writeH(0x05) // 1-yellow 2-orange 3-yellow star  4-violett 5-blue cube  
-		.writeC(0x00); //1-find party members
+		.writeC(0x00); // 1-find party members
 		
 	return this._packet.getBuffer();
 }

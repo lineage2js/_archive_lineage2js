@@ -2,7 +2,6 @@ var net = require("net");
 var Blowfish = require("./util/blowfish.js");
 var log = require("./util/log.js");
 var config = require("./config/config.js");
-var errorCodes = require("./data/errorCodes.js");
 var SendPacket = require("./loginserver/SendPacket.js");
 var serverPackets = require("./loginserver/serverpackets/serverPackets.js");
 var clientPackets = require("./loginserver/clientpackets/clientPackets.js");
@@ -49,15 +48,15 @@ function socketHandler(socket) {
 						}
 						if(account.login()) {
 							if(!(account.login().password === password)) {
-								return errorCodes.loginserver.loginFail.REASON_PASS_WRONG;	
+								return config.base.errors.loginserver.REASON_PASS_WRONG;	
 							}
 							if(account.login().accessLevel < 0) {
-								return errorCodes.loginserver.loginFail.REASON_ACCOUNT_BANNED;
+								return config.base.errors.loginserver.REASON_ACCOUNT_BANNED;
 							}
 
 							return "success";
 						} else {
-							return errorCodes.loginserver.loginFail.REASON_USER_OR_PASS_WRONG;
+							return config.base.errors.loginserver.REASON_USER_OR_PASS_WRONG;
 						}
 					}
 					
@@ -72,7 +71,7 @@ function socketHandler(socket) {
 						if(true) {
 							sendPacket.send(new serverPackets.PlayOk(sessionKey2Server));
 						} else {
-							sendPacket.send(new serverPackets.PlayFail(errorCodes.loginserver.playFail.REASON_SYSTEM_ERROR))
+							sendPacket.send(new serverPackets.PlayFail(config.base.errors.loginserver.REASON_SYSTEM_ERROR))
 						}
 					}
 

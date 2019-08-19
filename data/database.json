@@ -33,7 +33,7 @@
   ],
   "characters": [
     {
-      "objectId": 268435505,
+      "objectId": 268435532,
       "login": "a",
       "characterName": "A",
       "title": "",
@@ -107,8 +107,9 @@
           "mpBonus": 0,
           "type1": 1,
           "type2": 1,
+          "isEquipped": false,
           "type": "armor",
-          "objectId": 268435506
+          "objectId": 268435533
         },
         {
           "itemId": 1146,
@@ -126,8 +127,9 @@
           "mpBonus": 0,
           "type1": 1,
           "type2": 1,
+          "isEquipped": false,
           "type": "armor",
-          "objectId": 268435507
+          "objectId": 268435534
         },
         {
           "itemId": 10,
@@ -153,8 +155,9 @@
           "durability": 95,
           "type1": 0,
           "type2": 0,
+          "isEquipped": false,
           "type": "weapon",
-          "objectId": 268435508
+          "objectId": 268435535
         },
         {
           "itemId": 2369,
@@ -180,8 +183,9 @@
           "durability": 95,
           "type1": 0,
           "type2": 0,
+          "isEquipped": false,
           "type": "weapon",
-          "objectId": 268435509
+          "objectId": 268435536
         }
       ]
     }

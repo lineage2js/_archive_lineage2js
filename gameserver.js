@@ -4,7 +4,6 @@ var XOR = require("./util/XOR.js");
 var log = require("./util/log.js");
 var IdFactory = require("./util/IdFactory.js");
 var config = require("./config/config.js");
-var errorCodes = require("./data/errorCodes.js");
 var Player = require("./gameserver/Player.js");
 var Players = require("./gameserver/Players.js");
 var Item = require("./gameserver/Item.js");
@@ -83,7 +82,7 @@ function socketHandler(socket) {
 						// Загружать из БД список персонажей
 						sendPacket.send(new serverPackets.CharacterSelectInfo(charactersList, player));
 					} else {
-						sendPacket.send(new serverPackets.AuthLoginFail(errorCodes.gameserver.authLoginFail.REASON_SYSTEM_ERROR));
+						sendPacket.send(new serverPackets.AuthLoginFail(config.base.errors.gameserver.REASON_SYSTEM_ERROR));
 					}
 
 					break;
@@ -122,7 +121,7 @@ function socketHandler(socket) {
 					var MAXIMUM_QUANTITY_CHARACTERS = 7;
 
 					if(characterQuantity === MAXIMUM_QUANTITY_CHARACTERS) {
-						sendPacket.send(new serverPackets.CharacterCreateFail(errorCodes.gameserver.characterCreateFail.REASON_TOO_MANY_CHARACTERS));
+						sendPacket.send(new serverPackets.CharacterCreateFail(config.base.errors.gameserver.REASON_TOO_MANY_CHARACTERS));
 						
 						break;
 					}
@@ -154,10 +153,10 @@ function socketHandler(socket) {
 							sendPacket.send(new serverPackets.CharacterCreateSuccess());
 							sendPacket.send(new serverPackets.CharacterSelectInfo(charactersList, player));
 						} else {
-							sendPacket.send(new serverPackets.CharacterCreateFail(errorCodes.gameserver.characterCreateFail.REASON_NAME_ALREADY_EXISTS));
+							sendPacket.send(new serverPackets.CharacterCreateFail(config.base.errors.gameserver.REASON_NAME_ALREADY_EXISTS));
 						}
 					} else {
-						sendPacket.send(new serverPackets.CharacterCreateFail(errorCodes.gameserver.characterCreateFail.REASON_16_ENG_CHARS));
+						sendPacket.send(new serverPackets.CharacterCreateFail(config.base.errors.gameserver.REASON_16_ENG_CHARS));
 					}
 
 					function createDefaultItems(defaultIdItems) {
@@ -207,7 +206,13 @@ function socketHandler(socket) {
 					player.fillData(character);
 					player.characterSlot = characterSelected.getCharacterSlot();
 					player.online = true;
-
+					// for test
+					player.items.push(item.createItem(400));
+					player.items.push(item.createItem(420));
+					player.items.push(item.createItem(2436));
+					player.items.push(item.createItem(2460));
+					player.items.push(item.createItem(233));
+					//
 					sendPacket.send(new serverPackets.CharacterSelected(character));
 
 					break;
@@ -328,6 +333,68 @@ function socketHandler(socket) {
 					var requestItemList = new clientPackets.RequestItemList(packet);
 
 					sendPacket.send(new serverPackets.ItemList(player, true));
+
+					break;
+				case 0x14:
+					var useItem = new clientPackets.UseItem(packet);
+					var usedItem = player.getItem(useItem.getObjectId());
+					//
+					var types = {
+						SLOT_NONE: 0x0000,
+						SLOT_UNDERWEAR: 0x0001,
+						SLOT_R_EAR: 0x0002,
+						SLOT_L_EAR: 0x0004,
+						SLOT_NECK: 0x0008,
+						SLOT_R_FINGER: 0x0010,
+						SLOT_L_FINGER: 0x0020,
+						SLOT_HEAD: 0x0040,
+						SLOT_R_HAND: 0x0080,
+						SLOT_L_HAND: 0x0100,
+						SLOT_GLOVES: 0x0200,
+						SLOT_CHEST: 0x0400,
+						SLOT_LEGS: 0x0800,
+						SLOT_FEET: 0x1000,
+						SLOT_BACK: 0x2000,
+						SLOT_LR_HAND: 0x4000,
+						SLOT_FULL_ARMOR: 0x8000
+					}
+
+					if(usedItem.type === "armor" || usedItem.type === "weapon") {
+						switch(usedItem.bodyPart) {
+							case types.SLOT_R_HAND:
+								putOnThing(player.hand.right);
+
+								break;
+							case types.SLOT_CHEST:
+								putOnThing(player.chest);
+
+								break;
+							case types.SLOT_LEGS:
+								putOnThing(player.legs);
+
+								break;
+							case types.SLOT_FEET:
+								putOnThing(player.feet);
+
+								break;
+							case types.SLOT_GLOVES:
+								putOnThing(player.gloves);
+
+								break;
+						}
+
+					}
+
+					sendPacket.send(new serverPackets.UserInfo(player));
+					sendPacket.send(new serverPackets.ItemList(player));
+					
+					function putOnThing(placeToDress) {
+						if(placeToDress.objectId != 0) player.getItem(placeToDress.objectId).isEquipped = false; // снять если надето
+
+						placeToDress.objectId = usedItem.objectId;
+						placeToDress.itemId = usedItem.itemId;
+						usedItem.isEquipped = true;
+					}
 
 					break;
 			}

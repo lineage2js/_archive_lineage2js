@@ -20,7 +20,7 @@ function ItemList(player, showWindow = false) {
 			.writeH(player.items[i].type2)
 			.writeH(0xff);
 
-		if (false) { // player.items.isEquipped() вещь на персонаже или нет
+		if (player.items[i].isEquipped) { // вещь на персонаже или нет
 			this._packet.writeH(0x01);
 		} else {
 			this._packet.writeH(0x00);

@@ -172,10 +172,12 @@ ItemTable.prototype.serialization = function() {
 						item.type1 = TYPES.TYPE1_WEAPON_RING_EARRING_NECKLACE;
 						item.type2 = TYPES.TYPE2_ACCESSORY;
 						item.bodyPart = STRING_TYPES.SLOT[item.bodyPart];
+						item.isEquipped = false;
 					} else {
 						item.type1 = TYPES.TYPE1_SHIELD_ARMOR;
 						item.type2 = TYPES.TYPE2_SHIELD_ARMOR;
 						item.bodyPart = STRING_TYPES.SLOT[item.bodyPart];
+						item.isEquipped = false;
 					}
 
 					break;
@@ -184,6 +186,7 @@ ItemTable.prototype.serialization = function() {
 						item.type1 = TYPES.TYPE1_SHIELD_ARMOR;
 						item.type2 = TYPES.TYPE2_SHIELD_ARMOR;
 						item.bodyPart = STRING_TYPES.SLOT[item.bodyPart];
+						item.isEquipped = false;
 
 						break;
 					}
@@ -191,6 +194,7 @@ ItemTable.prototype.serialization = function() {
 					item.type1 = TYPES.TYPE1_WEAPON_RING_EARRING_NECKLACE;
 					item.type2 = TYPES.TYPE2_WEAPON;
 					item.bodyPart = STRING_TYPES.SLOT[item.bodyPart];
+					item.isEquipped = false;
 
 					break;
 			}

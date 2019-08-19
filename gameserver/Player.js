@@ -17,14 +17,19 @@ function Player() {
     this.online = false;
     this.onlineTime = 0;
 	this.clanId = 0;
+	this.clanLeader = 0;
+	this.allianceId = 0;
 	this.exp = 0;
 	this.sp = 0;
 	this.waitType = 1; // 1 - is stands, 0 - is sitting
 	this.moveType = 1; // 1 - is running, 0 - is walks
+	this.gm = 0; // 0 - false, 1 - true;
+	this.privateStoreType = 0;
 
     this.pvp = 0;
     this.pk = 0;
     this.karma = 0;
+    this.pvpFlag = 0;
 
 	this.classId = null;
 	this.className = null;
@@ -52,6 +57,7 @@ function Player() {
 	this.evasion = null;
 	this.moveSpd = null;
 	this.maximumLoad = null;
+	this.swimsSpeed = 50;
 	
 	this.x = null;
 	this.y = null;
@@ -70,10 +76,34 @@ function Player() {
 	this.femaleCollisionHeight = null;
 
 	this.items = null;
+
+	// equipment
+	this.underwear = { objectId: 0, itemId: 0 };
+	this.ear = {
+		left: { objectId: 0, itemId: 0 },
+		right: { objectId: 0, itemId: 0 }
+	}
+	this.neck = { objectId: 0, itemId: 0 };
+	this.finger = {
+		left: { objectId: 0, itemId: 0 },
+		right: { objectId: 0, itemId: 0 }
+	}
+	
+	this.head = { objectId: 0, itemId: 0 };
+	this.hand = {
+		left: { objectId: 0, itemId: 0 },
+		right: { objectId: 0, itemId: 0 },
+		leftAndRight: { objectId: 0, itemId: 0 }
+	}
+	this.gloves = { objectId: 0, itemId: 0 };
+	this.chest = { objectId: 0, itemId: 0 };
+	this.legs = { objectId: 0, itemId: 0 };
+	this.feet = { objectId: 0, itemId: 0 };
+	this.back = { objectId: 0, itemId: 0 };
 }
 
-Player.prototype.saveState = function() {
-	return this._player[key];
+Player.prototype.getItem = function(objectId) {
+	return this.items.filter(item => item.objectId === objectId)[0];
 }
 
 Player.prototype.getLoad = function() {
