@@ -4,9 +4,10 @@ var XOR = require("./util/XOR.js");
 var log = require("./util/log.js");
 var IdFactory = require("./util/IdFactory.js");
 var config = require("./config/config.js");
-var errorCodes = require("./config/errorCodes.js");
+var errorCodes = require("./data/errorCodes.js");
 var Player = require("./gameserver/Player.js");
 var Players = require("./gameserver/Players.js");
+var Item = require("./gameserver/Item.js");
 var SendPacket = require("./gameserver/SendPacket.js");
 var Announcements = require("./gameserver/Announcements.js");
 var serverPackets = require("./gameserver/serverpackets/serverPackets.js");
@@ -20,10 +21,15 @@ var low = require("lowdb");
 var FileSync = require("lowdb/adapters/FileSync");
 var database = new FileSync("data/database.json");
 var db = low(database);
+// Items
+var armor = JSON.parse(file.readFileSync("data/armor.json", "utf-8"));
+var weapon = JSON.parse(file.readFileSync("data/weapon.json", "utf-8"));
 // Init object
 var idFactory = new IdFactory("data/idstate.json");
 var players = new Players();
 var announcements = new Announcements("data/announcements.json");
+var itemTable = new tables.ItemTable([{ items: armor, type: "armor" }, { items: weapon, type: "weapon" }]);
+var item = new Item(itemTable.getData(), idFactory);
 
 // Data - файл
 // Table - сериализация данных
@@ -136,6 +142,7 @@ function socketHandler(socket) {
 							character.hairStyle = characterCreate.getHairStyle();
 							character.hairColor = characterCreate.getHairColor();
 							character.face = characterCreate.getFace();
+							character.items = createDefaultItems(character.items);
 
 							db.get("characters").push(character.getData()).write();
 							charactersData = db.get("characters").filter({"login": player.login}).value();
@@ -151,6 +158,16 @@ function socketHandler(socket) {
 						}
 					} else {
 						sendPacket.send(new serverPackets.CharacterCreateFail(errorCodes.gameserver.characterCreateFail.REASON_16_ENG_CHARS));
+					}
+
+					function createDefaultItems(defaultIdItems) {
+						var items = [];
+
+						for(var i = 0; i < defaultIdItems.length; i++) {
+							items.push(item.createItem(defaultIdItems[i]));
+						}
+
+						return items;
 					}
 
 					function characterNameisExist(characterName) {
@@ -204,15 +221,15 @@ function socketHandler(socket) {
 					var enterWorld = new clientPackets.EnterWorld(packet);
 
 					announcements.show(function(announcement) {
-						sendPacket.send(new serverPackets.CreateSay(player, 10, announcement)); // 10 - Announcements
+						sendPacket.send(new serverPackets.CreateSay(player, config.base.MESSAGE_TYPE.ANNOUNCEMENT, announcement)); // 10 - Announcements
 					})
 
 					sendPacket.send(new serverPackets.SunRise()); // восход
 					sendPacket.send(new serverPackets.UserInfo(player));
 					sendPacket.broadcast(new serverPackets.CharacterInfo(player)); // Оповестить всех, что персонаж зашел в мир
 
-					player.getVisiblePlayers(players.getPlayers(), function(players) {
-						sendPacket.send(new serverPackets.CharacterInfo(players));
+					player.getVisiblePlayers(players.getPlayers(), function(anotherPlayer) {
+						sendPacket.send(new serverPackets.CharacterInfo(anotherPlayer));
 					});
 
 					break;
@@ -282,6 +299,29 @@ function socketHandler(socket) {
 							sendPacket.broadcast(new serverPackets.ChangeMoveType(player, moveType));
 							player.moveType = moveType;
 					}
+
+					break;
+				case 0x04:
+					var action = new clientPackets.Action(packet);
+
+					switch (action.getActionId()) {
+						case 0: // click
+							//sendPacket.send(new serverPackets.ActionFailed());
+							sendPacket.send(new serverPackets.TargetSelected(action.getObjectId()));
+							player.target = action.getObjectId();
+
+							break;
+						case 1: // click + shift
+							
+							break;
+					}
+
+					break;
+				case 0x37:
+					var requestTargetCanceled = new clientPackets.RequestTargetCanceled(packet);
+
+					sendPacket.send(new serverPackets.TargetUnselected(player));
+					player.target = null;
 
 					break;
 			}

@@ -3,6 +3,7 @@ function Player() {
 	this.xor = null;
 	
 	this.objectId = null;
+	this.target = null;
 	this.login = null;
     this.characterName = null;
     this.title = "";

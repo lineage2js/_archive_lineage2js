@@ -11,6 +11,8 @@ var RequestSocialAction = require("./RequestSocialAction.js");
 var Say2 = require("./Say2.js");
 var StopMove = require("./StopMove.js");
 var RequestActionUse = require("./RequestActionUse.js");
+var Action = require("./Action.js");
+var RequestTargetCanceled = require("./RequestTargetCanceled.js");
 
 module.exports = {
 	ProtocolVersion: ProtocolVersion,
@@ -25,5 +27,7 @@ module.exports = {
 	RequestSocialAction: RequestSocialAction,
 	Say2: Say2,
 	StopMove: StopMove,
-	RequestActionUse: RequestActionUse
+	RequestActionUse: RequestActionUse,
+	Action: Action,
+	RequestTargetCanceled: RequestTargetCanceled
 }

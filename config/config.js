@@ -6,6 +6,18 @@ var base = {
 	PROTOCOL_VERSION: {
 		CLIENT: 419,
 		SERVER: 30810 // 0x785a
+	},
+	MESSAGE_TYPE: {
+		ALL: 0,
+		SHOUT: 1,
+		TELL: 2,
+		PARTY: 3,
+		CLAN: 4,
+		PRIVATE_CHAT_PLAYER: 6, // used for petition
+		PRIVATE_CHAT_GM: 7, // used for petition
+		TRADE: 8,
+		GM_MESSAGE: 9,
+		ANNOUNCEMENT: 10
 	}
 };
 

@@ -18,6 +18,9 @@ var CreateSay = require("./CreateSay.js");
 var StopMoveWithLocation = require("./StopMoveWithLocation.js");
 var ChangeWaitType = require("./ChangeWaitType.js");
 var ChangeMoveType = require("./ChangeMoveType.js");
+var ActionFailed = require("./ActionFailed.js");
+var TargetSelected = require("./TargetSelected.js");
+var TargetUnselected = require("./TargetUnselected.js");
 
 module.exports = {
 	CryptInit: CryptInit,
@@ -39,5 +42,8 @@ module.exports = {
 	CreateSay: CreateSay,
 	StopMoveWithLocation: StopMoveWithLocation,
 	ChangeWaitType: ChangeWaitType,
-	ChangeMoveType: ChangeMoveType
+	ChangeMoveType: ChangeMoveType,
+	ActionFailed: ActionFailed,
+	TargetSelected: TargetSelected,
+	TargetUnselected: TargetUnselected
 }
