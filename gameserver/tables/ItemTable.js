@@ -171,9 +171,11 @@ ItemTable.prototype.serialization = function() {
 						|| STRING_TYPES.ARMOR[item.bodyPart] === TYPES.SLOT_L_FINGER) {
 						item.type1 = TYPES.TYPE1_WEAPON_RING_EARRING_NECKLACE;
 						item.type2 = TYPES.TYPE2_ACCESSORY;
+						item.bodyPart = STRING_TYPES.SLOT[item.bodyPart];
 					} else {
 						item.type1 = TYPES.TYPE1_SHIELD_ARMOR;
 						item.type2 = TYPES.TYPE2_SHIELD_ARMOR;
+						item.bodyPart = STRING_TYPES.SLOT[item.bodyPart];
 					}
 
 					break;
@@ -181,12 +183,14 @@ ItemTable.prototype.serialization = function() {
 					if(STRING_TYPES.WEAPON[item.weaponType] === TYPES.WEAPON_NONE) {
 						item.type1 = TYPES.TYPE1_SHIELD_ARMOR;
 						item.type2 = TYPES.TYPE2_SHIELD_ARMOR;
+						item.bodyPart = STRING_TYPES.SLOT[item.bodyPart];
 
 						break;
 					}
 
 					item.type1 = TYPES.TYPE1_WEAPON_RING_EARRING_NECKLACE;
 					item.type2 = TYPES.TYPE2_WEAPON;
+					item.bodyPart = STRING_TYPES.SLOT[item.bodyPart];
 
 					break;
 			}

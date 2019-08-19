@@ -324,6 +324,12 @@ function socketHandler(socket) {
 					player.target = null;
 
 					break;
+				case 0x0f:
+					var requestItemList = new clientPackets.RequestItemList(packet);
+
+					sendPacket.send(new serverPackets.ItemList(player, true));
+
+					break;
 			}
 		}
 

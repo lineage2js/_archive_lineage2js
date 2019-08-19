@@ -13,6 +13,7 @@ var StopMove = require("./StopMove.js");
 var RequestActionUse = require("./RequestActionUse.js");
 var Action = require("./Action.js");
 var RequestTargetCanceled = require("./RequestTargetCanceled.js");
+var RequestItemList = require("./RequestItemList.js");
 
 module.exports = {
 	ProtocolVersion: ProtocolVersion,
@@ -29,5 +30,6 @@ module.exports = {
 	StopMove: StopMove,
 	RequestActionUse: RequestActionUse,
 	Action: Action,
-	RequestTargetCanceled: RequestTargetCanceled
+	RequestTargetCanceled: RequestTargetCanceled,
+	RequestItemList: RequestItemList
 }

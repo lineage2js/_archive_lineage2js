@@ -21,6 +21,7 @@ var ChangeMoveType = require("./ChangeMoveType.js");
 var ActionFailed = require("./ActionFailed.js");
 var TargetSelected = require("./TargetSelected.js");
 var TargetUnselected = require("./TargetUnselected.js");
+var ItemList = require("./ItemList.js");
 
 module.exports = {
 	CryptInit: CryptInit,
@@ -45,5 +46,6 @@ module.exports = {
 	ChangeMoveType: ChangeMoveType,
 	ActionFailed: ActionFailed,
 	TargetSelected: TargetSelected,
-	TargetUnselected: TargetUnselected
+	TargetUnselected: TargetUnselected,
+	ItemList: ItemList
 }

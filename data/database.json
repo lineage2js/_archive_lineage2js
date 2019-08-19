@@ -33,7 +33,7 @@
   ],
   "characters": [
     {
-      "objectId": 268435495,
+      "objectId": 268435505,
       "login": "a",
       "characterName": "A",
       "title": "",
@@ -94,7 +94,7 @@
         {
           "itemId": 1147,
           "name": "squire's_pants",
-          "bodyPart": "legs",
+          "bodyPart": 2048,
           "crystallizable": false,
           "armorType": "light",
           "weight": 1750,
@@ -108,12 +108,12 @@
           "type1": 1,
           "type2": 1,
           "type": "armor",
-          "objectId": 268435496
+          "objectId": 268435506
         },
         {
           "itemId": 1146,
           "name": "squire's_shirt",
-          "bodyPart": "chest",
+          "bodyPart": 1024,
           "crystallizable": false,
           "armorType": "light",
           "weight": 3301,
@@ -127,12 +127,12 @@
           "type1": 1,
           "type2": 1,
           "type": "armor",
-          "objectId": 268435497
+          "objectId": 268435507
         },
         {
           "itemId": 10,
           "name": "dagger",
-          "bodyPart": "rhand",
+          "bodyPart": 128,
           "crystallizable": false,
           "weight": 1160,
           "soulshots": 0,
@@ -154,12 +154,12 @@
           "type1": 0,
           "type2": 0,
           "type": "weapon",
-          "objectId": 268435498
+          "objectId": 268435508
         },
         {
           "itemId": 2369,
           "name": "squire's_sword",
-          "bodyPart": "rhand",
+          "bodyPart": 128,
           "crystallizable": false,
           "weight": 1600,
           "soulshots": 0,
@@ -181,7 +181,7 @@
           "type1": 0,
           "type2": 0,
           "type": "weapon",
-          "objectId": 268435499
+          "objectId": 268435509
         }
       ]
     }
