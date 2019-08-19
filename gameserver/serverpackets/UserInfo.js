@@ -1,32 +1,32 @@
 var ServerPacket = require("./ServerPacket.js");
 
-function UserInfo(character) {
+function UserInfo(player) {
 	this._packet = new ServerPacket(600); //
 	this._packet.writeC(0x04)
-		.writeD(character.x)
-		.writeD(character.y)
-		.writeD(character.z)
-		.writeD(character.heading) 
-		.writeD(character.objectId)
-		.writeS(character.characterName)
-		.writeD(character.raceId)
-		.writeD(character.gender)
-		.writeD(character.classId)
-		.writeD(character.level)
-		.writeD(character.exp)
-		.writeD(character.str)
-		.writeD(character.dex)
-		.writeD(character.con)
-		.writeD(character.int)
-		.writeD(character.wit)
-		.writeD(character.men)
-		.writeD(character.maximumHp)
-		.writeD(character.hp)
-		.writeD(character.maximumMp)
-		.writeD(character.mp)
-		.writeD(character.sp)
-		.writeD(0x00) // getLoad
-		.writeD(character.maximumLoad)
+		.writeD(player.x)
+		.writeD(player.y)
+		.writeD(player.z)
+		.writeD(player.heading) 
+		.writeD(player.objectId)
+		.writeS(player.characterName)
+		.writeD(player.raceId)
+		.writeD(player.gender)
+		.writeD(player.classId)
+		.writeD(player.level)
+		.writeD(player.exp)
+		.writeD(player.str)
+		.writeD(player.dex)
+		.writeD(player.con)
+		.writeD(player.int)
+		.writeD(player.wit)
+		.writeD(player.men)
+		.writeD(player.maximumHp)
+		.writeD(player.hp)
+		.writeD(player.maximumMp)
+		.writeD(player.mp)
+		.writeD(player.sp)
+		.writeD(player.getLoad()) // getLoad
+		.writeD(player.maximumLoad)
 		
 		.writeD(0x28)
 		
@@ -64,61 +64,61 @@ function UserInfo(character) {
 		.writeD(0x00)
 		.writeD(0x00)
 
-		.writeD(character.pAtk)
-		.writeD(character.pSpd)
-		.writeD(character.pDef)
-		.writeD(character.evasion)
-		.writeD(character.accuracy)
-		.writeD(character.critical)
+		.writeD(player.pAtk)
+		.writeD(player.pSpd)
+		.writeD(player.pDef)
+		.writeD(player.evasion)
+		.writeD(player.accuracy)
+		.writeD(player.critical)
 
-		.writeD(character.mAtk)
-		.writeD(character.mSpd)
-		.writeD(character.pSpd)
-		.writeD(character.mDef)
+		.writeD(player.mAtk)
+		.writeD(player.mSpd)
+		.writeD(player.pSpd)
+		.writeD(player.mDef)
 
 		.writeD(0x00) // pvp flag 0 - non pvp, 1 - pvp = violett name
-		.writeD(character.karma)
+		.writeD(player.karma)
 
-		.writeD(character.moveSpd) // getRunSpeed
-		.writeD(character.moveSpd) // getWalkSpeed
+		.writeD(player.moveSpd) // getRunSpeed
+		.writeD(player.moveSpd) // getWalkSpeed
 		.writeD(0x32) // swimspeed
 		.writeD(0x32) // swimspeed
-		.writeD(character.moveSpd) // getFloatingRunSpeed
-		.writeD(character.moveSpd) // getFloatingWalkSpeed
-		.writeD(character.moveSpd) // getFlyingRunSpeed
-		.writeD(character.moveSpd) // getFlyingWalkSpeed
+		.writeD(player.moveSpd) // getFloatingRunSpeed
+		.writeD(player.moveSpd) // getFloatingWalkSpeed
+		.writeD(player.moveSpd) // getFlyingRunSpeed
+		.writeD(player.moveSpd) // getFlyingWalkSpeed
 		
 	// male
-	if(character.gender === 0) {
-		this._packet.writeF(character.maleMovementMultiplier)
-			.writeF(character.maleAttackSpeedMultiplier)
-			.writeF(character.maleCollisionRadius)
-			.writeF(character.maleCollisionHeight)
+	if(player.gender === 0) {
+		this._packet.writeF(player.maleMovementMultiplier)
+			.writeF(player.maleAttackSpeedMultiplier)
+			.writeF(player.maleCollisionRadius)
+			.writeF(player.maleCollisionHeight)
 	}
 
 	// female
-	if(character.gender === 1) {
-		this._packet.writeF(character.femaleMovementMultiplier)
-			.writeF(character.femaleAttackSpeedMultiplier)
-			.writeF(character.femaleCollisionRadius)
-			.writeF(character.femaleCollisionHeight)
+	if(player.gender === 1) {
+		this._packet.writeF(player.femaleMovementMultiplier)
+			.writeF(player.femaleAttackSpeedMultiplier)
+			.writeF(player.femaleCollisionRadius)
+			.writeF(player.femaleCollisionHeight)
 	}
 
-	this._packet.writeD(character.hairStyle)
-		.writeD(character.hairColor)
-		.writeD(character.face)
+	this._packet.writeD(player.hairStyle)
+		.writeD(player.hairColor)
+		.writeD(player.face)
 		.writeD(0x00) // if GM - 0x01
-		.writeS(character.title)
-		.writeD(character.clanId) // pledge id
-		.writeD(character.clanId) // pledge crest id
+		.writeS(player.title)
+		.writeD(player.clanId) // pledge id
+		.writeD(player.clanId) // pledge crest id
 		.writeD(0x00) // getAllyId - ally id
 		.writeD(0x00) // getAllyId - ally crest id
 		.writeD(0x00) // 0x60 ???
 		.writeC(0x00)
 		.writeC(0x00) // getPrivateStoreType
-		.writeC(character.canCraft)
-		.writeD(character.pk)
-		.writeD(character.pvp)
+		.writeC(player.canCraft)
+		.writeD(player.pk)
+		.writeD(player.pvp)
 		.writeH(0x00) // cubic count
 //		.writeH(0x01) // 1-yellow 2-orange 3-yellow star  4-violett 5-blue cube  
 //		.writeH(0x02) // 1-yellow 2-orange 3-yellollow star  4-violett 5-blue cube  w star  4-violett 5-blue cube  

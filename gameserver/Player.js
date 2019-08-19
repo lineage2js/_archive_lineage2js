@@ -68,10 +68,18 @@ function Player() {
 	this.femaleAttackSpeedMultiplier = null;
 	this.femaleCollisionRadius = null;
 	this.femaleCollisionHeight = null;
+
+	this.items = null;
 }
 
 Player.prototype.saveState = function() {
 	return this._player[key];
+}
+
+Player.prototype.getLoad = function() {
+	return this.items.reduce(function(weight, item) {
+		return weight + item.weight
+	}, 0);
 }
 
 Player.prototype.getVisiblePlayers = function(players, handler) {
