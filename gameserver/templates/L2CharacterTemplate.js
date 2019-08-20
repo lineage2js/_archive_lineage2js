@@ -48,7 +48,9 @@ function L2CharTemplate(data) {
 	this.accuracy = null;
 	this.critical = null;
 	this.evasion = null;
-	this.moveSpd = null;
+	this.runSpeed = null;
+	this.walkSpeed = null;
+	this.swimsSpeed = null;
 	this.maximumLoad = null;
 	
 	this.x = null;

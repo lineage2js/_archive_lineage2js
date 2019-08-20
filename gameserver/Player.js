@@ -18,7 +18,9 @@ function Player() {
     this.onlineTime = 0;
 	this.clanId = 0;
 	this.clanLeader = 0;
+	this.clanCrestId = 0;
 	this.allianceId = 0;
+	this.allianceCrestId = 0;
 	this.exp = 0;
 	this.sp = 0;
 	this.waitType = 1; // 1 - is stands, 0 - is sitting
@@ -55,9 +57,10 @@ function Player() {
 	this.accuracy = null;
 	this.critical = null;
 	this.evasion = null;
-	this.moveSpd = null;
+	this.runSpeed = null;
+	this.walkSpeed = null
+	this.swimsSpeed = null;
 	this.maximumLoad = null;
-	this.swimsSpeed = 50;
 	
 	this.x = null;
 	this.y = null;

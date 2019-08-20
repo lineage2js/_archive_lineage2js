@@ -111,6 +111,7 @@ function socketHandler(socket) {
 					xor = new XOR(config.base.key.XOR);
 					encryption = false;
 					sendPacket.send(new serverPackets.LogoutOK());
+					sendPacket.broadcast(new serverPackets.DeleteObject(player.objectId));
 
 					break;
 				case 0x0b:
@@ -212,6 +213,15 @@ function socketHandler(socket) {
 					player.items.push(item.createItem(2436));
 					player.items.push(item.createItem(2460));
 					player.items.push(item.createItem(233));
+					player.items.push(item.createItem(78));
+					player.items.push(item.createItem(2497));
+
+					player.items.push(item.createItem(84));
+					player.items.push(item.createItem(439));
+					player.items.push(item.createItem(471));
+					player.items.push(item.createItem(2430));
+					player.items.push(item.createItem(2454));
+					player.items.push(item.createItem(618));
 					//
 					sendPacket.send(new serverPackets.CharacterSelected(character));
 
@@ -231,6 +241,7 @@ function socketHandler(socket) {
 
 					sendPacket.send(new serverPackets.SunRise()); // восход
 					sendPacket.send(new serverPackets.UserInfo(player));
+					sendPacket.send(new serverPackets.ItemList(player));
 					sendPacket.broadcast(new serverPackets.CharacterInfo(player)); // Оповестить всех, что персонаж зашел в мир
 
 					player.getVisiblePlayers(players.getPlayers(), function(anotherPlayer) {
@@ -335,50 +346,62 @@ function socketHandler(socket) {
 					sendPacket.send(new serverPackets.ItemList(player, true));
 
 					break;
-				case 0x14:
+				case 0x14: // доделать
 					var useItem = new clientPackets.UseItem(packet);
 					var usedItem = player.getItem(useItem.getObjectId());
-					//
-					var types = {
-						SLOT_NONE: 0x0000,
-						SLOT_UNDERWEAR: 0x0001,
-						SLOT_R_EAR: 0x0002,
-						SLOT_L_EAR: 0x0004,
-						SLOT_NECK: 0x0008,
-						SLOT_R_FINGER: 0x0010,
-						SLOT_L_FINGER: 0x0020,
-						SLOT_HEAD: 0x0040,
-						SLOT_R_HAND: 0x0080,
-						SLOT_L_HAND: 0x0100,
-						SLOT_GLOVES: 0x0200,
-						SLOT_CHEST: 0x0400,
-						SLOT_LEGS: 0x0800,
-						SLOT_FEET: 0x1000,
-						SLOT_BACK: 0x2000,
-						SLOT_LR_HAND: 0x4000,
-						SLOT_FULL_ARMOR: 0x8000
-					}
 
 					if(usedItem.type === "armor" || usedItem.type === "weapon") {
 						switch(usedItem.bodyPart) {
-							case types.SLOT_R_HAND:
-								putOnThing(player.hand.right);
+							case itemTable.types.SLOT_R_EAR:
 
 								break;
-							case types.SLOT_CHEST:
+							case itemTable.types.SLOT_L_EAR:
+
+								break;
+							case itemTable.types.SLOT_NECK:
+
+								break;
+							case itemTable.types.SLOT_R_FINGER:
+
+								break;
+							case itemTable.types.SLOT_L_FINGER:
+
+								break;
+							case itemTable.types.SLOT_HEAD:
+
+								break;
+							case itemTable.types.SLOT_R_HAND:
+								putOnThing(player.hand.right, false);
+
+								break;
+							case itemTable.types.SLOT_L_HAND:
+								putOnThing(player.hand.left, false);
+
+								break;
+							case itemTable.types.SLOT_GLOVES:
+								putOnThing(player.gloves);
+
+								break;
+							case itemTable.types.SLOT_CHEST:
 								putOnThing(player.chest);
 
 								break;
-							case types.SLOT_LEGS:
+							case itemTable.types.SLOT_LEGS:
 								putOnThing(player.legs);
 
 								break;
-							case types.SLOT_FEET:
+							case itemTable.types.SLOT_FEET:
 								putOnThing(player.feet);
 
 								break;
-							case types.SLOT_GLOVES:
-								putOnThing(player.gloves);
+							case itemTable.types.SLOT_BACK:
+								putOnThing(player.back);
+
+								break;
+							case itemTable.types.SLOT_LR_HAND:
+								putOnThing(player.hand.leftAndRight, true);
+								break;
+							case itemTable.types.SLOT_FULL_ARMOR:
 
 								break;
 						}
@@ -387,14 +410,49 @@ function socketHandler(socket) {
 
 					sendPacket.send(new serverPackets.UserInfo(player));
 					sendPacket.send(new serverPackets.ItemList(player));
+					sendPacket.broadcast(new serverPackets.CharacterInfo(player));
 					
-					function putOnThing(placeToDress) {
-						if(placeToDress.objectId != 0) player.getItem(placeToDress.objectId).isEquipped = false; // снять если надето
+					function putOnThing(placeToDress, twoHandedWeapon) {
+						if(placeToDress.objectId != 0) {
+							var item = player.getItem(placeToDress.objectId);
+							item.isEquipped = false; // снять если надето
+						}
+
+						if(twoHandedWeapon) {
+							if(player.hand.right.objectId != 0) {
+								var item = player.getItem(player.hand.right.objectId);
+								item.isEquipped = false;
+								player.hand.right.objectId = 0;
+								player.hand.right.itemId = 0;
+							}
+							if(player.hand.left.objectId != 0) {
+								var item = player.getItem(player.hand.left.objectId);
+								item.isEquipped = false;
+								player.hand.left.objectId = 0;
+								player.hand.left.itemId = 0;
+							}
+						} else {
+							if(player.hand.leftAndRight.objectId != 0) {
+								var item = player.getItem(player.hand.leftAndRight.objectId);
+								player.hand.leftAndRight.objectId = 0;
+								player.hand.leftAndRight.itemId = 0;
+								item.isEquipped = false;
+							}
+						}
 
 						placeToDress.objectId = usedItem.objectId;
 						placeToDress.itemId = usedItem.itemId;
 						usedItem.isEquipped = true;
 					}
+
+					break;
+				case 0x48:
+					var validatePosition = new clientPackets.ValidatePosition(packet);
+
+					player.x = validatePosition.getX();
+					player.y = validatePosition.getY();
+					player.z = validatePosition.getZ();
+					player.heading = validatePosition.getHeading();
 
 					break;
 			}

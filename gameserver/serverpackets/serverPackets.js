@@ -22,6 +22,7 @@ var ActionFailed = require("./ActionFailed.js");
 var TargetSelected = require("./TargetSelected.js");
 var TargetUnselected = require("./TargetUnselected.js");
 var ItemList = require("./ItemList.js");
+var DeleteObject = require("./DeleteObject.js");
 
 module.exports = {
 	CryptInit: CryptInit,
@@ -47,5 +48,6 @@ module.exports = {
 	ActionFailed: ActionFailed,
 	TargetSelected: TargetSelected,
 	TargetUnselected: TargetUnselected,
-	ItemList: ItemList
+	ItemList: ItemList,
+	DeleteObject: DeleteObject
 }

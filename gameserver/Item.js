@@ -8,9 +8,9 @@ Item.prototype.getItem = function(id) {
 }
 
 Item.prototype.createItem = function(id) {
-	var item = {};
+	var item;
 
-	item = this.getItem(id)
+	item = JSON.parse(JSON.stringify(this.getItem(id)));
 	item.objectId = this._idFactory.getNextId();
 
 	return item;

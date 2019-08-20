@@ -1,4 +1,4 @@
-var TYPES = {
+var types = {
 	TYPE1_WEAPON_RING_EARRING_NECKLACE: 0,
 	TYPE1_SHIELD_ARMOR: 1,
 	TYPE1_ITEM_QUESTITEM_ADENA: 4,
@@ -77,79 +77,81 @@ var TYPES = {
 	SLOT_FULL_ARMOR: 0x8000,
 }
 
-var STRING_TYPES = {
+var stringTypes = {
 	MATERIAL: {
-		"paper": TYPES.MATERIAL_PAPER,
-		"wood": TYPES.MATERIAL_WOOD,
-		"liquid": TYPES.MATERIAL_LIQUID,
-		"cloth": TYPES.MATERIAL_CLOTH,
-		"leather": TYPES.MATERIAL_LEATHER,
-		"horn": TYPES.MATERIAL_HORN,
-		"bone": TYPES.MATERIAL_BONE,
-		"bronze": TYPES.MATERIAL_BRONZE,
-		"fine_steel": TYPES.MATERIAL_FINE_STEEL,
-		"cotton": TYPES.MATERIAL_FINE_STEEL,
-		"mithril": TYPES.MATERIAL_MITHRIL,
-		"silver": TYPES.MATERIAL_SILVER,
-		"gold": TYPES.MATERIAL_GOLD,
-		"adamantaite": TYPES.MATERIAL_ADAMANTAITE,
-		"steel": TYPES.MATERIAL_STEEL,
-		"oriharukon": TYPES.MATERIAL_ORIHARUKON,
-		"blood_steel": TYPES.MATERIAL_BLOOD_STEEL,
-		"crystal": TYPES.MATERIAL_CRYSTAL,
-		"damascus": TYPES.MATERIAL_DAMASCUS,
-		"chrysolite": TYPES.MATERIAL_CHRYSOLITE,
-		"scale_of_dragon": TYPES.MATERIAL_SCALE_OF_DRAGON,
-		"dyestuff": TYPES.MATERIAL_DYESTUFF,
-		"cobweb": TYPES.MATERIAL_COBWEB
+		"paper": types.MATERIAL_PAPER,
+		"wood": types.MATERIAL_WOOD,
+		"liquid": types.MATERIAL_LIQUID,
+		"cloth": types.MATERIAL_CLOTH,
+		"leather": types.MATERIAL_LEATHER,
+		"horn": types.MATERIAL_HORN,
+		"bone": types.MATERIAL_BONE,
+		"bronze": types.MATERIAL_BRONZE,
+		"fine_steel": types.MATERIAL_FINE_STEEL,
+		"cotton": types.MATERIAL_FINE_STEEL,
+		"mithril": types.MATERIAL_MITHRIL,
+		"silver": types.MATERIAL_SILVER,
+		"gold": types.MATERIAL_GOLD,
+		"adamantaite": types.MATERIAL_ADAMANTAITE,
+		"steel": types.MATERIAL_STEEL,
+		"oriharukon": types.MATERIAL_ORIHARUKON,
+		"blood_steel": types.MATERIAL_BLOOD_STEEL,
+		"crystal": types.MATERIAL_CRYSTAL,
+		"damascus": types.MATERIAL_DAMASCUS,
+		"chrysolite": types.MATERIAL_CHRYSOLITE,
+		"scale_of_dragon": types.MATERIAL_SCALE_OF_DRAGON,
+		"dyestuff": types.MATERIAL_DYESTUFF,
+		"cobweb": types.MATERIAL_COBWEB
 	},
 	CRYSTAL: {
-		"s": TYPES.CRYSTAL_S,
-		"a": TYPES.CRYSTAL_A,
-		"b": TYPES.CRYSTAL_B,
-		"c": TYPES.CRYSTAL_C,
-		"d": TYPES.CRYSTAL_D,
-		"none": TYPES.CRYSTAL_NONE
+		"s": types.CRYSTAL_S,
+		"a": types.CRYSTAL_A,
+		"b": types.CRYSTAL_B,
+		"c": types.CRYSTAL_C,
+		"d": types.CRYSTAL_D,
+		"none": types.CRYSTAL_NONE
 	},
 	WEAPON: {
-		"none": TYPES.WEAPON_NONE, // these are shields !
-		"blunt": TYPES.WEAPON_BLUNT,
-		"bow": TYPES.WEAPON_BOW,
-		"dagger": TYPES.WEAPON_DAGGER,
-		"dual": TYPES.WEAPON_DUAL,
-		"dualfist": TYPES.WEAPON_DUALFIST,
-		"etc": TYPES.WEAPON_ETC,
-		"fist": TYPES.WEAPON_FIST,
-		"pole": TYPES.WEAPON_POLE,
-		"sword": TYPES.WEAPON_SWORD
+		"none": types.WEAPON_NONE, // these are shields !
+		"blunt": types.WEAPON_BLUNT,
+		"bow": types.WEAPON_BOW,
+		"dagger": types.WEAPON_DAGGER,
+		"dual": types.WEAPON_DUAL,
+		"dualfist": types.WEAPON_DUALFIST,
+		"etc": types.WEAPON_ETC,
+		"fist": types.WEAPON_FIST,
+		"pole": types.WEAPON_POLE,
+		"sword": types.WEAPON_SWORD
 	},
 	ARMOR: {
-		"none": TYPES.ARMOR_NONE,
-		"light": TYPES.ARMOR_LIGHT,
-		"heavy": TYPES.ARMOR_HEAVY,
-		"magic": TYPES.ARMOR_MAGIC
+		"none": types.ARMOR_NONE,
+		"light": types.ARMOR_LIGHT,
+		"heavy": types.ARMOR_HEAVY,
+		"magic": types.ARMOR_MAGIC
 	},
 	SLOT: {
-		"chest": TYPES.SLOT_CHEST,
-		"chest_full": TYPES.SLOT_FULL_ARMOR, 
-		"head": TYPES.SLOT_HEAD,
-		"underwear": TYPES.SLOT_UNDERWEAR,
-		"back": TYPES.SLOT_BACK,
-		"neck": TYPES.SLOT_NECK,
-		"legs": TYPES.SLOT_LEGS,
-		"feet": TYPES.SLOT_FEET,
-		"gloves": TYPES.SLOT_GLOVES,
-		"chest,legs": TYPES.SLOT_CHEST, // | L2Item.SLOT_LEGS,
-		"rhand": TYPES.SLOT_R_HAND,
-		"lhand": TYPES.SLOT_L_HAND,
-		"lrhand": TYPES.SLOT_LR_HAND,
-		"rear,lear": TYPES.SLOT_L_EAR, // | L2Item.SLOT_R_EAR,
-		"rfinger,lfinger": TYPES.SLOT_L_FINGER, // | L2Item.SLOT_R_FINGER,
-		"none": TYPES.SLOT_NONE
+		"chest": types.SLOT_CHEST,
+		"chest_full": types.SLOT_FULL_ARMOR, 
+		"head": types.SLOT_HEAD,
+		"underwear": types.SLOT_UNDERWEAR,
+		"back": types.SLOT_BACK,
+		"neck": types.SLOT_NECK,
+		"legs": types.SLOT_LEGS,
+		"feet": types.SLOT_FEET,
+		"gloves": types.SLOT_GLOVES,
+		"chest,legs": types.SLOT_CHEST, // | L2Item.SLOT_LEGS,
+		"rhand": types.SLOT_R_HAND,
+		"lhand": types.SLOT_L_HAND,
+		"lrhand": types.SLOT_LR_HAND,
+		"rear,lear": types.SLOT_L_EAR, // | L2Item.SLOT_R_EAR,
+		"rfinger,lfinger": types.SLOT_L_FINGER, // | L2Item.SLOT_R_FINGER,
+		"none": types.SLOT_NONE
 	}
 }
 
 function ItemTable(data) {
+	this.types = types;
+	this.stringTypes = stringTypes;
 	this._data = data;
 	this._result = null;
 
@@ -166,34 +168,34 @@ ItemTable.prototype.serialization = function() {
 
 			switch(data.type) {
 				case "armor":
-					if(STRING_TYPES.ARMOR[item.bodyPart] === TYPES.SLOT_NECK 
-						|| STRING_TYPES.ARMOR[item.bodyPart] === TYPES.SLOT_L_EAR 
-						|| STRING_TYPES.ARMOR[item.bodyPart] === TYPES.SLOT_L_FINGER) {
-						item.type1 = TYPES.TYPE1_WEAPON_RING_EARRING_NECKLACE;
-						item.type2 = TYPES.TYPE2_ACCESSORY;
-						item.bodyPart = STRING_TYPES.SLOT[item.bodyPart];
+					if(this.stringTypes.ARMOR[item.bodyPart] === this.types.SLOT_NECK 
+						|| this.stringTypes.ARMOR[item.bodyPart] === this.types.SLOT_L_EAR 
+						|| this.stringTypes.ARMOR[item.bodyPart] === this.types.SLOT_L_FINGER) {
+						item.type1 = this.types.TYPE1_WEAPON_RING_EARRING_NECKLACE;
+						item.type2 = this.types.TYPE2_ACCESSORY;
+						item.bodyPart = this.stringTypes.SLOT[item.bodyPart];
 						item.isEquipped = false;
 					} else {
-						item.type1 = TYPES.TYPE1_SHIELD_ARMOR;
-						item.type2 = TYPES.TYPE2_SHIELD_ARMOR;
-						item.bodyPart = STRING_TYPES.SLOT[item.bodyPart];
+						item.type1 = this.types.TYPE1_SHIELD_ARMOR;
+						item.type2 = this.types.TYPE2_SHIELD_ARMOR;
+						item.bodyPart = this.stringTypes.SLOT[item.bodyPart];
 						item.isEquipped = false;
 					}
 
 					break;
 				case "weapon":
-					if(STRING_TYPES.WEAPON[item.weaponType] === TYPES.WEAPON_NONE) {
-						item.type1 = TYPES.TYPE1_SHIELD_ARMOR;
-						item.type2 = TYPES.TYPE2_SHIELD_ARMOR;
-						item.bodyPart = STRING_TYPES.SLOT[item.bodyPart];
+					if(this.stringTypes.WEAPON[item.weaponType] === this.types.WEAPON_NONE) {
+						item.type1 = this.types.TYPE1_SHIELD_ARMOR;
+						item.type2 = this.types.TYPE2_SHIELD_ARMOR;
+						item.bodyPart = this.stringTypes.SLOT[item.bodyPart];
 						item.isEquipped = false;
 
 						break;
 					}
 
-					item.type1 = TYPES.TYPE1_WEAPON_RING_EARRING_NECKLACE;
-					item.type2 = TYPES.TYPE2_WEAPON;
-					item.bodyPart = STRING_TYPES.SLOT[item.bodyPart];
+					item.type1 = this.types.TYPE1_WEAPON_RING_EARRING_NECKLACE;
+					item.type2 = this.types.TYPE2_WEAPON;
+					item.bodyPart = this.stringTypes.SLOT[item.bodyPart];
 					item.isEquipped = false;
 
 					break;

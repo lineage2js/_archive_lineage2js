@@ -79,14 +79,14 @@ function UserInfo(player) {
 		.writeD(player.pvpFlag)
 		.writeD(player.karma)
 
-		.writeD(player.moveSpd) // getRunSpeed
-		.writeD(player.moveSpd) // getWalkSpeed
+		.writeD(player.runSpeed)
+		.writeD(player.walkSpeed)
 		.writeD(player.swimsSpeed)
 		.writeD(player.swimsSpeed)
-		.writeD(player.moveSpd) // getFloatingRunSpeed
-		.writeD(player.moveSpd) // getFloatingWalkSpeed
-		.writeD(player.moveSpd) // getFlyingRunSpeed
-		.writeD(player.moveSpd) // getFlyingWalkSpeed
+		.writeD(player.runSpeed) // getFloatingRunSpeed
+		.writeD(player.walkSpeed) // getFloatingWalkSpeed
+		.writeD(player.runSpeed) // getFlyingRunSpeed
+		.writeD(player.walkSpeed) // getFlyingWalkSpeed
 		
 	// male
 	if(player.gender === 0) {
@@ -109,10 +109,10 @@ function UserInfo(player) {
 		.writeD(player.face)
 		.writeD(player.gm)
 		.writeS(player.title)
-		.writeD(player.clanId) // pledge id
-		.writeD(player.clanId) // pledge crest id, icon ?
-		.writeD(player.allianceId) // getAllyId - ally id
-		.writeD(player.allianceId) // getAllyId - ally crest id
+		.writeD(player.clanId)
+		.writeD(player.clanCrestId)
+		.writeD(player.allianceId)
+		.writeD(player.allianceCrestId)
 		.writeD(0x00) // 0x60 ??? // siege-flags
 		.writeC(0x00)
 		.writeC(player.privateStoreType)
@@ -120,11 +120,11 @@ function UserInfo(player) {
 		.writeD(player.pk)
 		.writeD(player.pvp)
 		.writeH(0x00) // cubic count
-//		.writeH(0x01) // 1-yellow 2-orange 3-yellow star  4-violett 5-blue cube  
-//		.writeH(0x02) // 1-yellow 2-orange 3-yellollow star  4-violett 5-blue cube  w star  4-violett 5-blue cube  
+//		.writeH(0x01) // 1-yellow 2-orange 3-yellow star 4-violett 5-blue cube  
+//		.writeH(0x02) // 1-yellow 2-orange 3-yellollow star 4-violett 5-blue cube  w star  4-violett 5-blue cube  
 //		.writeH(0x03) // 1-yellow 2-orange 3-ye
-//		.writeH(0x04) // 1-yellow 2-orange 3-yellow star  4-violett 5-blue cube  
-//		.writeH(0x05) // 1-yellow 2-orange 3-yellow star  4-violett 5-blue cube  
+//		.writeH(0x04) // 1-yellow 2-orange 3-yellow star 4-violett 5-blue cube  
+//		.writeH(0x05) // 1-yellow 2-orange 3-yellow star 4-violett 5-blue cube  
 		.writeC(0x00); // 1-find party members
 		
 	return this._packet.getBuffer();
