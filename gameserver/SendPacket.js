@@ -3,7 +3,7 @@ function SendPacket(player, players) {
 	this._players = players;
 }
 
-SendPacket.prototype.send = function(packet, encoding = true) {
+SendPacket.prototype.send = function(packet, encoding = false /* for test */) {
 	var packetLength = new Buffer.from([0x00, 0x00]);
 	var packetCopy = new Buffer.from(packet);
 	

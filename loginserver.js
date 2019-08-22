@@ -20,11 +20,12 @@ function socketHandler(socket) {
 	socket.on("data", data => {
 		var packet = new Buffer.from(data, "binary").slice(2); // slice(2) - without byte responsible for packet size
 		var decryptedPacket = new Buffer.from(blowfish.decrypt(packet));
-		var packetType = decryptedPacket[0];
 
-		packetHandler(packetType, decryptedPacket);
+		packetHandler(decryptedPacket);
 
-		function packetHandler(type, packet) {
+		function packetHandler(packet) {
+			var type = packet[0];
+
 			switch(type) {
 				case 0x00:
 					var requestAuthLogin = new clientPackets.RequestAuthLogin(packet);

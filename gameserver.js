@@ -44,16 +44,18 @@ function socketHandler(socket) {
 
 	socket.on("data", data => {
 		var packet = new Buffer.from(data, "binary").slice(2); // slice(2) - without byte responsible for packet size
-		var decryptedPacket = new Buffer.from(encryption ? player.xor.decrypt(packet) : packet);
-		var packetType = packet[0];
+		//var decryptedPacket = new Buffer.from(encryption ? player.xor.decrypt(packet) : packet);
+		var decryptedPacket = new Buffer.from(packet);
 		
 		// for test
 		log(packet);
 		//
 
-		packetHandler(packetType, decryptedPacket);
+		packetHandler(decryptedPacket);
 
-		function packetHandler(type, packet) {
+		function packetHandler(packet) {
+			var type = packet[0];
+
 			switch(type) {
 				case 0x00:
 					var protocolVersion = new clientPackets.ProtocolVersion(packet);
@@ -222,6 +224,7 @@ function socketHandler(socket) {
 					player.items.push(item.createItem(2430));
 					player.items.push(item.createItem(2454));
 					player.items.push(item.createItem(618));
+					player.items.push(item.createItem(283));
 					//
 					sendPacket.send(new serverPackets.CharacterSelected(character));
 
@@ -410,6 +413,7 @@ function socketHandler(socket) {
 
 					sendPacket.send(new serverPackets.UserInfo(player));
 					sendPacket.send(new serverPackets.ItemList(player));
+					sendPacket.send(new serverPackets.SystemMessage(49, [{ type: config.base.systemMessageType.ITEM_NAME, value: usedItem.itemId }])); //
 					sendPacket.broadcast(new serverPackets.CharacterInfo(player));
 					
 					function putOnThing(placeToDress, twoHandedWeapon) {
@@ -418,7 +422,7 @@ function socketHandler(socket) {
 							item.isEquipped = false; // снять если надето
 						}
 
-						if(twoHandedWeapon) {
+						if(twoHandedWeapon) { // Всегда срабатывает false на обычных предметах
 							if(player.hand.right.objectId != 0) {
 								var item = player.getItem(player.hand.right.objectId);
 								item.isEquipped = false;
@@ -453,6 +457,19 @@ function socketHandler(socket) {
 					player.y = validatePosition.getY();
 					player.z = validatePosition.getZ();
 					player.heading = validatePosition.getHeading();
+
+					break;
+				case 0x3f:
+					var requestSkillList = new clientPackets.RequestSkillList(packet);
+
+					sendPacket.send(new serverPackets.SkillList(player));
+
+					break;
+				case 0x2f:
+					var requestMagicSkillUse = new clientPackets.RequestMagicSkillUse(packet);
+					var skill = player.skills.filter(skill => skill.id === requestMagicSkillUse.getSkillId())[0];
+					
+					sendPacket.send(new serverPackets.MagicSkillUser(player, skill));
 
 					break;
 			}

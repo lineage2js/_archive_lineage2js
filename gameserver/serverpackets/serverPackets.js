@@ -23,6 +23,9 @@ var TargetSelected = require("./TargetSelected.js");
 var TargetUnselected = require("./TargetUnselected.js");
 var ItemList = require("./ItemList.js");
 var DeleteObject = require("./DeleteObject.js");
+var SkillList = require("./SkillList.js");
+var MagicSkillUser = require("./MagicSkillUser.js");
+var SystemMessage = require("./SystemMessage.js");
 
 module.exports = {
 	CryptInit: CryptInit,
@@ -49,5 +52,8 @@ module.exports = {
 	TargetSelected: TargetSelected,
 	TargetUnselected: TargetUnselected,
 	ItemList: ItemList,
-	DeleteObject: DeleteObject
+	DeleteObject: DeleteObject,
+	SkillList: SkillList,
+	MagicSkillUser: MagicSkillUser,
+	SystemMessage: SystemMessage
 }

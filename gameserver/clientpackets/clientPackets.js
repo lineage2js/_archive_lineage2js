@@ -16,6 +16,8 @@ var RequestTargetCanceled = require("./RequestTargetCanceled.js");
 var RequestItemList = require("./RequestItemList.js");
 var UseItem = require("./UseItem.js");
 var ValidatePosition = require("./ValidatePosition.js");
+var RequestSkillList = require("./RequestSkillList.js");
+var RequestMagicSkillUse = require("./RequestMagicSkillUse.js");
 
 module.exports = {
 	ProtocolVersion: ProtocolVersion,
@@ -35,5 +37,7 @@ module.exports = {
 	RequestTargetCanceled: RequestTargetCanceled,
 	RequestItemList: RequestItemList,
 	UseItem: UseItem,
-	ValidatePosition: ValidatePosition
+	ValidatePosition: ValidatePosition,
+	RequestSkillList: RequestSkillList,
+	RequestMagicSkillUse: RequestMagicSkillUse
 }
