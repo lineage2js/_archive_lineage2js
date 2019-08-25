@@ -54,6 +54,7 @@ function Player() {
 	this.mDef = null;
 	this.pSpd = null;
 	this.mSpd = null;
+
 	this.accuracy = null;
 	this.critical = null;
 	this.evasion = null;

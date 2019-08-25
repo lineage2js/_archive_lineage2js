@@ -34,6 +34,15 @@ var item = new Item(itemTable.getData(), idFactory);
 // Table - сериализация данных
 // Template - взаимодействие с данными через get/set
 
+//
+var Bot = require("./gameserver/Bot.js");
+var characterTemplateTable = (new tables.CharacterTemplateTable(characterTemplatesData)).getData();
+var bot = new Bot(idFactory, characterTemplateTable, classId);
+var bots = bot.createBots(10);
+
+//players.addBots(bots);
+//
+
 function socketHandler(socket) {
 	var encryption = false;
 	var xor = new XOR(config.base.key.XOR);
@@ -225,6 +234,11 @@ function socketHandler(socket) {
 					player.items.push(item.createItem(2454));
 					player.items.push(item.createItem(618));
 					player.items.push(item.createItem(283));
+					player.items.push(item.createItem(2392));
+					player.items.push(item.createItem(2381));
+
+					player.items.push(item.createItem(2406));
+					player.items.push(item.createItem(2397));
 					//
 					sendPacket.send(new serverPackets.CharacterSelected(character));
 
@@ -239,10 +253,10 @@ function socketHandler(socket) {
 					var enterWorld = new clientPackets.EnterWorld(packet);
 
 					announcements.show(function(announcement) {
-						sendPacket.send(new serverPackets.CreateSay(player, config.base.MESSAGE_TYPE.ANNOUNCEMENT, announcement)); // 10 - Announcements
+						sendPacket.send(new serverPackets.CreateSay(player, config.base.MESSAGE_TYPE.ANNOUNCEMENT, announcement));
 					})
 
-					sendPacket.send(new serverPackets.SunRise()); // восход
+					sendPacket.send(new serverPackets.SunRise());
 					sendPacket.send(new serverPackets.UserInfo(player));
 					sendPacket.send(new serverPackets.ItemList(player));
 					sendPacket.broadcast(new serverPackets.CharacterInfo(player)); // Оповестить всех, что персонаж зашел в мир
@@ -403,8 +417,10 @@ function socketHandler(socket) {
 								break;
 							case itemTable.types.SLOT_LR_HAND:
 								putOnThing(player.hand.leftAndRight, true);
+
 								break;
 							case itemTable.types.SLOT_FULL_ARMOR:
+								putOnThing(player.chest);
 
 								break;
 						}
