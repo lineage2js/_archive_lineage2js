@@ -26,9 +26,7 @@ SendPacket.prototype.broadcast = function(packet) {
 	packetLength.writeInt16LE(packet.length + 2);
 
 	for(var i = 0; i < this._players.length; i++) {
-		if(this._players[i].online && this._players[i].socket !== this._player.socket) {
-			if(this._players[i].bot) continue;
-
+		if(this._players[i].online && this._players[i].socket !== this._player.socket && !this._players[i].bot) {
 			var packetCopy = new Buffer.from(packet);
 			var packetEncrypted = new Buffer.from(this._players[i].xor.encrypt(packetCopy));
 

@@ -386,6 +386,20 @@
           "id": 1085,
           "reuseDelay": 1000,
           "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1177,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1015,
+          "reuseDelay": 1000,
+          "hitTime": 1000
         }
       ]
     },
@@ -437,9 +451,9 @@
       "walkSpeed": 84,
       "swimsSpeed": 50,
       "maximumLoad": 62500,
-      "x": -90256,
-      "y": 249792,
-      "z": -3570,
+      "x": -70880,
+      "y": 257360,
+      "z": -3080,
       "canCraft": 0,
       "maleMovementMultiplier": 1.01,
       "maleAttackSpeedMultiplier": 0.87264,
@@ -517,6 +531,246 @@
           "isEquipped": false,
           "type": "weapon",
           "objectId": 268441589
+        }
+      ],
+      "skills": [
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 3,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 4,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 111,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 99,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 5,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1217,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1218,
+          "reuseDelay": 3000,
+          "hitTime": 2000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1045,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1171,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1251,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 271,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 284,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1243,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1242,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1240,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1032,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1035,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1028,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1191,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1050,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1048,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1077,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1078,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1086,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1036,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1191,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1009,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1085,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1177,
+          "reuseDelay": 4000,
+          "hitTime": 6000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1015,
+          "reuseDelay": 1000,
+          "hitTime": 1000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1184,
+          "reuseDelay": 8000,
+          "hitTime": 3000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1147,
+          "reuseDelay": 4000,
+          "hitTime": 4000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1157,
+          "reuseDelay": 4000,
+          "hitTime": 4000
+        },
+        {
+          "passive": 0,
+          "level": 1,
+          "id": 1181,
+          "reuseDelay": 4000,
+          "hitTime": 4000
         }
       ]
     }

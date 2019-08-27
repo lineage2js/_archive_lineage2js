@@ -24,8 +24,12 @@ var TargetUnselected = require("./TargetUnselected.js");
 var ItemList = require("./ItemList.js");
 var DeleteObject = require("./DeleteObject.js");
 var SkillList = require("./SkillList.js");
-var MagicSkillUser = require("./MagicSkillUser.js");
+var MagicSkillUse = require("./MagicSkillUse.js");
 var SystemMessage = require("./SystemMessage.js");
+var MoveToPawn = require("./MoveToPawn.js");
+var Attack = require("./Attack.js");
+var SetupGauge = require("./SetupGauge.js");
+var MagicSkillLaunched = require("./MagicSkillLaunched.js");
 
 module.exports = {
 	CryptInit: CryptInit,
@@ -54,6 +58,10 @@ module.exports = {
 	ItemList: ItemList,
 	DeleteObject: DeleteObject,
 	SkillList: SkillList,
-	MagicSkillUser: MagicSkillUser,
-	SystemMessage: SystemMessage
+	MagicSkillUse: MagicSkillUse,
+	SystemMessage: SystemMessage,
+	MoveToPawn: MoveToPawn,
+	Attack: Attack,
+	SetupGauge: SetupGauge,
+	MagicSkillLaunched: MagicSkillLaunched
 }

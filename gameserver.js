@@ -4,6 +4,7 @@ var XOR = require("./util/XOR.js");
 var log = require("./util/log.js");
 var IdFactory = require("./util/IdFactory.js");
 var config = require("./config/config.js");
+var Bot = require("./gameserver/Bot.js");
 var Player = require("./gameserver/Player.js");
 var Players = require("./gameserver/Players.js");
 var Item = require("./gameserver/Item.js");
@@ -35,12 +36,11 @@ var item = new Item(itemTable.getData(), idFactory);
 // Template - взаимодействие с данными через get/set
 
 //
-var Bot = require("./gameserver/Bot.js");
-var characterTemplateTable = (new tables.CharacterTemplateTable(characterTemplatesData)).getData();
+var characterTemplateTable = new tables.CharacterTemplateTable(characterTemplatesData).getData();
 var bot = new Bot(idFactory, characterTemplateTable, classId);
-var bots = bot.createBots(10);
+var bots = bot.createBots(1);
 
-//players.addBots(bots);
+players.addBots(bots);
 //
 
 function socketHandler(socket) {
@@ -100,7 +100,7 @@ function socketHandler(socket) {
 				case 0x0e:
 					var newCharacter = new clientPackets.NewCharacter(packet);
 					// Получаем и преобразуем данные из одного объекта в другой чтобы удобно было доставать данные по classId
-					var characterTemplateTable = (new tables.CharacterTemplateTable(characterTemplatesData)).getData();
+					var characterTemplateTable = new tables.CharacterTemplateTable(characterTemplatesData).getData();
 					var characterTemplates = [
 						new templates.L2CharacterTemplate(characterTemplateTable[classId.fighter]),
 						new templates.L2CharacterTemplate(characterTemplateTable[classId.mage]),
@@ -128,7 +128,7 @@ function socketHandler(socket) {
 				case 0x0b:
 					var characterCreate = new clientPackets.CharacterCreate(packet);
 					var characterName = characterCreate.getCharacterName();
-					var characterTemplateTable = (new tables.CharacterTemplateTable(characterTemplatesData)).getData();
+					var characterTemplateTable = new tables.CharacterTemplateTable(characterTemplatesData).getData();
 					var characterQuantity = db.get("characters").filter({"login": player.login}).value().length;
 					var MAXIMUM_QUANTITY_CHARACTERS = 7;
 
@@ -485,7 +485,21 @@ function socketHandler(socket) {
 					var requestMagicSkillUse = new clientPackets.RequestMagicSkillUse(packet);
 					var skill = player.skills.filter(skill => skill.id === requestMagicSkillUse.getSkillId())[0];
 					
-					sendPacket.send(new serverPackets.MagicSkillUser(player, skill));
+					sendPacket.send(new serverPackets.MagicSkillUse(player, skill));
+					sendPacket.send(new serverPackets.MagicSkillLaunched(player, skill));
+					sendPacket.send(new serverPackets.SetupGauge(0, skill.hitTime)); // 0 - blue, 1 - red, 2 - cyan
+
+					break;
+				case 0x0a:
+					var requestAttack = new clientPackets.RequestAttack(packet);
+					var hits = {
+						soulshot: false,
+						critical: false,
+						miss: false
+					}
+
+					sendPacket.send(new serverPackets.MoveToPawn(player));
+					sendPacket.send(new serverPackets.Attack(player, hits))
 
 					break;
 			}

@@ -18,6 +18,7 @@ var UseItem = require("./UseItem.js");
 var ValidatePosition = require("./ValidatePosition.js");
 var RequestSkillList = require("./RequestSkillList.js");
 var RequestMagicSkillUse = require("./RequestMagicSkillUse.js");
+var RequestAttack = require("./RequestAttack.js");
 
 module.exports = {
 	ProtocolVersion: ProtocolVersion,
@@ -39,5 +40,6 @@ module.exports = {
 	UseItem: UseItem,
 	ValidatePosition: ValidatePosition,
 	RequestSkillList: RequestSkillList,
-	RequestMagicSkillUse: RequestMagicSkillUse
+	RequestMagicSkillUse: RequestMagicSkillUse,
+	RequestAttack: RequestAttack
 }
