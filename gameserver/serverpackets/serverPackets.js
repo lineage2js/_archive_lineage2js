@@ -30,6 +30,7 @@ var MoveToPawn = require("./MoveToPawn.js");
 var Attack = require("./Attack.js");
 var SetupGauge = require("./SetupGauge.js");
 var MagicSkillLaunched = require("./MagicSkillLaunched.js");
+var ShowMiniMap = require("./ShowMiniMap.js");
 
 module.exports = {
 	CryptInit: CryptInit,
@@ -63,5 +64,6 @@ module.exports = {
 	MoveToPawn: MoveToPawn,
 	Attack: Attack,
 	SetupGauge: SetupGauge,
-	MagicSkillLaunched: MagicSkillLaunched
+	MagicSkillLaunched: MagicSkillLaunched,
+	ShowMiniMap: ShowMiniMap
 }

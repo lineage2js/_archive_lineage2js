@@ -22,13 +22,14 @@ var FileSync = require("lowdb/adapters/FileSync");
 var database = new FileSync("data/database.json");
 var db = low(database);
 // Items
-var armor = JSON.parse(file.readFileSync("data/armor.json", "utf-8"));
-var weapon = JSON.parse(file.readFileSync("data/weapon.json", "utf-8"));
+var armor = JSON.parse(file.readFileSync("data/items/armor.json", "utf-8"));
+var weapon = JSON.parse(file.readFileSync("data/items/weapon.json", "utf-8"));
+var etc = JSON.parse(file.readFileSync("data/items/etc.json", "utf-8"));
 // Init object
 var idFactory = new IdFactory("data/idstate.json");
 var players = new Players();
 var announcements = new Announcements("data/announcements.json");
-var itemTable = new tables.ItemTable([{ items: armor, type: "armor" }, { items: weapon, type: "weapon" }]);
+var itemTable = new tables.ItemTable([{ items: armor, category: "armor" }, { items: weapon, category: "weapon" }, { items: etc, category: "etc" }]);
 var item = new Item(itemTable.getData(), idFactory);
 
 // Data - файл
@@ -239,6 +240,16 @@ function socketHandler(socket) {
 
 					player.items.push(item.createItem(2406));
 					player.items.push(item.createItem(2397));
+
+					//etc
+					player.items.push(item.createItem(57));
+					player.items.push(item.createItem(1665));
+					player.items.push(item.createItem(1863));
+					player.items.push(item.createItem(3875));
+					// quest
+					player.items.push(item.createItem(3440));
+					player.items.push(item.createItem(3444));
+					player.items.push(item.createItem(3467));
 					//
 					sendPacket.send(new serverPackets.CharacterSelected(character));
 
@@ -367,7 +378,7 @@ function socketHandler(socket) {
 					var useItem = new clientPackets.UseItem(packet);
 					var usedItem = player.getItem(useItem.getObjectId());
 
-					if(usedItem.type === "armor" || usedItem.type === "weapon") {
+					if(usedItem.category === "armor" || usedItem.category === "weapon") {
 						switch(usedItem.bodyPart) {
 							case itemTable.types.SLOT_R_EAR:
 
@@ -427,6 +438,12 @@ function socketHandler(socket) {
 
 					}
 
+					if(usedItem.category === "etc") {
+						if(usedItem.itemId === 1665 || usedItem.itemId === 1863) { // map: world, elmore
+							sendPacket.send(new serverPackets.ShowMiniMap(usedItem.itemId));
+						}
+					}
+
 					sendPacket.send(new serverPackets.UserInfo(player));
 					sendPacket.send(new serverPackets.ItemList(player));
 					sendPacket.send(new serverPackets.SystemMessage(49, [{ type: config.base.systemMessageType.ITEM_NAME, value: usedItem.itemId }])); //
@@ -484,10 +501,15 @@ function socketHandler(socket) {
 				case 0x2f:
 					var requestMagicSkillUse = new clientPackets.RequestMagicSkillUse(packet);
 					var skill = player.skills.filter(skill => skill.id === requestMagicSkillUse.getSkillId())[0];
+					var gauge = {
+						blue: 0,
+						red: 1,
+						cyan: 2
+					}
 					
 					sendPacket.send(new serverPackets.MagicSkillUse(player, skill));
 					sendPacket.send(new serverPackets.MagicSkillLaunched(player, skill));
-					sendPacket.send(new serverPackets.SetupGauge(0, skill.hitTime)); // 0 - blue, 1 - red, 2 - cyan
+					sendPacket.send(new serverPackets.SetupGauge(gauge.blue, skill.hitTime));
 
 					break;
 				case 0x0a:

@@ -10,6 +10,17 @@ var types = {
 	TYPE2_MONEY: 4,
 	TYPE2_OTHER: 5,
 
+	TYPE_ARROW: 0,
+	TYPE_MATERIAL: 1,
+	TYPE_PET_COLLAR: 2,
+	TYPE_POTION: 3,
+	TYPE_RECEIPE: 4,
+	TYPE_SCROLL: 5,
+	TYPE_QUEST: 6,
+	TYPE_MONEY: 7,
+	TYPE_OTHER: 8,
+	TYPE_SPELLBOOK: 9,
+
 	MATERIAL_STEEL: 0x00,
 	MATERIAL_FINE_STEEL: 0x01,
 	MATERIAL_BLOOD_STEEL: 0x02,
@@ -166,7 +177,7 @@ ItemTable.prototype.serialization = function() {
 			var data = this._data[i];
 			var item = this._data[i].items[j]
 
-			switch(data.type) {
+			switch(data.category) {
 				case "armor":
 					if(this.stringTypes.ARMOR[item.bodyPart] === this.types.SLOT_NECK 
 						|| this.stringTypes.ARMOR[item.bodyPart] === this.types.SLOT_L_EAR 
@@ -184,7 +195,7 @@ ItemTable.prototype.serialization = function() {
 
 					break;
 				case "weapon":
-					if(this.stringTypes.WEAPON[item.weaponType] === this.types.WEAPON_NONE) {
+					if(this.stringTypes.WEAPON[item.type] === this.types.WEAPON_NONE) {
 						item.type1 = this.types.TYPE1_SHIELD_ARMOR;
 						item.type2 = this.types.TYPE2_SHIELD_ARMOR;
 						item.bodyPart = this.stringTypes.SLOT[item.bodyPart];
@@ -199,10 +210,20 @@ ItemTable.prototype.serialization = function() {
 					item.isEquipped = false;
 
 					break;
+				case "etc":
+					if(item.type === "quest") {
+						item.type2 = this.types.TYPE2_QUEST;
+					} else {
+						item.type2 = this.types.TYPE2_OTHER;
+					}
+
+					item.type1 = this.types.TYPE1_ITEM_QUESTITEM_ADENA;
+
+					break;
 			}
 
 			this._result[item.itemId] = item;
-			this._result[item.itemId].type = data.type;
+			this._result[item.itemId].category = data.category;
 		}
 	}
 }

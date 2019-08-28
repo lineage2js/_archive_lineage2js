@@ -6,7 +6,7 @@ function MagicSkillLaunched(player, skill) {
 		.writeD(player.objectId)
 		.writeD(skill.id)
 		.writeD(skill.level)
-		.writeD(1) // data ???
+		.writeD(1) // 1 - ok, 0 - fail
 		.writeD(player.target)
 		
 	return this._packet.getBuffer();

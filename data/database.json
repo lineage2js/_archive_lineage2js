@@ -98,7 +98,7 @@
           "name": "squire's_pants",
           "bodyPart": 2048,
           "crystallizable": false,
-          "armorType": "light",
+          "type": "light",
           "weight": 1750,
           "material": "cloth",
           "crystalType": "none",
@@ -111,14 +111,15 @@
           "type2": 1,
           "isEquipped": false,
           "type": "armor",
-          "objectId": 268435569
+          "objectId": 268435569,
+          "category": "armor"
         },
         {
           "itemId": 1146,
           "name": "squire's_shirt",
           "bodyPart": 1024,
           "crystallizable": false,
-          "armorType": "light",
+          "type": "light",
           "weight": 3301,
           "material": "cloth",
           "crystalType": "none",
@@ -131,7 +132,8 @@
           "type2": 1,
           "isEquipped": false,
           "type": "armor",
-          "objectId": 268435570
+          "objectId": 268435570,
+          "category": "armor"
         },
         {
           "itemId": 10,
@@ -145,7 +147,7 @@
           "crystal": "none",
           "pDamage": 5,
           "randomDamage": 5,
-          "weaponType": "dagger",
+          "type": "dagger",
           "critical": 12,
           "hitModify": -3.75,
           "avoidModify": 0,
@@ -159,7 +161,8 @@
           "type2": 0,
           "isEquipped": false,
           "type": "weapon",
-          "objectId": 268435571
+          "objectId": 268435571,
+          "category": "weapon"
         },
         {
           "itemId": 2369,
@@ -173,7 +176,7 @@
           "crystal": "none",
           "pDamage": 6,
           "randomDamage": 10,
-          "weaponType": "sword",
+          "type": "sword",
           "critical": 8,
           "hitModify": 0,
           "avoidModify": 0,
@@ -187,7 +190,8 @@
           "type2": 0,
           "isEquipped": false,
           "type": "weapon",
-          "objectId": 268435572
+          "objectId": 268435572,
+          "category": "weapon"
         }
       ],
       "skills": [
@@ -469,7 +473,7 @@
           "name": "apprentice's_hose",
           "bodyPart": 2048,
           "crystallizable": false,
-          "armorType": "magic",
+          "type": "magic",
           "weight": 1100,
           "material": "cloth",
           "crystalType": "none",
@@ -482,14 +486,15 @@
           "type2": 1,
           "isEquipped": false,
           "type": "armor",
-          "objectId": 268441587
+          "objectId": 268441587,
+          "category": "armor"
         },
         {
           "itemId": 425,
           "name": "apprentice's_tunic",
           "bodyPart": 1024,
           "crystallizable": false,
-          "armorType": "magic",
+          "type": "magic",
           "weight": 2150,
           "material": "cloth",
           "crystalType": "none",
@@ -502,7 +507,8 @@
           "type2": 1,
           "isEquipped": false,
           "type": "armor",
-          "objectId": 268441588
+          "objectId": 268441588,
+          "category": "armor"
         },
         {
           "itemId": 6,
@@ -516,7 +522,7 @@
           "crystal": "none",
           "pDamage": 5,
           "randomDamage": 20,
-          "weaponType": "blunt",
+          "type": "blunt",
           "critical": 4,
           "hitModify": 4.75,
           "avoidModify": 0,
@@ -530,7 +536,8 @@
           "type2": 0,
           "isEquipped": false,
           "type": "weapon",
-          "objectId": 268441589
+          "objectId": 268441589,
+          "category": "weapon"
         }
       ],
       "skills": [
