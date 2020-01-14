@@ -39,7 +39,7 @@ var item = new Item(itemTable.getData(), idFactory);
 //
 var characterTemplateTable = new tables.CharacterTemplateTable(characterTemplatesData).getData();
 var bot = new Bot(idFactory, characterTemplateTable, classId);
-var bots = bot.createBots(1);
+var bots = bot.create(1);
 
 players.addBots(bots);
 //
@@ -122,7 +122,7 @@ function socketHandler(socket) {
 
 					xor = new XOR(config.base.key.XOR);
 					encryption = false;
-					sendPacket.send(new serverPackets.LogoutOK());
+					sendPacket.send(new serverPackets.LogoutOk());
 					sendPacket.broadcast(new serverPackets.DeleteObject(player.objectId));
 
 					break;

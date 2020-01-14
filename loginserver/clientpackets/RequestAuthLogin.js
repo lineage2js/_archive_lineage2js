@@ -18,4 +18,8 @@ RequestAuthLogin.prototype.getPassword = function() {
 	return this._password;
 }
 
+RequestAuthLogin.prototype._init = function() {
+
+}
+
 module.exports = RequestAuthLogin;

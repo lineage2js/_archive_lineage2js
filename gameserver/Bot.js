@@ -5,7 +5,7 @@ function Bots(idFactory, characterTemplates, classId) {
 	this._classId = [classId.fighter, classId.mage, classId.elvenFighter, classId.elvenMage, classId.darkFighter, classId.darkMage, classId.orcFighter, classId.orcMage, classId.dwarvenFighter];
 }
 
-Bots.prototype.createBots = function(count) {
+Bots.prototype.create = function(count) {
 	var x = -72100;
 	var y = 257500;
 	var z = -3115;

@@ -8,7 +8,7 @@ var CharacterSelected = require("./CharacterSelected.js");
 var QuestList = require("./QuestList.js");
 var UserInfo = require("./UserInfo.js");
 var MoveToLocation = require("./MoveToLocation.js");
-var LogoutOK = require("./LogoutOK.js");
+var LogoutOk = require("./LogoutOk.js");
 var NpcInfo = require("./NpcInfo.js");
 var SunRise = require("./SunRise.js");
 var SunSet = require("./SunSet.js");
@@ -43,7 +43,7 @@ module.exports = {
 	QuestList: QuestList,
 	UserInfo: UserInfo,
 	MoveToLocation: MoveToLocation,
-	LogoutOK: LogoutOK,
+	LogoutOk: LogoutOk,
 	NpcInfo: NpcInfo,
 	SunRise: SunRise,
 	SunSet: SunSet,

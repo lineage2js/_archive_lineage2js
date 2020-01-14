@@ -82,28 +82,28 @@ function Player() {
 	this.items = null;
 
 	// equipment
-	this.underwear = { objectId: 0, id: 0 };
+	this.underwear = { objectId: 0, itemId: 0 };
 	this.ear = {
-		left: { objectId: 0, id: 0 },
-		right: { objectId: 0, id: 0 }
+		left: { objectId: 0, itemId: 0 },
+		right: { objectId: 0, itemId: 0 }
 	}
-	this.neck = { objectId: 0, id: 0 };
+	this.neck = { objectId: 0, itemId: 0 };
 	this.finger = {
-		left: { objectId: 0, id: 0 },
-		right: { objectId: 0, id: 0 }
+		left: { objectId: 0, itemId: 0 },
+		right: { objectId: 0, itemId: 0 }
 	}
 	
-	this.head = { objectId: 0, id: 0 };
+	this.head = { objectId: 0, itemId: 0 };
 	this.hand = {
-		left: { objectId: 0, id: 0 },
-		right: { objectId: 0, id: 0 },
-		leftAndRight: { objectId: 0, id: 0 }
+		left: { objectId: 0, itemId: 0 },
+		right: { objectId: 0, itemId: 0 },
+		leftAndRight: { objectId: 0, itemId: 0 }
 	}
-	this.gloves = { objectId: 0, id: 0 };
-	this.chest = { objectId: 0, id: 0 };
-	this.legs = { objectId: 0, id: 0 };
-	this.feet = { objectId: 0, id: 0 };
-	this.back = { objectId: 0, id: 0 };
+	this.gloves = { objectId: 0, itemId: 0 };
+	this.chest = { objectId: 0, itemId: 0 };
+	this.legs = { objectId: 0, itemId: 0 };
+	this.feet = { objectId: 0, itemId: 0 };
+	this.back = { objectId: 0, itemId: 0 };
 }
 
 Player.prototype.getItem = function(objectId) {
