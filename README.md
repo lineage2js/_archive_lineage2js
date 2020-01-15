@@ -10,9 +10,12 @@ data/config.json
 npm:
 npm install -i
 
-run on linux: 
-run: node loginserver.js
-run: node gamaserver.js
+### run on linux:
 
-run on window:
-run: serverStart.bat
+node loginserver.js
+
+node gamaserver.js
+
+### run on window:
+
+serverStart.bat
