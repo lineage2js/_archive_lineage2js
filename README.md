@@ -16,6 +16,6 @@ node loginserver.js
 
 node gamaserver.js
 
-### run on window:
+### run on windows:
 
 serverStart.bat
