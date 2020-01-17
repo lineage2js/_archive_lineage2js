@@ -1,5 +1,7 @@
-var L2CharacterTemplate = require("./L2CharacterTemplate.js");
+var Character = require("./Character");
+var Items = require("./Items");
 
 module.exports = {
-	L2CharacterTemplate: L2CharacterTemplate
+	Character: Character,
+	Items: Items
 }

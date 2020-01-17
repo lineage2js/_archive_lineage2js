@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket.js");
+var ServerPacket = require("./ServerPacket");
 
 function SkillList(player) {
 	this._packet = new ServerPacket(5 + (12 * player.skills.length));

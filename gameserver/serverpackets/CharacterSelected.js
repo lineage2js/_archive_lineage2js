@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket.js");
+var ServerPacket = require("./ServerPacket");
 
 function CharacterSelected(character) {
 	this._packet = new ServerPacket(230 + ServerPacket.strlen(character.characterName) + ServerPacket.strlen(character.title));

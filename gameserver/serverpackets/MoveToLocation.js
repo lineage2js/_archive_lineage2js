@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket.js");
+var ServerPacket = require("./ServerPacket");
 
 function MoveToLocation(positions, object) {
 	this._packet = new ServerPacket(29);

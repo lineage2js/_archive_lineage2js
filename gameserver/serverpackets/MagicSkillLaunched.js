@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket.js");
+var ServerPacket = require("./ServerPacket");
 
 function MagicSkillLaunched(player, skill) {
 	this._packet = new ServerPacket(21);

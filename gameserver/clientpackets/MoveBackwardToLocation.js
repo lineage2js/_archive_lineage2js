@@ -1,39 +1,62 @@
-var ClientPacket = require("./ClientPacket.js");
+var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
+var ClientPacket = require("./ClientPacket");
 
-function MoveBackwardToLocation(buffer) {
-	this._packet = new ClientPacket(buffer);
-	this._packet.readC()
-		.readD()
-		.readD()
-		.readD()
-		.readD()
-		.readD()
-		.readD();
+class MoveBackwardToLocation {
+	constructor(packet, player) {
+		this._packet = packet;
+		this._player = player;
+		this._data = new ClientPacket(this._packet.getBuffer());
+		this._data.readC()
+			.readD()
+			.readD()
+			.readD()
+			.readD()
+			.readD()
+			.readD();
+
+		this._init();
+	}
+
+	getTargetX() {
+		return this._data.getData()[1];
+	}
+	getTargetY() {
+		return this._data.getData()[2];
+	}
+	getTargetZ() {
+		return this._data.getData()[3];
+	}
+	getOriginX() {
+		return this._data.getData()[4];
+	}
+	getOriginY() {
+		return this._data.getData()[5];
+	}
+	getOriginZ() {
+		return this._data.getData()[6];
+	}
+
+	_init() {
+		var positions = {
+			target: {
+				x: this.getTargetX(),
+				y: this.getTargetY(),
+				z: this.getTargetZ()
+			},
+			origin: {
+				x: this.getOriginX(),
+				y: this.getOriginY(),
+				z: this.getOriginZ()
+			}
+		}
+
+		this._packet.send(new serverPackets.MoveToLocation(positions, this._player));
+		this._packet.broadcast(new serverPackets.MoveToLocation(positions, this._player));
+
+		this._player.x = positions.target.x;
+		this._player.y = positions.target.y;
+		this._player.z = positions.target.z;
+	}
 }
-
-MoveBackwardToLocation.prototype.getTargetX = function() {
-	return this._packet.getData()[1];
-}
-
-MoveBackwardToLocation.prototype.getTargetY = function() {
-	return this._packet.getData()[2];
-}
-
-MoveBackwardToLocation.prototype.getTargetZ = function() {
-	return this._packet.getData()[3];
-}
-
-MoveBackwardToLocation.prototype.getOriginX= function() {
-	return this._packet.getData()[4];
-}
-
-MoveBackwardToLocation.prototype.getOriginY = function() {
-	return this._packet.getData()[5];
-}
-
-MoveBackwardToLocation.prototype.getOriginZ = function() {
-	return this._packet.getData()[6];
-}
-
 
 module.exports = MoveBackwardToLocation;

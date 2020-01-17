@@ -1,6 +1,6 @@
-var RequestAuthLogin = require("./RequestAuthLogin.js");
-var RequestServerList = require("./RequestServerList.js");
-var RequestServerLogin = require("./RequestServerLogin.js");
+var RequestAuthLogin = require("./RequestAuthLogin");
+var RequestServerList = require("./RequestServerList");
+var RequestServerLogin = require("./RequestServerLogin");
 
 module.exports = {
 	RequestAuthLogin: RequestAuthLogin,

@@ -1,15 +1,35 @@
-var ClientPacket = require("./ClientPacket.js");
+var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
+var ClientPacket = require("./ClientPacket");
 
-function RequestMagicSkillUse(buffer) {
-	this._packet = new ClientPacket(buffer);
-	this._packet.readC()
-		.readD()
-		.readD()
-		.readC();
-}
+class RequestMagicSkillUse {
+	constructor(packet, player) {
+		this._packet = packet;
+		this._player = player;
+		this._data = new ClientPacket(this._packet.getBuffer());
+		this._data.readC()
+			.readD()
+			.readD()
+			.readC();
 
-RequestMagicSkillUse.prototype.getSkillId = function() {
-	return this._packet.getData()[1];
+		this._init();
+	}
+
+	getSkillId() {
+		return this._data.getData()[1];
+	}
+
+	_init() {
+		var skill = this._player.getSkill(this.getSkillId());
+		var gauge = {
+			blue: 0,
+			red: 1,
+			cyan: 2
+		}
+						
+		this._packet.send(new serverPackets.MagicSkillUse(this._player, skill));
+		this._packet.send(new serverPackets.MagicSkillLaunched(this._player, skill));
+		this._packet.send(new serverPackets.SetupGauge(gauge.blue, skill.hitTime));
+	}
 }
 
 module.exports = RequestMagicSkillUse;

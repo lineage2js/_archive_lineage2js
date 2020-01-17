@@ -1,3 +1,4 @@
+var file = require("fs");
 var types = {
 	TYPE1_WEAPON_RING_EARRING_NECKLACE: 0,
 	TYPE1_SHIELD_ARMOR: 1,
@@ -160,22 +161,30 @@ var stringTypes = {
 	}
 }
 
-function ItemTable(data) {
+function Items(data) {
 	this.types = types;
 	this.stringTypes = stringTypes;
 	this._data = data;
+	this._items = [];
 	this._result = null;
 
-	this.serialization();
+	this._load();
+	this._serialization();
 }
 
-ItemTable.prototype.serialization = function() {
+Items.prototype._load = function() {
+	for(var i = 0; i < this._data.length; i++) {
+		this._items.push({ items: JSON.parse(file.readFileSync(this._data[i].link, "utf-8")), category: this._data[i].category });
+	}
+}
+
+Items.prototype._serialization = function() {
 	this._result = {};
 
-	for(var i = 0; i < this._data.length; i++) {
-		for(var j = 0; j < this._data[i].items.length; j++) {
-			var data = this._data[i];
-			var item = this._data[i].items[j]
+	for(var i = 0; i < this._items.length; i++) {
+		for(var j = 0; j < this._items[i].items.length; j++) {
+			var data = this._items[i];
+			var item = this._items[i].items[j];
 
 			switch(data.category) {
 				case "armor":
@@ -228,8 +237,8 @@ ItemTable.prototype.serialization = function() {
 	}
 }
 
-ItemTable.prototype.getData = function() {
+Items.prototype.getData = function() {
 	return this._result;
 }
 
-module.exports = ItemTable;
+module.exports = Items;

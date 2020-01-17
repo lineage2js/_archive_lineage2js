@@ -1,7 +1,7 @@
-var ServerPacket = require("./ServerPacket.js");
+var ServerPacket = require("./ServerPacket");
 
 function UserInfo(player) {
-	this._packet = new ServerPacket(600 + ServerPacket.strlen(player.characterName)); //
+	this._packet = new ServerPacket(600 + ServerPacket.strlen(player.characterName));
 	this._packet.writeC(0x04)
 		.writeD(player.x)
 		.writeD(player.y)

@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket.js");
+var ServerPacket = require("./ServerPacket");
 
 function TargetSelected(objectId, color = 0) {
 	this._packet = new ServerPacket(1);

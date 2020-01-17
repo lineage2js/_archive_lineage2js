@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket.js");
+var ServerPacket = require("./ServerPacket");
 // fix, id => getObjectId ?
 function StopMoveWithLocation(object) {
 	this._packet = new ServerPacket(17);

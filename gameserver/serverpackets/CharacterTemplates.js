@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket.js");
+var ServerPacket = require("./ServerPacket");
 
 function CharacterTemplates(characters) {
 	this._packet = new ServerPacket(85 * characters.length);

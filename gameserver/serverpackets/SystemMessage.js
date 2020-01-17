@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket.js");
+var ServerPacket = require("./ServerPacket");
 var types = {
 	TEXT: 0,
 	NUMBER: 1,

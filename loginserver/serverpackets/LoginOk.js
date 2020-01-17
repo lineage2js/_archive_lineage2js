@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket.js");
+var ServerPacket = require("./ServerPacket");
 
 function LoginOk(SessionKey1) {
 	this._packet = new ServerPacket(48);

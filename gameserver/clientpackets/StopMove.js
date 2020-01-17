@@ -1,28 +1,39 @@
-var ClientPacket = require("./ClientPacket.js");
+var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
+var ClientPacket = require("./ClientPacket");
 
-function StopMove(buffer) {
-	this._packet = new ClientPacket(buffer);
-	this._packet.readC()
-		.readD()
-		.readD()
-		.readD()
-		.readD();
-}
+class StopMove {
+	constructor(packet, player) {
+		this._packet = packet;
+		this._player = player
+		this._data = new ClientPacket(this._packet.getBuffer());
+		this._data.readC()
+			.readD()
+			.readD()
+			.readD()
+			.readD();
 
-StopMove.prototype.getX = function() {
-	return this._packet.getData()[1];
-}
+		this._init();
+	}
 
-StopMove.prototype.getY = function() {
-	return this._packet.getData()[2];
-}
+	getX() {
+		return this._data.getData()[1];
+	}
+	getY() {
+		return this._data.getData()[2];
+	}
+	getZ() {
+		return this._data.getData()[3];
+	}
+	getHeading() {
+		return this._data.getData()[4];
+	}
 
-StopMove.prototype.getZ = function() {
-	return this._packet.getData()[3];
-}
-
-StopMove.prototype.getHeading = function() {
-	return this._packet.getData()[4];
+	_init() {
+		this._player.x = this.getX();
+		this._player.y = this.getY();
+		this._player.z = this.getZ();
+		this._packet.send(new serverPackets.StopMoveWithLocation(this._player));
+	}
 }
 
 module.exports = StopMove;

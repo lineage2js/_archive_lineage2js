@@ -1,29 +1,42 @@
-var ClientPacket = require("./ClientPacket.js");
+var ClientPacket = require("./ClientPacket");
 
-function ValidatePosition(buffer) {
-	this._packet = new ClientPacket(buffer);
-	this._packet.readC()
-		.readD()
-		.readD()
-		.readD()
-		.readD()
-		.readD();
-}
+class ValidatePosition {
+	constructor(packet, player) {
+		this._packet = packet;
+		this._player = player;
+		this._data = new ClientPacket(this._packet.getBuffer());
+		this._data.readC()
+			.readD()
+			.readD()
+			.readD()
+			.readD()
+			.readD();
 
-ValidatePosition.prototype.getX = function() {
-	return this._packet.getData()[1];
-}
+		this._init();
+	}
 
-ValidatePosition.prototype.getY = function() {
-	return this._packet.getData()[2];
-}
+	getX() {
+		return this._data.getData()[1];
+	}
 
-ValidatePosition.prototype.getZ = function() {
-	return this._packet.getData()[3];
-}
+	getY() {
+		return this._data.getData()[2];
+	}
 
-ValidatePosition.prototype.getHeading = function() {
-	return this._packet.getData()[4];
+	getZ() {
+		return this._data.getData()[3];
+	}
+
+	getHeading() {
+		return this._data.getData()[4];
+	}
+
+	_init() {
+		this._player.x = this.getX();
+		this._player.y = this.getY();
+		this._player.z = this.getZ();
+		this._player.heading = this.getHeading();
+	}
 }
 
 module.exports = ValidatePosition;

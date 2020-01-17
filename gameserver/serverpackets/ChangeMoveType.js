@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket.js");
+var ServerPacket = require("./ServerPacket");
 
 function ChangeMoveType(player, moveType) {
 	this._packet = new ServerPacket(9);

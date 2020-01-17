@@ -1,14 +1,28 @@
-var ClientPacket = require("./ClientPacket.js");
+var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
+var ClientPacket = require("./ClientPacket");
 
-function RequestSocialAction(buffer) {
-	this._packet = new ClientPacket(buffer);
-	this._packet.readC()
-		.readD();
+class RequestSocialAction {
+	constructor(packet, player) {
+		this._packet = packet;
+		this._player = player;
+		this._data = new ClientPacket(this._packet.getBuffer());
+		this._data.readC()
+			.readD();
 
-}
+		this._init();
+	}
 
-RequestSocialAction.prototype.getActionId = function() {
-	return this._packet.getData()[1];
+	getActionId() {
+		return this._data.getData()[1];
+	}
+
+	_init() {
+		var actionId = this.getActionId();
+
+		this._packet.send(new serverPackets.SocialAction(this._player, actionId));
+		this._packet.broadcast(new serverPackets.SocialAction(this._player, actionId));
+	}
+
 }
 
 module.exports = RequestSocialAction;

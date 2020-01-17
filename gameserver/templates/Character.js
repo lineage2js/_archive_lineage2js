@@ -1,4 +1,4 @@
-function L2CharTemplate(data) {
+function Character(data) {
 	this._data = data
 
 	this.objectId = null;
@@ -74,21 +74,21 @@ function L2CharTemplate(data) {
 	this.fillData();
 }
 
-L2CharTemplate.prototype.getItems = function() {
+Character.prototype.getItems = function() {
 	return this._items;
 }
 
-L2CharTemplate.prototype.addItems = function(item) {
+Character.prototype.addItems = function(item) {
 	this._items.push(item);
 }
 
-L2CharTemplate.prototype.fillData = function(){
+Character.prototype.fillData = function(){
 	for(key in this._data) {
 		this[key] = this._data[key]
 	}
 }
 
-L2CharTemplate.prototype.getData = function(){
+Character.prototype.getData = function(){
 	var data = {};
 
 	for(key in this) {
@@ -100,4 +100,4 @@ L2CharTemplate.prototype.getData = function(){
 }
 
 
-module.exports = L2CharTemplate;
+module.exports = Character;

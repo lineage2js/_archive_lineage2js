@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket.js");
+var ServerPacket = require("./ServerPacket");
 
 function ItemList(player, showWindow = false) {
 	this._packet = new ServerPacket(5 + (28 * player.items.length));

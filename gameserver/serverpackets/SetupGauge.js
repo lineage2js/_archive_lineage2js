@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket.js");
+var ServerPacket = require("./ServerPacket");
 
 function SetupGauge(color, time) {
 	this._packet = new ServerPacket(9);

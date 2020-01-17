@@ -1,4 +1,5 @@
-var ClientPacket = require("./ClientPacket.js");
+var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
+var ClientPacket = require("./ClientPacket");
 var ALL = 0;
 var SHOUT = 1;
 var TELL = 2;
@@ -10,27 +11,36 @@ var TRADE = 8;
 var GM_MESSAGE = 9;
 var ANNOUNCEMENT = 10;
 
-function Say2(buffer) {
-	this._packet = new ClientPacket(buffer);
-	this._packet.readC()
-		.readS()
-		.readD();
+class Say2 {
+	constructor(packet, player) {
+		this._packet = packet;
+		this._player = player;
+		this._data = new ClientPacket(this._packet.getBuffer());
+		this._data.readC()
+			.readS()
+			.readD();
+
+		this._init();
+	}
+
+	getText() {
+		return this._data.getData()[1];
+	}
+	getType() {
+		return this._data.getData()[2];
+	}
+	getTarget() {
+		return this._data.getData()[3];
+	}
+
+	_init() {
+		this._packet.send(new serverPackets.CreateSay(this._player, this.getType(), this.getText()));
+		this._packet.broadcast(new serverPackets.CreateSay(this._player, this.getType(), this.getText()));
+	}
 
 	// if(this._packet.getData()[2] === TELL) { // fix
 	// 	this._packet.readS();
 	// }
-}
-
-Say2.prototype.getText = function() {
-	return this._packet.getData()[1];
-}
-
-Say2.prototype.getType = function() {
-	return this._packet.getData()[2];
-}
-
-Say2.prototype.getTarget = function() {
-	return this._packet.getData()[3];
 }
 
 module.exports = Say2;

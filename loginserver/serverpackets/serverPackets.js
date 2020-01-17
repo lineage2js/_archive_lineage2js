@@ -1,9 +1,9 @@
-var InitLS = require("./InitLS.js");
-var LoginFail = require("./LoginFail.js");
-var LoginOk = require("./LoginOk.js");
-var ServerList = require("./ServerList.js");
-var PlayOk = require("./PlayOk.js");
-var PlayFail = require("./PlayFail.js");
+var InitLS = require("./InitLS");
+var LoginFail = require("./LoginFail");
+var LoginOk = require("./LoginOk");
+var ServerList = require("./ServerList");
+var PlayOk = require("./PlayOk");
+var PlayFail = require("./PlayFail");
 
 module.exports = {
 	InitLS: InitLS,

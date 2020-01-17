@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket.js");
+var ServerPacket = require("./ServerPacket");
 var hit = 0;
 var typesHits = {
 	soulshot: 16,

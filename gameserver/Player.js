@@ -1,6 +1,11 @@
-function Player() {
-	this.socket = null;
-	this.xor = null;
+var low = require("lowdb");
+var FileSync = require("lowdb/adapters/FileSync");
+var database = new FileSync("data/database.json");
+var db = low(database);
+
+function Player(socket, xor) {
+	this.socket = socket;
+	this.xor = xor;
 	
 	this.objectId = null;
 	this.target = null;
@@ -133,6 +138,27 @@ Player.prototype.fillData = function(data){
 		this[key] = data[key];
 	}
 }
+
+Player.prototype.getSkill = function(id) {
+	return this.skills.filter(skill => skill.id === id)[0];
+}
+
+Player.prototype.getCharacters = function() {
+	return db.get("characters").filter({"login": this.login}).value();
+}
+
+Player.prototype.getCharacterQuantity = function() {
+	return db.get("characters").filter({"login": this.login}).value().length;
+}
+
+Player.prototype.getCharacterNames = function() {
+	return db.get("characters").map("characterName").value();
+}
+
+Player.prototype.addCharacter = function(character) {
+	db.get("characters").push(character).write();
+}
+
 
 function checkPointInCircle(x1, y1, x2, y2, radius) {
 	var dx = x2 - x1;

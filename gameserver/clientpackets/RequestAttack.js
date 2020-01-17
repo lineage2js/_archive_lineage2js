@@ -1,33 +1,51 @@
-var ClientPacket = require("./ClientPacket.js");
+var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
+var ClientPacket = require("./ClientPacket");
 
-function Action(buffer) {
-	this._packet = new ClientPacket(buffer);
-	this._packet.readC()
-		.readD()
-		.readD()
-		.readD()
-		.readD()
-		.readC();
-}
+class Action {
+	constructor(packet, player) {
+		this._packet = packet;
+		this._player = player;
+		this._data = new ClientPacket(this._packet.getBuffer());
+		this._data.readC()
+			.readD()
+			.readD()
+			.readD()
+			.readD()
+			.readC();
 
-Action.prototype.getObjectId = function() {
-	return this._packet.getData()[1];
-}
+		this._init();
+	}
 
-Action.prototype.getX = function() {
-	return this._packet.getData()[2];
-}
+	getObjectId() {
+		return this._data.getData()[1];
+	}
 
-Action.prototype.getY = function() {
-	return this._packet.getData()[3];
-}
+	getX() {
+		return this._data.getData()[2];
+	}
 
-Action.prototype.getZ = function() {
-	return this._packet.getData()[4];
-}
+	getY() {
+		return this._data.getData()[3];
+	}
 
-Action.prototype.getAttackId = function() {
-	return this._packet.getData()[5]; // 0 for simple click  1 for shift click
+	getZ() {
+		return this._data.getData()[4];
+	}
+
+	getAttackId() {
+		return this._data.getData()[5]; // 0 for simple click  1 for shift click
+	}
+
+	_init() {
+		var hits = {
+			soulshot: false,
+			critical: false,
+			miss: false
+		}
+
+		this._packet.send(new serverPackets.MoveToPawn(this._player));
+		this._packet.send(new serverPackets.Attack(this._player, hits))
+	}
 }
 
 module.exports = Action;

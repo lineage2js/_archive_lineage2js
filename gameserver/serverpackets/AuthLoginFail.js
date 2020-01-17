@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket.js");
+var ServerPacket = require("./ServerPacket");
 
 function AuthLoginFail(reason) {
 	this._packet = new ServerPacket(2);

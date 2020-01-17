@@ -1,9 +1,3 @@
-function ClientPacket(buffer) {
-	this._buffer = buffer;
-	this._data = [];
-	this._offset = 0;
-};
-
 // readC - 1 byte
 // readH - 2 byte
 // readD - 4 byte
@@ -11,67 +5,76 @@ function ClientPacket(buffer) {
 // readB - string
 // readS - string
 
-ClientPacket.prototype.readC = function() {
-	this._data.push(
-        this._buffer.readUInt8(this._offset)
-    );
-    this._offset++;
-
-    return this;
-};
-
-ClientPacket.prototype.readH = function() {
-	this._data.push(
-        this._buffer.readUInt16LE(this._offset)
-    );
-    this._offset += 2;
-
-    return this;
-}
-
-ClientPacket.prototype.readD = function() {
-    this._data.push(
-        this._buffer.readInt32LE(this._offset)
-    );
-    this._offset += 4;
-
-    return this;
-};
-
-ClientPacket.prototype.readF = function() {
-	this._data.push(
-    	this._buffer.readDoubleLE(this._offset)
-    );
-    this._offset += 8;
-
-    return this;
-};
-
-ClientPacket.prototype.readB = function(length) {
-    this._data.push(
-        this._buffer.slice(this._offset, this._offset + length)
-    );
-    this._offset += length;
-
-    return this;
-};
-
-ClientPacket.prototype.readS = function() {
-    for (var i = this._offset; i < this._buffer.length; i += 2) {
-        if (this._buffer.readUInt16LE(i) === 0x00) {
-            break;
-        }
+class ClientPacket {
+    constructor(buffer) {
+    	this._buffer = buffer;
+    	this._data = [];
+    	this._offset = 0;
     }
-    this._data.push(
-        this._buffer.toString("ucs2", this._offset, i)
-    );
-    this._offset += i + 1;
 
-    return this;
-};
+    readC() {
+        this._data.push(
+            this._buffer.readUInt8(this._offset)
+        );
+        this._offset++;
 
-ClientPacket.prototype.getData = function() {
-    return this._data;
-};
+        return this;
+    }
+
+    readH() {
+        this._data.push(
+            this._buffer.readUInt16LE(this._offset)
+        );
+        this._offset += 2;
+
+        return this;
+    }
+
+    readD() {
+        this._data.push(
+            this._buffer.readInt32LE(this._offset)
+        );
+        this._offset += 4;
+
+        return this;
+    }
+
+    readF() {
+        this._data.push(
+            this._buffer.readDoubleLE(this._offset)
+        );
+        this._offset += 8;
+
+        return this;
+    }
+
+    readB(length) {
+        this._data.push(
+            this._buffer.slice(this._offset, this._offset + length)
+        );
+        this._offset += length;
+
+        return this;
+    }
+
+    readS() {
+        for (var i = this._offset; i < this._buffer.length; i += 2) {
+            if (this._buffer.readUInt16LE(i) === 0x00) {
+                break;
+            }
+        }
+        this._data.push(
+            this._buffer.toString("ucs2", this._offset, i)
+        );
+        this._offset += i + 1;
+
+        return this;
+    }
+
+    getData() {
+        return this._data;
+    }
+
+}
 
 module.exports = ClientPacket;

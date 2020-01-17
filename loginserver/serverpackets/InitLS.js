@@ -1,5 +1,5 @@
-var ServerPacket = require("./ServerPacket.js");
-var config = require("../../config/config.js");
+var ServerPacket = require("./ServerPacket");
+var config = require("./../../config/config");
 
 function InitLS() {
 	var sessionID = 0x03ed779c;
