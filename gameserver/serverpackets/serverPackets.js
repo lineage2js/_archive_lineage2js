@@ -21,6 +21,7 @@ var ChangeMoveType = require("./ChangeMoveType");
 var ActionFailed = require("./ActionFailed");
 var TargetSelected = require("./TargetSelected");
 var TargetUnselected = require("./TargetUnselected");
+var TutorialShowHtml = require("./TutorialShowHtml");
 var ItemList = require("./ItemList");
 var DeleteObject = require("./DeleteObject");
 var SkillList = require("./SkillList");
@@ -29,6 +30,7 @@ var SystemMessage = require("./SystemMessage");
 var MoveToPawn = require("./MoveToPawn");
 var Attack = require("./Attack");
 var SetupGauge = require("./SetupGauge");
+var ShowBoard = require("./ShowBoard");
 var MagicSkillLaunched = require("./MagicSkillLaunched");
 var ShowMiniMap = require("./ShowMiniMap");
 
@@ -56,6 +58,7 @@ module.exports = {
 	ActionFailed: ActionFailed,
 	TargetSelected: TargetSelected,
 	TargetUnselected: TargetUnselected,
+	TutorialShowHtml: TutorialShowHtml,
 	ItemList: ItemList,
 	DeleteObject: DeleteObject,
 	SkillList: SkillList,
@@ -64,6 +67,7 @@ module.exports = {
 	MoveToPawn: MoveToPawn,
 	Attack: Attack,
 	SetupGauge: SetupGauge,
+	ShowBoard: ShowBoard,
 	MagicSkillLaunched: MagicSkillLaunched,
 	ShowMiniMap: ShowMiniMap
 }

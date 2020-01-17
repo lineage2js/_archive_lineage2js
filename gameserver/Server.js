@@ -11,10 +11,12 @@ var templates = require("./../gameserver/templates/templates");
 var Item = require("./../gameserver/Item");
 var IdFactory = require("./../util/IdFactory");
 var Announcements = require("./../gameserver/Announcements");
+var Html = require("./../gameserver/Html");
 
 class Server {
 	constructor() {
 		this.idFactory = new IdFactory("data/idstate.json");
+		this.html = new Html("data/html");
 		this.announcements =  new Announcements("data/announcements.json");
 		this.items = new templates.Items([{ link: "data/items/armor.json", category: "armor" }, { link: "data/items/weapon.json", category: "weapon" }, { link: "data/items/etc.json", category: "etc" }]);
 		this.item = new Item(this.items.getData(), this.idFactory);

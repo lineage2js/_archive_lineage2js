@@ -5,6 +5,7 @@ var Logout = require("./Logout");
 var CharacterCreate = require("./CharacterCreate");
 var CharacterSelected = require("./CharacterSelected");
 var RequestQuestList = require("./RequestQuestList");
+var RequestShowBoard = require("./RequestShowBoard");
 var EnterWorld = require("./EnterWorld");
 var MoveBackwardToLocation = require("./MoveBackwardToLocation");
 var RequestSocialAction = require("./RequestSocialAction");
@@ -28,6 +29,7 @@ module.exports = {
 	CharacterCreate: CharacterCreate,
 	CharacterSelected: CharacterSelected,
 	RequestQuestList: RequestQuestList,
+	RequestShowBoard: RequestShowBoard,
 	EnterWorld: EnterWorld,
 	MoveBackwardToLocation: MoveBackwardToLocation,
 	RequestSocialAction: RequestSocialAction,

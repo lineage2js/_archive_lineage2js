@@ -169,6 +169,10 @@ class Packet {
 				new clientPackets.RequestAttack(this, this._player);
 
 				break;
+			case 0x57:
+				new clientPackets.RequestShowBoard(this, this._server);
+
+				break;
 		}
 	}
 

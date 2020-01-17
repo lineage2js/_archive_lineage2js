@@ -22,6 +22,7 @@ class EnterWorld {
 		this._packet.send(new serverPackets.SunRise());
 		this._packet.send(new serverPackets.UserInfo(this._player));
 		this._packet.send(new serverPackets.ItemList(this._player));
+		//this._packet.send(new serverPackets.TutorialShowHtml(this._server.html.get("tutorial_001"))); // fix
 		this._packet.broadcast(new serverPackets.CharacterInfo(this._player)); // Оповестить всех, что персонаж зашел в мир
 
 		this._player.getVisiblePlayers(this._players.getPlayers(), anotherPlayer => {
