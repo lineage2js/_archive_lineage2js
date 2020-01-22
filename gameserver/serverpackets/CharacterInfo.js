@@ -67,18 +67,18 @@ function CharacterInfo(player) {
 		.writeD(player.clanCrestId) // pledge crest id
 		.writeD(0x10)
 
-		.writeD(0x00)	// new in rev 417
+		.writeD(0x00)	// getAllyId new in rev 417
 		.writeD(0x00)	// new in rev 417   siege-flags
 
 		.writeC(player.waitType)
 		.writeC(player.moveType)
 
-		.writeC(0x00)
-		.writeC(0x00)
+		.writeC(0x00) // isInCombat 0 || 1
+		.writeC(0x00) // isDead dead = 1  alive = 0
 
 		.writeC(0x00)	// invisible = 1  visible =0
 		.writeC(0x00)	// 1 on strider   2 on wyfern   0 no mount
-		.writeC(0x00)   //  1 - sellshop
+		.writeC(0x00)   // 1 - sellshop
 		
 		.writeH(0x00)  // cubic count
 //		writeH(0x00);  // cubic 

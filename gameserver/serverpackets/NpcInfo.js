@@ -1,10 +1,10 @@
 var ServerPacket = require("./ServerPacket");
 
-function NpcInfo(npc) {
+function NpcInfo(npc, player) {
 	this._packet = new ServerPacket(600); //
 	this._packet.writeC(0x22)
 
-			.writeD(0x02) // getObjectId
+			.writeD(0x02) // getObjectId npc
 			.writeD(1000001) // npctype id 1000001;gremlin;L2Monster;10.0;15.0;
 
 			//#id;name;class;collision_radius;collision_height

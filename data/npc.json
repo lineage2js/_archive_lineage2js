@@ -1,0 +1,29 @@
+[
+	{
+	    "id": 1000001,
+	    "name": "gremlin",
+	    "level": 1,
+	    "gender": "male",
+	    "type": "L2Monster",
+	    "attackRange": 36,
+	    "hp": 65,
+	    "mp": 30,
+	    "exp": 29,
+	    "sp": 2,
+	    "pAtk": 4,
+	    "pDef": 41,
+	    "mAtk": 3,
+	    "mDef": 32,
+	    "pSpd": 273,
+	    "mSpd": 333,
+	    "aggressive": 0,
+	    "rightHand": 0,
+	    "leftHand": 0,
+	    "armor": 0,
+	    "walkSpeed": 20,
+	    "runSpeed": 50,
+	    "class": "L2Monster",
+	    "collisionRadius": "10.0",
+	    "collisionHeight": "15.0"
+	}
+]

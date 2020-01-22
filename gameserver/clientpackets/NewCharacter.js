@@ -1,5 +1,5 @@
-var classId = require("./../../data/classId");
-var characterTemplateData = require("./../../data/characterTemplate");
+var classes = require("./../../data/classes");
+var characterTemplateData = require("./../../data/characterTemplates");
 var templates = require("./../../gameserver/templates/templates");
 var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
 var ClientPacket = require("./ClientPacket");
@@ -16,15 +16,15 @@ class NewCharacter {
 	_init() {
 		var characterTemplateTable = this._serialization(characterTemplateData); // Чтобы удобно было доставать данные по classId
 		var characterTemplates = [
-			new templates.Character(characterTemplateTable[classId.fighter]),
-			new templates.Character(characterTemplateTable[classId.mage]),
-			new templates.Character(characterTemplateTable[classId.elvenFighter]),
-			new templates.Character(characterTemplateTable[classId.elvenMage]),
-			new templates.Character(characterTemplateTable[classId.darkFighter]),
-			new templates.Character(characterTemplateTable[classId.darkMage]),
-			new templates.Character(characterTemplateTable[classId.orcFighter]),
-			new templates.Character(characterTemplateTable[classId.orcMage]),
-			new templates.Character(characterTemplateTable[classId.dwarvenFighter]),
+			new templates.Character(characterTemplateTable[classes.fighter]),
+			new templates.Character(characterTemplateTable[classes.mage]),
+			new templates.Character(characterTemplateTable[classes.elvenFighter]),
+			new templates.Character(characterTemplateTable[classes.elvenMage]),
+			new templates.Character(characterTemplateTable[classes.darkFighter]),
+			new templates.Character(characterTemplateTable[classes.darkMage]),
+			new templates.Character(characterTemplateTable[classes.orcFighter]),
+			new templates.Character(characterTemplateTable[classes.orcMage]),
+			new templates.Character(characterTemplateTable[classes.dwarvenFighter]),
 		];
 
 		this._packet.send(new serverPackets.CharacterTemplates(characterTemplates));

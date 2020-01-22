@@ -1,15 +1,8 @@
-var InitLS = require("./InitLS");
-var LoginFail = require("./LoginFail");
-var LoginOk = require("./LoginOk");
-var ServerList = require("./ServerList");
-var PlayOk = require("./PlayOk");
-var PlayFail = require("./PlayFail");
-
 module.exports = {
-	InitLS: InitLS,
-	LoginFail: LoginFail,
-	LoginOk: LoginOk,
-	ServerList: ServerList,
-	PlayOk: PlayOk,
-	PlayFail: PlayFail
+	InitLS: require("./InitLS"),
+	LoginFail: require("./LoginFail"),
+	LoginOk: require("./LoginOk"),
+	ServerList: require("./ServerList"),
+	PlayOk: require("./PlayOk"),
+	PlayFail: require("./PlayFail")
 }

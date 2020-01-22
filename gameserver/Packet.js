@@ -5,11 +5,6 @@ var XOR = require("./../util/XOR");
 var clientPackets = require("./../gameserver/clientpackets/clientPackets");
 var serverPackets = require("./../gameserver/serverpackets/serverPackets");
 var templates = require("./../gameserver/templates/templates");
-// DB
-var low = require("lowdb");
-var FileSync = require("lowdb/adapters/FileSync");
-var database = new FileSync("data/database.json");
-var db = low(database);
 
 class Packet {
 	constructor(player, players, server) {

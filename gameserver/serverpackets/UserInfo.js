@@ -76,7 +76,7 @@ function UserInfo(player) {
 		.writeD(player.pSpd)
 		.writeD(player.mDef)
 
-		.writeD(player.pvpFlag)
+		.writeD(player.getFlagDisplay())
 		.writeD(player.karma)
 
 		.writeD(player.runSpeed)

@@ -1,24 +1,28 @@
-function Players() {
-	this._players = [];
-}
+class Players {
+	constructor(server) {
+		this._players = [];
+		this._server = server;
+	}
 
-Players.prototype.addPlayer = function(player) {
-	this._players.push(player);
-}
+	addPlayer(player) {
+		this._players.push(player);
+		this._server.objects.add(player);
+	}
 
-Players.prototype.addBots = function(bots) {
-	for(var i = 0; i < bots.length; i++) {
-		this._players.push(bots[i]);
+	addBots(bots) {
+		for(var i = 0; i < bots.length; i++) {
+			this._players.push(bots[i]);
+			this._server.objects.add(bots[i]);
+		}
+	}
+
+	getPlayers() {
+		return this._players;
+	}
+
+	getOnlinePlayers() {
+		
 	}
 }
-
-Players.prototype.getPlayers = function() {
-	return this._players;
-}
-
-Players.prototype.getOnlinePlayers = function() {
-	
-}
-
 
 module.exports = Players;

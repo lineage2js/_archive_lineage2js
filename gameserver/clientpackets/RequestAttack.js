@@ -1,3 +1,4 @@
+var config = require("./../../config/config");
 var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
 var ClientPacket = require("./ClientPacket");
 
@@ -43,8 +44,21 @@ class Action {
 			miss: false
 		}
 
+		this._player.hit(this.getObjectId(), type => {
+			if(type === "start") {
+				this._packet.send(new serverPackets.AutoAttackStart(this._player.objectId));
+				this._packet.send(new serverPackets.SystemMessage(35, [{ type: config.base.systemMessageType.NUMBER, value: 1000 }]));
+			}
+
+			if(type === "end") {
+				this._packet.send(new serverPackets.AutoAttackStop(this._player.objectId));
+			}
+			
+			this._packet.send(new serverPackets.UserInfo(this._player));
+		});
 		this._packet.send(new serverPackets.MoveToPawn(this._player));
-		this._packet.send(new serverPackets.Attack(this._player, hits))
+		this._packet.send(new serverPackets.Attack(this._player, hits));
+		this._packet.send(new serverPackets.UserInfo(this._player));
 	}
 }
 

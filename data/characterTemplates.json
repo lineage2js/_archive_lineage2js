@@ -1,4 +1,4 @@
-var data = [
+[
   {
     "classId": 0,
     "className": "Human Fighter",
@@ -36,7 +36,12 @@ var data = [
     "femaleAttackSpeedMultiplier": 1.188,
     "femaleCollisionRadius": 8,
     "femaleCollisionHeight": 23.5,
-    "items": [1147, 1146, 10, 2369]
+    "items": [
+      1147,
+      1146,
+      10,
+      2369
+    ]
   },
   {
     "classId": 10,
@@ -75,7 +80,11 @@ var data = [
     "femaleAttackSpeedMultiplier": 0.87264,
     "femaleCollisionRadius": 6.5,
     "femaleCollisionHeight": 22.5,
-    "items": [461, 425, 6]
+    "items": [
+      461,
+      425,
+      6
+    ]
   },
   {
     "classId": 18,
@@ -99,7 +108,7 @@ var data = [
     "critical": 46,
     "evasion": 36,
     "runSpeed": 125,
-    "walkSpeed":  87,
+    "walkSpeed": 87,
     "swimsSpeed": 50,
     "maximumLoad": 73840,
     "x": 43648,
@@ -114,7 +123,12 @@ var data = [
     "femaleAttackSpeedMultiplier": 1.242,
     "femaleCollisionRadius": 7.5,
     "femaleCollisionHeight": 23,
-    "items": [1147, 1146, 10, 2369]
+    "items": [
+      1147,
+      1146,
+      10,
+      2369
+    ]
   },
   {
     "classId": 25,
@@ -153,7 +167,11 @@ var data = [
     "femaleAttackSpeedMultiplier": 0.89856,
     "femaleCollisionRadius": 7.5,
     "femaleCollisionHeight": 23,
-    "items": [461, 425, 6]
+    "items": [
+      461,
+      425,
+      6
+    ]
   },
   {
     "classId": 31,
@@ -192,7 +210,12 @@ var data = [
     "femaleAttackSpeedMultiplier": 1.2312,
     "femaleCollisionRadius": 7,
     "femaleCollisionHeight": 23.5,
-    "items": [1147, 1146, 10, 2369]
+    "items": [
+      1147,
+      1146,
+      10,
+      2369
+    ]
   },
   {
     "classId": 38,
@@ -231,7 +254,11 @@ var data = [
     "femaleAttackSpeedMultiplier": 0.88992,
     "femaleCollisionRadius": 7,
     "femaleCollisionHeight": 23.5,
-    "items": [461, 425, 6]
+    "items": [
+      461,
+      425,
+      6
+    ]
   },
   {
     "classId": 44,
@@ -270,7 +297,12 @@ var data = [
     "femaleAttackSpeedMultiplier": 1.1448,
     "femaleCollisionRadius": 7,
     "femaleCollisionHeight": 27,
-    "items": [1147, 1146, 2368, 2369]
+    "items": [
+      1147,
+      1146,
+      2368,
+      2369
+    ]
   },
   {
     "classId": 49,
@@ -309,7 +341,11 @@ var data = [
     "femaleAttackSpeedMultiplier": 0.89856,
     "femaleCollisionRadius": 8,
     "femaleCollisionHeight": 25.5,
-    "items": [461, 425, 7]
+    "items": [
+      461,
+      425,
+      7
+    ]
   },
   {
     "classId": 53,
@@ -348,8 +384,11 @@ var data = [
     "femaleAttackSpeedMultiplier": 1.487196,
     "femaleCollisionRadius": 5,
     "femaleCollisionHeight": 19,
-    "items": [1147, 1146, 10, 2370]
+    "items": [
+      1147,
+      1146,
+      10,
+      2370
+    ]
   }
 ]
-
-module.exports = data;

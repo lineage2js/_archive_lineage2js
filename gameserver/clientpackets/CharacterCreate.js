@@ -1,7 +1,7 @@
 var config = require("./../../config/config");
 var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
 var templates = require("./../../gameserver/templates/templates");
-var characterTemplateData = require("./../../data/characterTemplate");
+var characterTemplateData = require("./../../data/characterTemplates");
 var ClientPacket = require("./ClientPacket");
 
 class CharacterCreate {
