@@ -63,7 +63,7 @@ class CharacterCreate {
 		var MAXIMUM_QUANTITY_CHARACTERS = 7;
 
 		if(characterQuantity === MAXIMUM_QUANTITY_CHARACTERS) {
-			this._packet.send(new serverPackets.CharacterCreateFail(config.base.errors.gameserver.REASON_TOO_MANY_CHARACTERS));
+			this._player.sendPacket(new serverPackets.CharacterCreateFail(config.base.errors.gameserver.REASON_TOO_MANY_CHARACTERS));
 			
 			return false;
 		}
@@ -92,13 +92,13 @@ class CharacterCreate {
 					charactersList.push(new templates.Character(charactersData[i]));
 				}
 
-				this._packet.send(new serverPackets.CharacterCreateSuccess());
-				this._packet.send(new serverPackets.CharacterSelectInfo(charactersList, this._player));
+				this._player.sendPacket(new serverPackets.CharacterCreateSuccess());
+				this._player.sendPacket(new serverPackets.CharacterSelectInfo(charactersList, this._player));
 			} else {
-				this._packet.send(new serverPackets.CharacterCreateFail(config.base.errors.gameserver.REASON_NAME_ALREADY_EXISTS));
+				this._player.sendPacket(new serverPackets.CharacterCreateFail(config.base.errors.gameserver.REASON_NAME_ALREADY_EXISTS));
 							}
 		} else {
-			this._packet.send(new serverPackets.CharacterCreateFail(config.base.errors.gameserver.REASON_16_ENG_CHARS));
+			this._player.sendPacket(new serverPackets.CharacterCreateFail(config.base.errors.gameserver.REASON_16_ENG_CHARS));
 		}
 	}
 

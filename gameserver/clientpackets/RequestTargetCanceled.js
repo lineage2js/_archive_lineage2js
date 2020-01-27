@@ -12,7 +12,7 @@ class RequestTargetCanceled {
 	}
 
 	_init() {
-		this._packet.send(new serverPackets.TargetUnselected(this._player));
+		this._player.sendPacket(new serverPackets.TargetUnselected(this._player));
 		this._player.target = null;
 	}
 }

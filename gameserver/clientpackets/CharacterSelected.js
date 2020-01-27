@@ -58,7 +58,7 @@ class CharacterSelected {
 		this._player.items.push(this._server.item.create(3467));
 		//
 
-		this._packet.send(new serverPackets.CharacterSelected(character));
+		this._player.sendPacket(new serverPackets.CharacterSelected(character));
 	}
 }
 

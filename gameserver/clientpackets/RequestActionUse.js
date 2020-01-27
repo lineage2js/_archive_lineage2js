@@ -27,19 +27,25 @@ class RequestActionUse {
 	_init() {
 		switch(this.getActionId()) {
 			case 0:
-				var waitType = this._player.waitType ^ 0x01 // 1 => 0, 0 => 1
+				if(this._player.isStanding()) {
+					this._player.sitDown();
+				} else {
+					this._player.standUp();
+				}
 
-				this._packet.send(new serverPackets.ChangeWaitType(this._player, waitType));
-				this._packet.broadcast(new serverPackets.ChangeWaitType(this._player, waitType));
-				this._player.waitType = waitType;
+				this._player.sendPacket(new serverPackets.ChangeWaitType(this._player));
+				this._player.broadcast(new serverPackets.ChangeWaitType(this._player));
 
 				break;
 			case 1:
-				var moveType = this._player.moveType ^ 0x01 // 1 => 0, 0 => 1
+				if(this._player.isRunning()) {
+					this._player.setWalking();
+				} else {
+					this._player.setRunning();
+				}
 
-				this._packet.send(new serverPackets.ChangeMoveType(this._player, moveType));
-				this._packet.broadcast(new serverPackets.ChangeMoveType(this._player, moveType));
-				this._player.moveType = moveType;
+				this._player.sendPacket(new serverPackets.ChangeMoveType(this._player));
+				this._player.broadcast(new serverPackets.ChangeMoveType(this._player));
 		}
 	}
 }

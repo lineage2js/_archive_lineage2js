@@ -4,8 +4,9 @@ var config = require("./../../config/config");
 var ClientPacket = require("./ClientPacket");
 
 class RequestServerList {
-	constructor(packet) {
+	constructor(packet, player) {
 		this._packet = packet;
+		this._player = player;
 		this._data = new ClientPacket(this._packet.getBuffer());
 		this._data.readC()
 			.readD() // sessionKey1 first part
@@ -27,7 +28,7 @@ class RequestServerList {
 		var sessionKey1Client = this.getSessionKey1();
 
 		if(this._packet.keyComparison(this._packet.getSessionKey1Server(), sessionKey1Client)) {
-			this._packet.send(new serverPackets.ServerList(config.gameserver.host, config.gameserver.port, config.gameserver.maxPlayer));
+			this._player.sendPacket(new serverPackets.ServerList(config.gameserver.host, config.gameserver.port, config.gameserver.maxPlayer));
 		}
 	}
 

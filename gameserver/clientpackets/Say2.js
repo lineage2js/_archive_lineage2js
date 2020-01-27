@@ -34,13 +34,9 @@ class Say2 {
 	}
 
 	_init() {
-		this._packet.send(new serverPackets.CreateSay(this._player, this.getType(), this.getText()));
+		this._player.sendPacket(new serverPackets.CreateSay(this._player, this.getType(), this.getText()));
 		this._packet.broadcast(new serverPackets.CreateSay(this._player, this.getType(), this.getText()));
 	}
-
-	// if(this._packet.getData()[2] === TELL) { // fix
-	// 	this._packet.readS();
-	// }
 }
 
 module.exports = Say2;

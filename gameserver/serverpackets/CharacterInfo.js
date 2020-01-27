@@ -30,7 +30,7 @@ function CharacterInfo(player) {
 		.writeD(player.mSpd)
 		.writeD(player.pSpd)
 		
-		.writeD(player.pvpFlag)
+		.writeD(player.getFlagDisplay())
 		.writeD(player.karma)
 
 		.writeD(player.runSpeed)
@@ -70,10 +70,10 @@ function CharacterInfo(player) {
 		.writeD(0x00)	// getAllyId new in rev 417
 		.writeD(0x00)	// new in rev 417   siege-flags
 
-		.writeC(player.waitType)
-		.writeC(player.moveType)
+		.writeC(player.getWaitType())
+		.writeC(player.getMoveType())
 
-		.writeC(0x00) // isInCombat 0 || 1
+		.writeC(player.getCombatState())
 		.writeC(0x00) // isDead dead = 1  alive = 0
 
 		.writeC(0x00)	// invisible = 1  visible =0

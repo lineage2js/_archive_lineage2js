@@ -2,8 +2,9 @@ var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
 var ClientPacket = require("./ClientPacket");
 
 class RequestQuestList {
-	constructor(packet) {
+	constructor(packet, player) {
 		this._packet = packet;
+		this._player = player;
 		this._data = new ClientPacket(this._packet.getBuffer());
 		this._data.readC();
 
@@ -11,7 +12,7 @@ class RequestQuestList {
 	}
 
 	_init() {
-		this._packet.send(new serverPackets.QuestList(/* database - quests */));
+		this._player.sendPacket(new serverPackets.QuestList(/* database - quests */));
 	}
 }
 

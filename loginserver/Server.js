@@ -22,7 +22,7 @@ class Server {
 		socket.on("close", packet.close.bind(packet));
 		socket.on("error", packet.error.bind(packet));
 		socket.setEncoding("binary");
-		packet.send(new serverPackets.InitLS(), false); // false - first packet is not encrypted
+		player.sendPacket(new serverPackets.InitLS(), false); // false - first packet is not encrypted
 		log(`Connected to the login server: ${socket.remoteAddress}:${socket.remotePort}`);
 	}
 }

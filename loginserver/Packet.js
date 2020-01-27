@@ -12,21 +12,6 @@ class Packet {
 		this._opcode = null;
 	}
 
-	send(packet, encoding = true) {
-		var packetLength = new Buffer.from([0x00, 0x00]);
-		// Мутация аргументов - зло
-		packetLength.writeInt16LE(packet.length + 2);
-
-		if(encoding) {
-			packet = new Buffer.from(this._player.blowfish.encrypt(packet));
-			packet = Buffer.concat([packetLength, packet]);
-			this._player.socket.write(packet);
-		} else {
-			packet = Buffer.concat([packetLength, packet]);
-			this._player.socket.write(packet);
-		}
-	}
-
 	getBuffer() {
 		return this._decrypted;
 	}
@@ -50,11 +35,11 @@ class Packet {
 
 				break;
 			case 0x02:
-				new clientPackets.RequestServerLogin(this);
+				new clientPackets.RequestServerLogin(this, this._player);
 				
 				break;
 			case 0x05:
-				new clientPackets.RequestServerList(this);
+				new clientPackets.RequestServerList(this, this._player);
 						
 				break;
 		}

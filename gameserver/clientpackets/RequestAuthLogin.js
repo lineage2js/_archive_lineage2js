@@ -55,9 +55,9 @@ class RequestAuthLogin {
 
 		if(this._packet.keyComparison(this._packet.getSessionKey1Server(), sessionKey1Client) && this._packet.keyComparison(this._packet.getSessionKey2Server(), sessionKey2Client)) {
 			// Загружать из БД список персонажей
-			this._packet.send(new serverPackets.CharacterSelectInfo(charactersList, this._player));
+			this._player.sendPacket(new serverPackets.CharacterSelectInfo(charactersList, this._player));
 		} else {
-			this._packet.send(new serverPackets.AuthLoginFail(config.base.errors.gameserver.REASON_SYSTEM_ERROR));
+			this._player.sendPacket(new serverPackets.AuthLoginFail(config.base.errors.gameserver.REASON_SYSTEM_ERROR));
 		}
 	}
 }

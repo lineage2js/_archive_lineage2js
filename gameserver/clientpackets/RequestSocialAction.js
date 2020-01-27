@@ -19,8 +19,8 @@ class RequestSocialAction {
 	_init() {
 		var actionId = this.getActionId();
 
-		this._packet.send(new serverPackets.SocialAction(this._player, actionId));
-		this._packet.broadcast(new serverPackets.SocialAction(this._player, actionId));
+		this._player.sendPacket(new serverPackets.SocialAction(this._player, actionId));
+		this._player.broadcast(new serverPackets.SocialAction(this._player, actionId));
 	}
 
 }

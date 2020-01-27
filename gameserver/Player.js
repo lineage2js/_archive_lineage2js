@@ -1,8 +1,10 @@
+var serverPackets = require("./../gameserver/serverpackets/serverPackets");
+
 class Player {
 	constructor(socket, xor, server) {
-		this.socket = socket;
-		this.xor = xor;
-		this.server = server;
+		this.socket = socket || null;
+		this.xor = xor || null;
+		this.server = server || null;
 		
 		this.objectId = null;
 		this.target = null;
@@ -25,10 +27,13 @@ class Player {
 		this.allianceCrestId = 0;
 		this.exp = 0;
 		this.sp = 0;
-		this.waitType = 1; // 1 - is stands, 0 - is sitting
-		this.moveType = 1; // 1 - is running, 0 - is walks
 		this.gm = 0; // 0 - false, 1 - true;
 		this.privateStoreType = 0;
+
+		// states
+		this._isStanding = 1; // 0 - sit, 1 - stand
+		this._isRunning = 1; // 0 - walk, 1 - run
+		this._inCombat = 0; // 0 - idle, 1 - combat
 
 	    this.pvp = 0;
 	    this.pk = 0;
@@ -111,36 +116,89 @@ class Player {
 		this.back = { objectId: 0, itemId: 0 };
 	}
 
+	sendPacket(packet, encoding = false /* false for test */) {
+		var packetLength = new Buffer.from([0x00, 0x00]);
+		var packetCopy = new Buffer.from(packet);
+		
+		packetLength.writeInt16LE(packet.length + 2);
+		
+		if(encoding) {
+			var packetEncrypted = new Buffer.from(this.xor.encrypt(packetCopy));
+
+			packetEncrypted = Buffer.concat([packetLength, packetEncrypted]);
+			this.socket.write(packetEncrypted);
+		} else {
+			packet = Buffer.concat([packetLength, packet]);
+			this.socket.write(packet);
+		}
+	}
+
+	broadcast(packet) {
+		var packetLength = new Buffer.from([0x00, 0x00]);
+		var players = this.server.players.getPlayers();
+
+		packetLength.writeInt16LE(packet.length + 2);
+
+		for(var i = 0; i < players.length; i++) {
+			if(players[i].online && players[i].socket !== this.socket && !players[i].bot) {
+				//var packetCopy = new Buffer.from(packet);
+				//var packetEncrypted = new Buffer.from(players[i].xor.encrypt(packetCopy));
+
+				//packetEncrypted = Buffer.concat([packetLength, packetEncrypted]);
+				packet = Buffer.concat([packetLength, packet]); // for test
+				//players[i].socket.write(packetEncrypted);
+				players[i].socket.write(packet); // for test
+			}
+		}
+	}
+
+	isStanding() {
+		return this._isStanding === 1;
+	}
+
+	getWaitType() {
+		return this._isStanding;
+	}
+
+	sitDown() {
+		this._isStanding = 0;
+	}
+
+	standUp() {
+		this._isStanding = 1;
+	}
+
+	isRunning() {
+		return this._isRunning === 1;
+	}
+
+	getMoveType() {
+		return this._isRunning;
+	}
+
+	setWalking() {
+		this._isRunning = 0;
+	}
+
+	setRunning() {
+		this._isRunning = 1;
+	}
+
+	setCombatState(value) {
+		this._inCombat = value ? 1 : 0;
+	}
+
+	getCombatState() {
+		return this._inCombat;
+	}
+
 	// fix
-	hit(objectId, callback) {
+	attack(objectId, callback) {
 		//var Player = this.constructor;
-		//var object = this.server.objects.get(objectId);
-		var startingTime = this.gender === 0 ? this.maleAttackSpeedMultiplier * 1000 : this.femaleAttackSpeedMultiplier * 1000
+		var attacked = this.server.objects.get(objectId);
 
 		if(true) {
-
-			this.server.timer.tick([startingTime, 3000, 500, 500, 500, 500, 500, 500], type => {
-				switch(type) {
-					case "start":
-						this._flag.status = 1;
-						this._flag.display = 1;
-						callback("start");
-
-						break;
-					case "end":
-						this._flag.status = 0;
-						this._flag.display = 0;
-						callback("end");
-
-						break;
-					case "default":
-						this._flag.display = this._flag.display ^ 0x01; // 1 => 0, 0 => 1
-						callback("default");
-
-						break;
-				}
-				
-			})
+			callback(true, this, attacked);
 		}
 	}
 
@@ -198,6 +256,48 @@ class Player {
 
 	addCharacter(character) {
 		this.server.db.get("characters").push(character).write();
+	}
+
+	changeCombatStateTask(callback) {
+		var startingTime = this.gender === 0 ? this.maleAttackSpeedMultiplier * 1000 : this.femaleAttackSpeedMultiplier * 1000;
+		var endingTime = 3000;
+
+		this.server.timer.tick([startingTime, endingTime], type => {
+			switch(type) {
+				case "start":
+					this.setCombatState(true);
+					callback("start");
+
+					break;
+				case "stop":
+					this.setCombatState(false);
+					callback("stop");
+
+					break;
+			}
+		})
+	}
+
+	changeFlagTask(callback) {
+		var startingTime = this.gender === 0 ? this.maleAttackSpeedMultiplier * 1000 : this.femaleAttackSpeedMultiplier * 1000;
+		var endingTime = 3000;
+		
+		this.server.timer.tick([startingTime, endingTime], type => {
+			switch(type) {
+				case "start":
+					this._flag.status = 1;
+					this._flag.display = 1;
+					callback();
+
+					break;
+				case "stop":
+					this._flag.status = 0;
+					this._flag.display = 0;
+					callback();
+
+					break;
+			}
+		})
 	}
 
 	_checkPointInCircle(x1, y1, x2, y2, radius) {

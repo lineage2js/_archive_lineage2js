@@ -12,7 +12,7 @@ class RequestItemList {
 	}
 
 	_init() {
-		this._packet.send(new serverPackets.ItemList(this._player, true));
+		this._player.sendPacket(new serverPackets.ItemList(this._player, true));
 	}
 }
 

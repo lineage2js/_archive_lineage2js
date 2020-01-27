@@ -3,7 +3,7 @@ var file = require("fs");
 var XOR = require("./../util/XOR");
 var log = require("./../util/log");
 var config = require("./../config/config");
-var Bot = require("./../gameserver/Bot");
+var Bots = require("./../gameserver/Bots");
 var Player = require("./../gameserver/Player");
 var Players = require("./../gameserver/Players");
 var Packet = require("./../gameserver/Packet");
@@ -29,12 +29,12 @@ class Server {
 		this.announcements =  new Announcements("data/announcements.json");
 		this.items = new templates.Items([{ link: "data/items/armor.json", category: "armor" }, { link: "data/items/weapon.json", category: "weapon" }, { link: "data/items/etc.json", category: "etc" }]);
 		this.item = new Item(this.items.getData(), this.idFactory);
-		this.bot = new Bot(this.idFactory);
-		this.db = db;
+		this.bots = new Bots(this);
 		this.objects = new Objects();
 		this.timer = new Timer();
 		this.players = new Players(this);
-		this.players.addBots(this.bot.create(10));
+		this.db = db;
+		this.players.addBots(this.bots.create(10));
 	}
 
 	start() {

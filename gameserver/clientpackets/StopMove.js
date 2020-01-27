@@ -32,7 +32,7 @@ class StopMove {
 		this._player.x = this.getX();
 		this._player.y = this.getY();
 		this._player.z = this.getZ();
-		this._packet.send(new serverPackets.StopMoveWithLocation(this._player));
+		this._player.sendPacket(new serverPackets.StopMoveWithLocation(this._player));
 	}
 }
 

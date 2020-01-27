@@ -8,9 +8,9 @@ var templates = require("./../gameserver/templates/templates");
 
 class Packet {
 	constructor(player, players, server) {
-		this._server = server;
 		this._player = player;
 		this._players = players;
+		this._server = server;
 		this._sessionKey1Server = [0x55555555, 0x44444444];
 		this._sessionKey2Server = [0x55555555, 0x44444444];
 		this._encryption = false;
@@ -39,39 +39,6 @@ class Packet {
 		return this._sessionKey2Server;
 	}
 
-	send(packet, encoding = false /* false for test */) {
-		var packetLength = new Buffer.from([0x00, 0x00]);
-		var packetCopy = new Buffer.from(packet);
-		
-		packetLength.writeInt16LE(packet.length + 2);
-		
-		if(encoding) {
-			var packetEncrypted = new Buffer.from(this._player.xor.encrypt(packetCopy));
-
-			packetEncrypted = Buffer.concat([packetLength, packetEncrypted]);
-			this._player.socket.write(packetEncrypted);
-		} else {
-			packet = Buffer.concat([packetLength, packet]);
-			this._player.socket.write(packet);
-		}
-	}
-
-	broadcast(packet) {
-		var packetLength = new Buffer.from([0x00, 0x00]);
-
-		packetLength.writeInt16LE(packet.length + 2);
-
-		for(var i = 0; i < this._players.length; i++) {
-			if(this._players[i].online && this._players[i].socket !== this._player.socket && !this._players[i].bot) {
-				var packetCopy = new Buffer.from(packet);
-				var packetEncrypted = new Buffer.from(this._players[i].xor.encrypt(packetCopy));
-
-				packetEncrypted = Buffer.concat([packetLength, packetEncrypted]);
-				this._players[i].socket.write(packetEncrypted);
-			}
-		}
-	}
-
 	handler(data) {
 		this._encrypted = new Buffer.from(data, "binary").slice(2); // slice(2) - without first two byte responsible for packet size
 		//this._decrypted = new Buffer.from(this.getEncryption() ? this._player.xor.decrypt(this._encrypted) : this._encrypted);
@@ -81,7 +48,7 @@ class Packet {
 
 		switch(this._opcode) {
 			case 0x00:
-				new clientPackets.ProtocolVersion(this);
+				new clientPackets.ProtocolVersion(this, this._player);
 
 				break;
 			case 0x08:
@@ -89,7 +56,7 @@ class Packet {
 
 				break;
 			case 0x0e:
-				new clientPackets.NewCharacter(this);
+				new clientPackets.NewCharacter(this, this._player);
 
 				break;
 			case 0x09:
@@ -105,7 +72,7 @@ class Packet {
 
 				break;
 			case 0x63:
-				new clientPackets.RequestQuestList(this);
+				new clientPackets.RequestQuestList(this, this._player);
 
 				break;
 			case 0x03:
@@ -161,11 +128,11 @@ class Packet {
 
 				break;
 			case 0x0a:
-				new clientPackets.RequestAttack(this, this._player);
+				new clientPackets.RequestAttack(this, this._player, this._server);
 
 				break;
 			case 0x57:
-				new clientPackets.RequestShowBoard(this, this._server);
+				new clientPackets.RequestShowBoard(this, this._player, this._server);
 
 				break;
 		}

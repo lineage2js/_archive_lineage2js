@@ -35,8 +35,8 @@ class Action {
 	_init() {
 		switch (this.getActionId()) {
 			case 0: // click
-				//this.send(new serverPackets.ActionFailed());
-				this._packet.send(new serverPackets.TargetSelected(this.getObjectId()));
+				//this._player.sendPacket(new serverPackets.ActionFailed());
+				this._player.sendPacket(new serverPackets.TargetSelected(this.getObjectId()));
 				this._player.target = this.getObjectId();
 
 				break;

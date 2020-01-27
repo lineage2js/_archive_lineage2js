@@ -2,8 +2,9 @@ var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
 var ClientPacket = require("./ClientPacket");
 
 class RequestShowBoard {
-	constructor(packet, server) {
+	constructor(packet, player, server) {
 		this._packet = packet;
+		this._player = player;
 		this._server = server;
 		this._data = new ClientPacket(this._packet.getBuffer());
 		this._data.readC()
@@ -13,7 +14,7 @@ class RequestShowBoard {
 	}
 
 	_init() {
-		this._packet.send(new serverPackets.ShowBoard(this._server.html.get("tutorial_001")));
+		this._player.sendPacket(new serverPackets.ShowBoard(this._server.html.get("tutorial_001")));
 	}
 }
 

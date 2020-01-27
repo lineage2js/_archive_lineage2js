@@ -12,7 +12,7 @@ class RequestSkillList {
 	}
 
 	_init() {
-		this._packet.send(new serverPackets.SkillList(this._player));
+		this._player.sendPacket(new serverPackets.SkillList(this._player));
 	}
 }
 

@@ -16,19 +16,19 @@ class EnterWorld {
 
 	_init() {
 		this._server.announcements.show(announcement => {
-			this._packet.send(new serverPackets.CreateSay(this._player, config.base.MESSAGE_TYPE.ANNOUNCEMENT, announcement));
+			this._player.sendPacket(new serverPackets.CreateSay(this._player, config.base.MESSAGE_TYPE.ANNOUNCEMENT, announcement));
 		})
 
-		this._packet.send(new serverPackets.SunRise());
-		this._packet.send(new serverPackets.UserInfo(this._player));
-		this._packet.send(new serverPackets.ItemList(this._player));
-		//this._packet.send(new serverPackets.NpcInfo(null, this._player));
-		//this._packet.send(new serverPackets.TutorialShowHtml(this._server.html.get("tutorial_001"))); // fix
-		//this._packet.send(new serverPackets.Ride(this._player));
-		this._packet.broadcast(new serverPackets.CharacterInfo(this._player)); // Оповестить всех, что персонаж зашел в мир
+		this._player.sendPacket(new serverPackets.SunRise());
+		this._player.sendPacket(new serverPackets.UserInfo(this._player));
+		this._player.sendPacket(new serverPackets.ItemList(this._player));
+		//this._player.sendPacket(new serverPackets.NpcInfo(null, this._player));
+		//this._player.sendPacket(new serverPackets.TutorialShowHtml(this._server.html.get("tutorial_001"))); // fix
+		//this._player.sendPacket(new serverPackets.Ride(this._player));
+		this._player.broadcast(new serverPackets.CharacterInfo(this._player)); // Оповестить всех, что персонаж зашел в мир
 
 		this._player.getVisiblePlayers(this._players.getPlayers(), anotherPlayer => {
-			this._packet.send(new serverPackets.CharacterInfo(anotherPlayer));
+			this._player.sendPacket(new serverPackets.CharacterInfo(anotherPlayer));
 		});
 	}
 }

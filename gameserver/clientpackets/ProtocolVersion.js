@@ -3,8 +3,9 @@ var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
 var ClientPacket = require("./ClientPacket");
 
 class ProtocolVersion {
-	constructor(packet) {
+	constructor(packet, player) {
 		this._packet = packet;
+		this._player = player;
 		this._data = new ClientPacket(this._packet.getBuffer());
 		this._data.readC()
 			.readD();
@@ -18,7 +19,7 @@ class ProtocolVersion {
 
 	_init() {
 		if(this.getVersion() === config.base.PROTOCOL_VERSION.CLIENT) {
-			this._packet.send(new serverPackets.CryptInit(config.base.key.XOR), false);
+			this._player.sendPacket(new serverPackets.CryptInit(config.base.key.XOR), false);
 			this._packet.setEncryption(true); // The first packet is not encrypted
 		}
 	}

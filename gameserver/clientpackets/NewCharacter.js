@@ -5,8 +5,9 @@ var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
 var ClientPacket = require("./ClientPacket");
 
 class NewCharacter {
-	constructor(packet) {
+	constructor(packet, player) {
 		this._packet = packet;
+		this._player = player;
 		this._data = new ClientPacket(this._packet.getBuffer());
 		this._data.readC();
 
@@ -27,7 +28,7 @@ class NewCharacter {
 			new templates.Character(characterTemplateTable[classes.dwarvenFighter]),
 		];
 
-		this._packet.send(new serverPackets.CharacterTemplates(characterTemplates));
+		this._player.sendPacket(new serverPackets.CharacterTemplates(characterTemplates));
 	}
 
 	_serialization(data) {

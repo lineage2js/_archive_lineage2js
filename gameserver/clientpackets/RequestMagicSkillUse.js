@@ -26,9 +26,9 @@ class RequestMagicSkillUse {
 			cyan: 2
 		}
 						
-		this._packet.send(new serverPackets.MagicSkillUse(this._player, skill));
-		this._packet.send(new serverPackets.MagicSkillLaunched(this._player, skill));
-		this._packet.send(new serverPackets.SetupGauge(gauge.blue, skill.hitTime));
+		this._player.sendPacket(new serverPackets.MagicSkillUse(this._player, skill));
+		this._player.sendPacket(new serverPackets.MagicSkillLaunched(this._player, skill));
+		this._player.sendPacket(new serverPackets.SetupGauge(gauge.blue, skill.hitTime));
 	}
 }
 

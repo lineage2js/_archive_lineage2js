@@ -3,7 +3,7 @@ class Timer {
 		var time = 0;
 		var position = "default";
 		var start = 0;
-		var end = milliseconds.length - 1;
+		var stop = milliseconds.length - 1;
 
 		for(var i = 0; i < milliseconds.length; i++) {
 			switch(i) {
@@ -11,8 +11,8 @@ class Timer {
 					position = "start";
 
 					break;
-				case end:
-					position = "end";
+				case stop:
+					position = "stop";
 
 					break;
 				default:
@@ -23,7 +23,7 @@ class Timer {
 
 			time += milliseconds[i];
 
-			setTimeout(callback.bind(null, position), time);
+			setTimeout(callback, time, position);
 		}
 	}
 }

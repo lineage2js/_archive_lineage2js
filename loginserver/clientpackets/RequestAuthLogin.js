@@ -28,9 +28,9 @@ class RequestAuthLogin {
 		log(`player ${this.getLogin()} requesting auth login`);
 
 		if(status === "success") {
-			this._packet.send(new serverPackets.LoginOk(this._packet.getSessionKey1Server()));
+			this._player.sendPacket(new serverPackets.LoginOk(this._packet.getSessionKey1Server()));
 		} else {
-			this._packet.send(new serverPackets.LoginFail(status));
+			this._player.sendPacket(new serverPackets.LoginFail(status));
 		}
 	}
 }

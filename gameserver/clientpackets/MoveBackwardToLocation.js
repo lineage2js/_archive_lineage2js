@@ -50,8 +50,8 @@ class MoveBackwardToLocation {
 			}
 		}
 
-		this._packet.send(new serverPackets.MoveToLocation(positions, this._player));
-		this._packet.broadcast(new serverPackets.MoveToLocation(positions, this._player));
+		this._player.sendPacket(new serverPackets.MoveToLocation(positions, this._player));
+		this._player.broadcast(new serverPackets.MoveToLocation(positions, this._player));
 
 		this._player.x = positions.target.x;
 		this._player.y = positions.target.y;

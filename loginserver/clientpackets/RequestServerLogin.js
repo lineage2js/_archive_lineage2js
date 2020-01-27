@@ -4,8 +4,9 @@ var config = require("./../../config/config");
 var ClientPacket = require("./ClientPacket");
 
 class RequestServerLogin {
-	constructor(packet) {
+	constructor(packet, player) {
 		this._packet = packet;
+		this._player = player;
 		this._data = new ClientPacket(this._packet.getBuffer());
 		this._data.readC()
 			.readD() // sessionKey1 first part
@@ -35,9 +36,9 @@ class RequestServerLogin {
 		if(this._packet.keyComparison(this._packet.getSessionKey2Server(), sessionKey1Client)) {
 			// Проверка на доступность сервера / Check server status
 			if(true) {
-				this._packet.send(new serverPackets.PlayOk(this._packet.getSessionKey2Server()));
+				this._player.sendPacket(new serverPackets.PlayOk(this._packet.getSessionKey2Server()));
 			} else {
-				this._packet.send(new serverPackets.PlayFail(config.base.errors.loginserver.REASON_SYSTEM_ERROR))
+				this._player.sendPacket(new serverPackets.PlayFail(config.base.errors.loginserver.REASON_SYSTEM_ERROR))
 			}
 		}
 	}

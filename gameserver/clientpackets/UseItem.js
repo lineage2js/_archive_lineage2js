@@ -85,14 +85,14 @@ class UseItem {
 
 		if(this._usedItem.category === "etc") {
 			if(this._usedItem.itemId === 1665 || this._usedItem.itemId === 1863) { // map: world, elmore
-				this._packet.send(new serverPackets.ShowMiniMap(this._usedItem.itemId));
+				this._player.sendPacket(new serverPackets.ShowMiniMap(this._usedItem.itemId));
 			}
 		}
 
-		this._packet.send(new serverPackets.UserInfo(this._player));
-		this._packet.send(new serverPackets.ItemList(this._player));
-		this._packet.send(new serverPackets.SystemMessage(49, [{ type: config.base.systemMessageType.ITEM_NAME, value: this._usedItem.itemId }]));
-		this._packet.broadcast(new serverPackets.CharacterInfo(this._player));
+		this._player.sendPacket(new serverPackets.UserInfo(this._player));
+		this._player.sendPacket(new serverPackets.ItemList(this._player));
+		this._player.sendPacket(new serverPackets.SystemMessage(49, [{ type: config.base.systemMessageType.ITEM_NAME, value: this._usedItem.itemId }]));
+		this._player.broadcast(new serverPackets.CharacterInfo(this._player));
 	}
 
 	_putItem(bodyPart, twoHandedWeapon) {
