@@ -51,6 +51,13 @@ class Action {
 				if(type === "start") {
 					player.sendPacket(new serverPackets.AutoAttackStart(player.objectId));
 					player.sendPacket(new serverPackets.SystemMessage(35, [{ type: config.base.systemMessageType.NUMBER, value: 1000 }]));
+					//
+					attacked.hp -= 200;
+					attacked.broadcast(new serverPackets.CharacterInfo(attacked));
+					if(attacked.hp <= 0) {
+						attacked.broadcast(new serverPackets.Die(attacked))
+					}
+					//
 				}
 
 				if(type === "stop") {
@@ -70,7 +77,6 @@ class Action {
 					attacked.broadcast(new serverPackets.CreateSay(attacked, 0, "attack start")); // for test
 					//
 					attacked.target = player.objectId;
-					//attacked.broadcast(new serverPackets.TargetSelected(attacked.target));
 					attacked.broadcast(new serverPackets.Attack(attacked, attacks));
 					//
 				}
@@ -78,6 +84,13 @@ class Action {
 				if(type === "stop") {
 					attacked.broadcast(new serverPackets.AutoAttackStop(attacked.objectId));
 					attacked.broadcast(new serverPackets.CreateSay(attacked, 0, "attack end")); // for test
+					//
+					// player.hp -= 50;
+					// player.sendPacket(new serverPackets.UserInfo(player));
+					// if(player.hp <= 0) {
+					// 	player.sendPacket(new serverPackets.Die(player))
+					// }
+					//
 				}
 
 				attacked.broadcast(new serverPackets.CharacterInfo(attacked));
