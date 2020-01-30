@@ -52,11 +52,11 @@ class Action {
 					player.sendPacket(new serverPackets.AutoAttackStart(player.objectId));
 					player.sendPacket(new serverPackets.SystemMessage(35, [{ type: config.base.systemMessageType.NUMBER, value: 1000 }]));
 					//
-					attacked.hp -= 200;
-					attacked.broadcast(new serverPackets.CharacterInfo(attacked));
-					if(attacked.hp <= 0) {
-						attacked.broadcast(new serverPackets.Die(attacked))
-					}
+					// attacked.hp -= 200;
+					// attacked.broadcast(new serverPackets.CharacterInfo(attacked));
+					// if(attacked.hp <= 0) {
+					// 	attacked.broadcast(new serverPackets.Die(attacked))
+					// }
 					//
 				}
 
@@ -76,25 +76,40 @@ class Action {
 					attacked.broadcast(new serverPackets.AutoAttackStart(attacked.objectId));
 					attacked.broadcast(new serverPackets.CreateSay(attacked, 0, "attack start")); // for test
 					//
+
+					var attackSpeed = attacked.gender === 0 ? attacked.maleAttackSpeedMultiplier : attacked.femaleAttackSpeedMultiplier;
+
 					attacked.target = player.objectId;
 					attacked.broadcast(new serverPackets.Attack(attacked, attacks));
+
+					setTimeout(() => {
+						player.hp -= 5;
+						player.mp -= 10;
+
+						player.regenerationHpTask(() => {
+							player.sendPacket(new serverPackets.UserInfo(player));
+						});
+
+						player.regenerationMpTask(() => {
+							player.sendPacket(new serverPackets.UserInfo(player));
+						});
+
+						if(player.hp <= 0) {
+							player.sendPacket(new serverPackets.Die(player))
+						}
+					}, attackSpeed * attacked.pSpd)
 					//
 				}
 
 				if(type === "stop") {
 					attacked.broadcast(new serverPackets.AutoAttackStop(attacked.objectId));
-					attacked.broadcast(new serverPackets.CreateSay(attacked, 0, "attack end")); // for test
-					//
-					// player.hp -= 50;
-					// player.sendPacket(new serverPackets.UserInfo(player));
-					// if(player.hp <= 0) {
-					// 	player.sendPacket(new serverPackets.Die(player))
-					// }
-					//
+					attacked.broadcast(new serverPackets.CreateSay(attacked, 0, "attack end")); // for test	
 				}
 
 				attacked.broadcast(new serverPackets.CharacterInfo(attacked));
 			})
+
+
 
 		});
 

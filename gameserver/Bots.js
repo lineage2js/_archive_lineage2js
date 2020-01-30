@@ -73,18 +73,25 @@ class Bots {
 			bot.walkSpeed = character.walkSpeed
 			bot.swimsSpeed = character.swimsSpeed;
 			bot.maximumLoad = character.maximumLoad;
+
+			bot.pAtk = character.pAtk;
+			bot.pDef = character.pDef;
+			bot.mAtk = character.mAtk;
+			bot.mDef = character.mDef;
+			bot.pSpd = character.pSpd;
+			bot.mSpd = character.mSpd;
 			
 			bot.x = Math.floor(Math.random()*(500 * sign)) + x;
 			bot.y = Math.floor(Math.random()*(500 * sign)) + y;
 			bot.z = -3080;
 			
 			bot.maleMovementMultiplier = character.maleMovementMultiplier;
-			bot.maleAttackSpeedMultiplier = character.maleMovementMultiplier;
+			bot.maleAttackSpeedMultiplier = character.maleAttackSpeedMultiplier;
 			bot.maleCollisionRadius = character.maleCollisionRadius;
 			bot.maleCollisionHeight = character.maleCollisionHeight;
 
 			bot.femaleMovementMultiplier = character.femaleMovementMultiplier;
-			bot.femaleAttackSpeedMultiplier = character.femaleMovementMultiplier;
+			bot.femaleAttackSpeedMultiplier = character.femaleAttackSpeedMultiplier;
 			bot.femaleCollisionRadius = character.femaleCollisionRadius;
 			bot.femaleCollisionHeight = character.femaleCollisionHeight;
 

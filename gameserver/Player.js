@@ -34,6 +34,8 @@ class Player {
 		this._isStanding = 1; // 0 - sit, 1 - stand
 		this._isRunning = 1; // 0 - walk, 1 - run
 		this._inCombat = 0; // 0 - idle, 1 - combat
+		this._isRegenerationHp = false;
+		this._isRegenerationMp = false;
 
 	    this.pvp = 0;
 	    this.pk = 0;
@@ -296,6 +298,44 @@ class Player {
 					callback();
 
 					break;
+			}
+		})
+	}
+
+	regenerationHpTask(callback) {
+		if(!this._isRegenerationHp) {
+			this._isRegenerationHp = true;
+			this._regenerationHp(callback);
+		}
+	}
+
+	regenerationMpTask(callback) {
+		if(!this._isRegenerationMp) {
+			this._isRegenerationMp = true;
+			this._regenerationMp(callback);
+		}
+	}
+
+	_regenerationHp(callback) {
+		this.server.timer.tick([1000], type => {
+			if(this.hp < this.maximumHp) {
+				this.hp++
+				callback();
+				this._regenerationHp(callback);
+			} else {
+				this._isRegenerationHp = false;
+			}
+		})
+	}
+
+	_regenerationMp(callback) {
+		this.server.timer.tick([1000], type => {
+			if(this.mp < this.maximumMp) {
+				this.mp++
+				callback();
+				this._regenerationMp(callback);
+			} else {
+				this._isRegenerationMp = false;
 			}
 		})
 	}
