@@ -1,28 +1,54 @@
-var fs = require("fs");
-
-class NPC {
-	constructor(file) {
-		this._file = file;
-		this._storage = null;
-
-		this._init();
+class Npc {
+	constructor() {
+		this.objectId = null;
+		this.id = null;
+		this.name = null;
+		this.x = null;
+		this.y = null;
+		this.z = null;
+		this.level = null;
+		this.gender = null;
+		this.type = null;
+		this.attackRange = null;
+		this.hp = null;
+		this.mp = null;
+		this.exp = null;
+		this.sp = null;
+		this.pAtk = null;
+		this.pDef = null;
+		this.mAtk = null;
+		this.mDef = null;
+		this.pSpd = null;
+		this.mSpd = null;
+		this.aggressive = null;
+		this.rightHand = null;
+		this.leftHand = null;
+		this.armor = null;
+		this.walkSpeed = null;
+		this.runSpeed = null;
+		this.class = null;
+		this.collisionRadius = null;
+		this.collisionHeight = null;
 	}
 
-	spawn() {
+	getVisibleObjects(objects, callback) {
+		var radius = 2000;
 
+		for(var i = 0; i < objects.length; i++) {
+			if(!objects[i].bot && this._checkPointInCircle(this.x, this.y, objects[i].x, objects[i].y, radius)) {
+				callback(objects[i]);
+			}
+		}
 	}
 
-	get(id) {
-		return this._storage.filter(data => data.id === id)[0];
-	}
+	_checkPointInCircle(x1, y1, x2, y2, radius) {
+		var dx = x2 - x1;
+		var dy = y2 - y1;
+		var sqrtDist = dx*dx + dy*dy;
+		var sqrtRadius = radius*radius;
 
-	_readFile() {
-		this._storage = JSON.parse(fs.readFileSync(this._file, "utf-8"))
-	}
-
-	_init(){ 
-		this._readFile();
+		return sqrtDist < sqrtRadius;
 	}
 }
 
-module.exports = NPC;
+module.exports = Npc;

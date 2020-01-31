@@ -15,7 +15,7 @@ class Bots {
 	create(count) {
 		var x = -72100;
 		var y = 257500;
-		var z = -3115;
+		var z = -3080;
 
 		for(var i = 0; i < count; i++) {
 			var bot = new Bot();
@@ -83,7 +83,7 @@ class Bots {
 			
 			bot.x = Math.floor(Math.random()*(500 * sign)) + x;
 			bot.y = Math.floor(Math.random()*(500 * sign)) + y;
-			bot.z = -3080;
+			bot.z = z;
 			
 			bot.maleMovementMultiplier = character.maleMovementMultiplier;
 			bot.maleAttackSpeedMultiplier = character.maleAttackSpeedMultiplier;

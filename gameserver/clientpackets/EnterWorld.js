@@ -22,10 +22,14 @@ class EnterWorld {
 		this._player.sendPacket(new serverPackets.SunRise());
 		this._player.sendPacket(new serverPackets.UserInfo(this._player));
 		this._player.sendPacket(new serverPackets.ItemList(this._player));
-		//this._player.sendPacket(new serverPackets.NpcInfo(null, this._player));
+
 		//this._player.sendPacket(new serverPackets.TutorialShowHtml(this._server.html.get("tutorial_001"))); // fix
 		//this._player.sendPacket(new serverPackets.Ride(this._player));
 		this._player.broadcast(new serverPackets.CharacterInfo(this._player)); // Оповестить всех, что персонаж зашел в мир
+
+		this._player.getVisibleObjects(this._server.objects.getNpc(), npc => {
+			this._player.sendPacket(new serverPackets.NpcInfo(npc, this._player));
+		})
 
 		this._player.getVisiblePlayers(this._players.getPlayers(), anotherPlayer => {
 			this._player.sendPacket(new serverPackets.CharacterInfo(anotherPlayer));

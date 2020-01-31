@@ -12,9 +12,10 @@ var Item = require("./../gameserver/Item");
 var IdFactory = require("./../util/IdFactory");
 var Announcements = require("./../gameserver/Announcements");
 var HTML = require("./../gameserver/HTML");
-var NPC = require("./../gameserver/NPC");
+var NpcTable = require("./../gameserver/NpcTable");
 var Objects = require("./../gameserver/Objects");
 var Timer = require("./../gameserver/Timer");
+var serverPacket = require("./serverPackets/serverPackets");
 // db
 var low = require("lowdb");
 var FileSync = require("lowdb/adapters/FileSync");
@@ -25,7 +26,7 @@ class Server {
 	constructor() {
 		this.idFactory = new IdFactory("data/idstate.json");
 		this.html = new HTML("data/html");
-		//this.npc = new NPC("data/npc.json");
+		this.npcTable = new NpcTable("data/npc.json", this); // NpcTable ???
 		this.announcements =  new Announcements("data/announcements.json");
 		this.items = new templates.Items([{ link: "data/items/armor.json", category: "armor" }, { link: "data/items/weapon.json", category: "weapon" }, { link: "data/items/etc.json", category: "etc" }]);
 		this.item = new Item(this.items.getData(), this.idFactory);
@@ -35,6 +36,33 @@ class Server {
 		this.players = new Players(this);
 		this.db = db;
 		this.players.addBots(this.bots.create(10));
+		this.objects.add(this.npcTable.spawn());
+
+		// test
+		// setInterval(() => {
+		// 	var npcList = this.objects.getNpc();
+
+		// 	for(var i = 0; i < npcList.length; i++) {
+		// 		var npc = npcList[i];
+		// 		var position = {
+		// 			target: {
+		// 				x: npc.x = npc.x - 100,
+		// 				y: npc.y = npc.y - 100,
+		// 				z: npc.z
+		// 			},
+		// 			origin: {
+		// 				x: npc.x,
+		// 				y: npc.y,
+		// 				z: npc.z
+		// 			}
+		// 		}
+
+		// 		npc.getVisibleObjects(this.players.getPlayers(), player => {
+		// 			player.sendPacket(new serverPacket.MoveToLocation(position, npc));
+		// 		})
+		// 	}
+		// }, 10000)
+		//
 	}
 
 	start() {

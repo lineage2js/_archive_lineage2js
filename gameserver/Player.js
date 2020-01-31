@@ -5,6 +5,7 @@ class Player {
 		this.socket = socket || null;
 		this.xor = xor || null;
 		this.server = server || null;
+		this.bot = false;
 		
 		this.objectId = null;
 		this.target = null;
@@ -218,17 +219,28 @@ class Player {
 		}, 0);
 	}
 
-	getVisiblePlayers(players, handler) {
+	getVisiblePlayers(players, callback) {
 		var radius = 2000;
 
 		for(var i = 0; i < players.length; i++) {
 			if(players[i].socket !== this.socket) {
 				if(players[i].online && this._checkPointInCircle(this.x, this.y, players[i].x, players[i].y, radius)) {
-					handler(players[i]);
+					callback(players[i]);
 				}
 			}
 		}
 	}
+
+	getVisibleObjects(objects, callback) {
+		var radius = 2000;
+
+		for(var i = 0; i < objects.length; i++) {
+			if(this._checkPointInCircle(this.x, this.y, objects[i].x, objects[i].y, radius)) {
+				callback(objects[i]);
+			}
+		}
+	}
+	//
 
 	fillData(data){
 		for(key in data) {

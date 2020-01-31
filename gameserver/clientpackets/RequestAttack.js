@@ -75,8 +75,8 @@ class Action {
 				if(type === "start") {
 					attacked.broadcast(new serverPackets.AutoAttackStart(attacked.objectId));
 					attacked.broadcast(new serverPackets.CreateSay(attacked, 0, "attack start")); // for test
-					//
 
+					//test
 					var attackSpeed = attacked.gender === 0 ? attacked.maleAttackSpeedMultiplier : attacked.femaleAttackSpeedMultiplier;
 
 					attacked.target = player.objectId;
