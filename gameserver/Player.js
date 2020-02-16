@@ -1,4 +1,6 @@
 var serverPackets = require("./../gameserver/serverpackets/serverPackets");
+var config = require("./../config/config");
+var Bot = require("./Bot");
 
 class Player {
 	constructor(socket, xor, server) {
@@ -10,17 +12,17 @@ class Player {
 		this.objectId = null;
 		this.target = null;
 		this.login = null;
-	    this.characterName = null;
-	    this.title = "";
-	    this.level = 1;
+		this.characterName = null;
+		this.title = "";
+		this.level = 1;
 		this.gender = null;
 		this.hairStyle = null;
 		this.hairColor = null;
 		this.face = null;
 		this.heading = 0;
-	    this.accessLevel = 0;
-	    this.online = false;
-	    this.onlineTime = 0;
+		this.accessLevel = 0;
+		this.online = false;
+		this.onlineTime = 0;
 		this.clanId = 0;
 		this.clanLeader = 0;
 		this.clanCrestId = 0;
@@ -38,13 +40,13 @@ class Player {
 		this._isRegenerationHp = false;
 		this._isRegenerationMp = false;
 
-	    this.pvp = 0;
-	    this.pk = 0;
-	    this.karma = 0;
-	    this._flag = {
-	    	status: 0,
-	    	display: 0 
-	    };
+		this.pvp = 0;
+		this.pk = 0;
+		this.karma = 0;
+		this._flag = {
+			status: 0,
+			display: 0 
+		};
 
 		this.classId = null;
 		this.className = null;
@@ -132,7 +134,9 @@ class Player {
 			this.socket.write(packetEncrypted);
 		} else {
 			packet = Buffer.concat([packetLength, packet]);
-			this.socket.write(packet);
+			if(!this.bot) {
+				this.socket.write(packet);
+			}
 		}
 	}
 
@@ -197,11 +201,22 @@ class Player {
 
 	// fix
 	attack(objectId, callback) {
+		var attacks = {
+			soulshot: false,
+			critical: false,
+			miss: false
+		}
+
 		//var Player = this.constructor;
 		var attacked = this.server.objects.get(objectId);
 
 		if(true) {
-			callback(true, this, attacked);
+			callback(this, attacked);
+
+			this.sendPacket(new serverPackets.MoveToPawn(this));
+			this.sendPacket(new serverPackets.Attack(this, attacks));
+			this.broadcast(new serverPackets.Attack(this, attacks));
+			this.sendPacket(new serverPackets.UserInfo(this));
 		}
 	}
 
@@ -272,7 +287,7 @@ class Player {
 		this.server.db.get("characters").push(character).write();
 	}
 
-	changeCombatStateTask(callback) {
+	changeCombatStateTask(attacker) {
 		var startingTime = this.gender === 0 ? this.maleAttackSpeedMultiplier * 1000 : this.femaleAttackSpeedMultiplier * 1000;
 		var endingTime = 3000;
 
@@ -280,19 +295,45 @@ class Player {
 			switch(type) {
 				case "start":
 					this.setCombatState(true);
-					callback("start");
+					this.sendPacket(new serverPackets.AutoAttackStart(this.objectId));
+					this.broadcast(new serverPackets.AutoAttackStart(this.objectId));
+					this.sendPacket(new serverPackets.SystemMessage(35, [{ type: config.base.systemMessageType.NUMBER, value: 1000 }]));
+
+					// for test
+					if(this.bot && attacker) {
+						this.target = this.server.objects._objects[5].objectId;
+						//console.log(this.server.objects.get(this.target));
+						this.attack(this.target, (attacker, attacked) => {
+							this.broadcast(new serverPackets.CreateSay(this, 0, "attack")); // for test
+
+							attacked.changeCombatStateTask();
+
+							// setInterval(() => {
+							// 	attacked.target = this.objectId
+							// 	attacked.attack(attacked.target, (attacker, attacked) => {
+							// 		attacker.broadcast(new serverPackets.CreateSay(this, 0, "attack"));
+							// 		attacked.changeCombatStateTask();
+							// 	})
+							// }, 2000)
+						})
+					}
+					//
 
 					break;
 				case "stop":
 					this.setCombatState(false);
-					callback("stop");
+					this.sendPacket(new serverPackets.AutoAttackStop(this.objectId));
+					this.broadcast(new serverPackets.AutoAttackStop(this.objectId));
 
 					break;
 			}
+
+			this.sendPacket(new serverPackets.UserInfo(this));
+			this.broadcast(new serverPackets.CharacterInfo(this));
 		})
 	}
 
-	changeFlagTask(callback) {
+	changeFlagTask() {
 		var startingTime = this.gender === 0 ? this.maleAttackSpeedMultiplier * 1000 : this.femaleAttackSpeedMultiplier * 1000;
 		var endingTime = 3000;
 		
@@ -301,13 +342,13 @@ class Player {
 				case "start":
 					this._flag.status = 1;
 					this._flag.display = 1;
-					callback();
+					this.sendPacket(new serverPackets.UserInfo(this));
 
 					break;
 				case "stop":
 					this._flag.status = 0;
 					this._flag.display = 0;
-					callback();
+					this.sendPacket(new serverPackets.UserInfo(this));
 
 					break;
 			}

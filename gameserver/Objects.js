@@ -6,8 +6,12 @@ class Objects {
 	}
 
 	add(objects) {
-		for(var i = 0; i < objects.length; i++) {
-			this._objects.push(objects[i]);
+		if(Array.isArray(objects)) {
+			for(var i = 0; i < objects.length; i++) {
+				this._objects.push(objects[i]);
+			}
+		} else {
+			this._objects.push(objects);
 		}
 	}
 

@@ -1,5 +1,5 @@
 {
-  "name": "lineage-2-node-js",
+  "name": "lineage2js",
   "version": "1.0.0",
   "description": "Server for Lineage 2 Chronicle 1 Harbingers of War",
   "main": "null",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/space2pacman/lineage-2-node.js-emulator-server.git"
+    "url": "git+https://github.com/lineage2js/lineage2js.git"
   },
   "keywords": [
     "lineage2"
@@ -16,9 +16,9 @@
   "author": "space2pacman",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/space2pacman/lineage-2-node.js-emulator-server/issues"
+    "url": "https://github.com/lineage2js/lineage2js/issues"
   },
-  "homepage": "https://github.com/space2pacman/lineage-2-node.js-emulator-server#readme",
+  "homepage": "https://github.com/lineage2js/lineage2js#readme",
   "dependencies": {
     "lowdb": "^1.0.0"
   }

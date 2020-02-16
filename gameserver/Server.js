@@ -37,31 +37,38 @@ class Server {
 		this.db = db;
 		this.players.addBots(this.bots.create(10));
 		this.objects.add(this.npcTable.spawn());
+		this.objects.add(this.bots.get());
 
 		// test
-		// setInterval(() => {
-		// 	var npcList = this.objects.getNpc();
+		setInterval(() => {
+			var npcList = this.objects.getNpc();
 
-		// 	for(var i = 0; i < npcList.length; i++) {
-		// 		var npc = npcList[i];
-		// 		var position = {
-		// 			target: {
-		// 				x: npc.x = npc.x - 100,
-		// 				y: npc.y = npc.y - 100,
-		// 				z: npc.z
-		// 			},
-		// 			origin: {
-		// 				x: npc.x,
-		// 				y: npc.y,
-		// 				z: npc.z
-		// 			}
-		// 		}
+			for(var i = 0; i < npcList.length; i++) {
+				var npc = npcList[i];
+				var [x, y] = npc.getRandomPos();
+				var origin = {
+					x: npc.x,
+					y: npc.y,
+					z: npc.z
+				}		
+				var position = {
+					target: {
+						x: npc.x = x,
+						y: npc.y = y,
+						z: npc.z
+					},
+					origin: {
+						x: origin.x,
+						y: origin.y,
+						z: origin.z
+					}
+				}
 
-		// 		npc.getVisibleObjects(this.players.getPlayers(), player => {
-		// 			player.sendPacket(new serverPacket.MoveToLocation(position, npc));
-		// 		})
-		// 	}
-		// }, 10000)
+				npc.getVisibleObjects(this.players.getPlayers(), player => {
+					player.sendPacket(new serverPacket.MoveToLocation(position, npc));
+				})
+			}
+		}, 10000)
 		//
 	}
 

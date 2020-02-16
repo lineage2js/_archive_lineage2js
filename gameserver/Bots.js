@@ -54,12 +54,12 @@ class Bots {
 			bot.server = this._server;
 			bot.objectId = this._idFactory.getNextId();;
 			bot.characterName = "bot" + i;
-		    bot.title = "bot";
+			bot.title = "bot";
 			bot.gender = Math.floor(Math.random() * 2);
 			bot.hairStyle = 1;
 			bot.hairColor = 1;
 			bot.face = 0;
-		    bot.online = true;
+			bot.online = true;
 			bot.bot = true;
 
 			bot.classId = classId;
@@ -94,6 +94,8 @@ class Bots {
 			bot.femaleAttackSpeedMultiplier = character.femaleAttackSpeedMultiplier;
 			bot.femaleCollisionRadius = character.femaleCollisionRadius;
 			bot.femaleCollisionHeight = character.femaleCollisionHeight;
+
+			bot.items = [];
 
 			this._bots.push(bot);
 		}

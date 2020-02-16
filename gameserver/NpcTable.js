@@ -13,21 +13,23 @@ class NpcTable {
 
 	spawn() {
 		var objects = [];
-		var x = -72100;
-		var y = 257500;
-		var z = -3115;
+		//var x = -72100;
+		//var y = 257500;
+		
 
-		for(var i = 0; i < 3; i++) {
+		for(var i = 0; i < 3 ; i++) {
 			for(var j = 0; j < this._storage.length; j++) {
 				var npc = new Npc();
 				var item = this._storage[j];
 				var sign = Math.random() < 0.5 ? -1 : 1;
+				var [x, y] = npc.getRandomPos();
+				var z = -3115;
 
 				npc.objectId = this._idFactory.getNextId();
 				npc.id = item.id;
 				npc.name = item.name;
-				npc.x = Math.floor(Math.random()*(500 * sign)) + x;
-				npc.y = Math.floor(Math.random()*(500 * sign)) + y;
+				npc.x = x;
+				npc.y = y;
 				npc.z = z;
 				npc.level = item.level;
 				npc.gender = item.gender;

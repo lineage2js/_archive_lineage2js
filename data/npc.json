@@ -1,7 +1,7 @@
 [
 	{
 	    "id": 1000001,
-	    "name": "gremlin",
+	    "name": "Gremlin",
 	    "level": 1,
 	    "gender": "male",
 	    "type": "L2Monster",
@@ -25,5 +25,32 @@
 	    "class": "L2Monster",
 	    "collisionRadius": "10.0",
 	    "collisionHeight": "15.0"
+	},
+	{
+	    "id": 1000432,
+	    "name": "Elpy",
+	    "level": 1,
+	    "gender": "male",
+	    "type": "L2Monster",
+	    "attackRange": 36,
+	    "hp": 63,
+	    "mp": 30,
+	    "exp": 29,
+	    "sp": 2,
+	    "pAtk": 4,
+	    "pDef": 39,
+	    "mAtk": 3,
+	    "mDef": 32,
+	    "pSpd": 273,
+	    "mSpd": 333,
+	    "aggressive": 0,
+	    "rightHand": 0,
+	    "leftHand": 0,
+	    "armor": 0,
+	    "walkSpeed": 50,
+	    "runSpeed": 80,
+	    "class": "L2Monster",
+	    "collisionRadius": "5.0",
+	    "collisionHeight": "4.5"
 	}
 ]
