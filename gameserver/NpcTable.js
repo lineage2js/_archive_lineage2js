@@ -63,7 +63,7 @@ class NpcTable {
 	}
 
 	get(id) {
-		return this._storage.filter(data => data.id === id)[0];
+		return this._storage.find(data => data.id === id);
 	}
 
 	_readFile() {

@@ -5,8 +5,17 @@ var config = require("./../config/config");
 var Player = require("./Player");
 var Packet = require("./Packet");
 var serverPackets = require("./serverpackets/serverPackets");
+// db
+var low = require("lowdb");
+var FileSync = require("lowdb/adapters/FileSync");
+var database = new FileSync("data/database.json");
+var db = low(database);
 
 class Server {
+	constructor() {
+		this.db = db;
+	}
+
 	start() {
 		net.createServer(this._socketHandler.bind(this)).listen(config.loginserver.port, config.loginserver.host, () => {
 			log(`Login server listening on ${config.loginserver.host}:${config.loginserver.port}`)
@@ -15,7 +24,7 @@ class Server {
 
 	_socketHandler(socket) {
 		var blowfish = new Blowfish(config.base.key.blowfish);
-		var player = new Player(socket, blowfish);
+		var player = new Player(socket, blowfish, this);
 		var packet = new Packet(player);
 
 		socket.on("data", packet.handler.bind(packet));

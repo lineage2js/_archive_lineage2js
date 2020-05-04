@@ -161,84 +161,90 @@ var stringTypes = {
 	}
 }
 
-function Items(data) {
-	this.types = types;
-	this.stringTypes = stringTypes;
-	this._data = data;
-	this._items = [];
-	this._result = null;
+class Items {
+	constructor(data) {
+		this.types = types;
+		this.stringTypes = stringTypes;
+		this._data = data;
+		this._items = [];
+		this._result = null;
 
-	this._load();
-	this._serialization();
-}
-
-Items.prototype._load = function() {
-	for(var i = 0; i < this._data.length; i++) {
-		this._items.push({ items: JSON.parse(file.readFileSync(this._data[i].link, "utf-8")), category: this._data[i].category });
+		this._init();
 	}
-}
 
-Items.prototype._serialization = function() {
-	this._result = {};
+	getData() {
+		return this._result;
+	}
 
-	for(var i = 0; i < this._items.length; i++) {
-		for(var j = 0; j < this._items[i].items.length; j++) {
-			var data = this._items[i];
-			var item = this._items[i].items[j];
+	_load() {
+		for(var i = 0; i < this._data.length; i++) {
+			this._items.push({ items: JSON.parse(file.readFileSync(this._data[i].link, "utf-8")), category: this._data[i].category });
+		}
+	}
 
-			switch(data.category) {
-				case "armor":
-					if(this.stringTypes.ARMOR[item.bodyPart] === this.types.SLOT_NECK 
-						|| this.stringTypes.ARMOR[item.bodyPart] === this.types.SLOT_L_EAR 
-						|| this.stringTypes.ARMOR[item.bodyPart] === this.types.SLOT_L_FINGER) {
+	_serialization() {
+		this._result = {};
+
+		for(var i = 0; i < this._items.length; i++) {
+			for(var j = 0; j < this._items[i].items.length; j++) {
+				var data = this._items[i];
+				var item = this._items[i].items[j];
+
+				switch(data.category) {
+					case "armor":
+						if(this.stringTypes.ARMOR[item.bodyPart] === this.types.SLOT_NECK 
+							|| this.stringTypes.ARMOR[item.bodyPart] === this.types.SLOT_L_EAR 
+							|| this.stringTypes.ARMOR[item.bodyPart] === this.types.SLOT_L_FINGER) {
+							item.type1 = this.types.TYPE1_WEAPON_RING_EARRING_NECKLACE;
+							item.type2 = this.types.TYPE2_ACCESSORY;
+							item.bodyPart = this.stringTypes.SLOT[item.bodyPart];
+							item.isEquipped = false;
+						} else {
+							item.type1 = this.types.TYPE1_SHIELD_ARMOR;
+							item.type2 = this.types.TYPE2_SHIELD_ARMOR;
+							item.bodyPart = this.stringTypes.SLOT[item.bodyPart];
+							item.isEquipped = false;
+						}
+
+						break;
+					case "weapon":
+						if(this.stringTypes.WEAPON[item.type] === this.types.WEAPON_NONE) {
+							item.type1 = this.types.TYPE1_SHIELD_ARMOR;
+							item.type2 = this.types.TYPE2_SHIELD_ARMOR;
+							item.bodyPart = this.stringTypes.SLOT[item.bodyPart];
+							item.isEquipped = false;
+
+							break;
+						}
+
 						item.type1 = this.types.TYPE1_WEAPON_RING_EARRING_NECKLACE;
-						item.type2 = this.types.TYPE2_ACCESSORY;
-						item.bodyPart = this.stringTypes.SLOT[item.bodyPart];
-						item.isEquipped = false;
-					} else {
-						item.type1 = this.types.TYPE1_SHIELD_ARMOR;
-						item.type2 = this.types.TYPE2_SHIELD_ARMOR;
-						item.bodyPart = this.stringTypes.SLOT[item.bodyPart];
-						item.isEquipped = false;
-					}
-
-					break;
-				case "weapon":
-					if(this.stringTypes.WEAPON[item.type] === this.types.WEAPON_NONE) {
-						item.type1 = this.types.TYPE1_SHIELD_ARMOR;
-						item.type2 = this.types.TYPE2_SHIELD_ARMOR;
+						item.type2 = this.types.TYPE2_WEAPON;
 						item.bodyPart = this.stringTypes.SLOT[item.bodyPart];
 						item.isEquipped = false;
 
 						break;
-					}
+					case "etc":
+						if(item.type === "quest") {
+							item.type2 = this.types.TYPE2_QUEST;
+						} else {
+							item.type2 = this.types.TYPE2_OTHER;
+						}
 
-					item.type1 = this.types.TYPE1_WEAPON_RING_EARRING_NECKLACE;
-					item.type2 = this.types.TYPE2_WEAPON;
-					item.bodyPart = this.stringTypes.SLOT[item.bodyPart];
-					item.isEquipped = false;
+						item.type1 = this.types.TYPE1_ITEM_QUESTITEM_ADENA;
 
-					break;
-				case "etc":
-					if(item.type === "quest") {
-						item.type2 = this.types.TYPE2_QUEST;
-					} else {
-						item.type2 = this.types.TYPE2_OTHER;
-					}
+						break;
+				}
 
-					item.type1 = this.types.TYPE1_ITEM_QUESTITEM_ADENA;
-
-					break;
+				this._result[item.itemId] = item;
+				this._result[item.itemId].category = data.category;
 			}
-
-			this._result[item.itemId] = item;
-			this._result[item.itemId].category = data.category;
 		}
 	}
-}
 
-Items.prototype.getData = function() {
-	return this._result;
+	_init() {
+		this._load();
+		this._serialization();
+	}
 }
 
 module.exports = Items;

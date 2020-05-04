@@ -16,7 +16,7 @@ class Objects {
 	}
 
 	get(objectId) {
-		return this._objects.filter(object => object.objectId === objectId)[0];
+		return this._objects.find(object => object.objectId === objectId);
 	}
 
 	getNpc() {

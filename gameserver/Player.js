@@ -200,7 +200,7 @@ class Player {
 	}
 
 	// fix
-	attack(objectId, callback) {
+	attack(objectId) {
 		var attacks = {
 			soulshot: false,
 			critical: false,
@@ -211,12 +211,13 @@ class Player {
 		var attacked = this.server.objects.get(objectId);
 
 		if(true) {
-			callback(this, attacked);
-
+			this.changeCombatStateTask();
+			this.changeFlagTask();
+			attacked.changeCombatStateTask(this); // arguments for test
 			this.sendPacket(new serverPackets.MoveToPawn(this));
 			this.sendPacket(new serverPackets.Attack(this, attacks));
-			this.broadcast(new serverPackets.Attack(this, attacks));
 			this.sendPacket(new serverPackets.UserInfo(this));
+			this.broadcast(new serverPackets.Attack(this, attacks));
 		}
 	}
 
@@ -258,13 +259,13 @@ class Player {
 	//
 
 	fillData(data){
-		for(key in data) {
+		for(var key in data) {
 			this[key] = data[key];
 		}
 	}
 
 	getSkill(id) {
-		return this.skills.filter(skill => skill.id === id)[0];
+		return this.skills.find(skill => skill.id === id);
 	}
 
 	getCharacters() {
@@ -298,24 +299,26 @@ class Player {
 					this.sendPacket(new serverPackets.AutoAttackStart(this.objectId));
 					this.broadcast(new serverPackets.AutoAttackStart(this.objectId));
 					this.sendPacket(new serverPackets.SystemMessage(35, [{ type: config.base.systemMessageType.NUMBER, value: 1000 }]));
-
+					
 					// for test
 					if(this.bot && attacker) {
-						this.target = this.server.objects._objects[5].objectId;
-						//console.log(this.server.objects.get(this.target));
-						this.attack(this.target, (attacker, attacked) => {
-							this.broadcast(new serverPackets.CreateSay(this, 0, "attack")); // for test
+						this.target = attacker.objectId;
+						this.attack(this.target)
+						if(!attacker.time) attacker.time = 1500;
+						this.broadcast(new serverPackets.CreateSay(this, 0, attacker.time.toString()));
 
-							attacked.changeCombatStateTask();
+						//
+						var attackSpeedMultiplier = this.gender === 0 ? this.maleAttackSpeedMultiplier : this.femaleAttackSpeedMultiplier;
+						
+						setTimeout(() => {
+							
+							attacker.time -= 100;
+							attacker.hp -= 10;
+							attacker.sendPacket(new serverPackets.UserInfo(this));
 
-							// setInterval(() => {
-							// 	attacked.target = this.objectId
-							// 	attacked.attack(attacked.target, (attacker, attacked) => {
-							// 		attacker.broadcast(new serverPackets.CreateSay(this, 0, "attack"));
-							// 		attacked.changeCombatStateTask();
-							// 	})
-							// }, 2000)
-						})
+							this.changeCombatStateTask(attacker)
+						}, attackSpeedMultiplier * this.pSpd + this.dex);
+						//
 					}
 					//
 

@@ -38,7 +38,7 @@ class Server {
 		this.players.addBots(this.bots.create(10));
 		this.objects.add(this.npcTable.spawn());
 		this.objects.add(this.bots.get());
-
+		
 		// test
 		setInterval(() => {
 			var npcList = this.objects.getNpc();

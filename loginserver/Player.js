@@ -1,13 +1,10 @@
 var config = require(".././config/config");
-var low = require("lowdb");
-var FileSync = require("lowdb/adapters/FileSync");
-var database = new FileSync("data/database.json");
-var db = low(database);
 
 class Player {
-	constructor(socket, blowfish) {
+	constructor(socket, blowfish, server) {
 		this.blowfish = blowfish;
 		this.socket = socket;
+		this.server = server;
 	}
 
 	sendPacket(packet, encoding = true) {
@@ -26,7 +23,7 @@ class Player {
 	}
 
 	getAccount(login) {
-		return db.get("accounts").find({"login": login}).value();
+		return this.server.db.get("accounts").find({"login": login}).value();
 	}
 
 	checkAccount(login, password) {

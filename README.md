@@ -2,7 +2,7 @@
 
 node.js emulator server 
 
-server for lineage 2 Chronicle 1 Harbingers of War
+server for lineage 2 chronicle 1 harbingers of war
 
 config:
 data/config.json
@@ -14,7 +14,7 @@ npm install -i
 
 node loginserver.js
 
-node gamaserver.js
+node gameserver.js
 
 ### run on windows:
 

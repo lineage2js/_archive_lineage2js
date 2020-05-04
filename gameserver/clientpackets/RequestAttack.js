@@ -39,11 +39,7 @@ class Action {
 	}
 
 	_init() {
-		this._player.attack(this.getObjectId(), (player, attacked) => {
-			player.changeCombatStateTask();
-			player.changeFlagTask();
-			attacked.changeCombatStateTask(player);
-		});
+		this._player.attack(this.getObjectId());
 	}
 }
 
