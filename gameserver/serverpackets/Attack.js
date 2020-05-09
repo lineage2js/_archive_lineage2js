@@ -1,6 +1,6 @@
-var ServerPacket = require("./ServerPacket");
-var hit = 0;
-var typesHits = {
+let ServerPacket = require("./ServerPacket");
+let hit = 0;
+let typesHits = {
 	soulshot: 16,
 	critical: 32,
 	miss: 128

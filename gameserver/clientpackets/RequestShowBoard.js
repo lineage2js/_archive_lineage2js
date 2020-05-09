@@ -1,5 +1,5 @@
-var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
-var ClientPacket = require("./ClientPacket");
+let serverPackets = require("./../../gameserver/serverpackets/serverPackets");
+let ClientPacket = require("./ClientPacket");
 
 class RequestShowBoard {
 	constructor(packet, player, server) {

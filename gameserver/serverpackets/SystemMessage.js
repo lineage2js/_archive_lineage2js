@@ -1,5 +1,5 @@
-var ServerPacket = require("./ServerPacket");
-var types = {
+let ServerPacket = require("./ServerPacket");
+let types = {
 	TEXT: 0,
 	NUMBER: 1,
 	NPC_NAME: 2,
@@ -13,8 +13,8 @@ function SystemMessage(messageId, messages) {
 		.writeD(messageId)
 		.writeD(messages.length)
 
-	for(var i = 0; i < messages.length; i++) {
-		var type = messages[i].type;
+	for(let i = 0; i < messages.length; i++) {
+		let type = messages[i].type;
 
 		this._packet.writeD(type);
 

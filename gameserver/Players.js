@@ -10,7 +10,7 @@ class Players {
 	}
 
 	addBots(bots) {
-		for(var i = 0; i < bots.length; i++) {
+		for(let i = 0; i < bots.length; i++) {
 			this._players.push(bots[i]);
 			this._server.objects.add(bots[i]);
 		}

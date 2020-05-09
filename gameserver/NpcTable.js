@@ -1,5 +1,5 @@
-var fs = require("fs");
-var Npc = require("./Npc");
+let fs = require("fs");
+let Npc = require("./Npc");
 
 class NpcTable {
 	constructor(file, server) {
@@ -12,18 +12,18 @@ class NpcTable {
 	}
 
 	spawn() {
-		var objects = [];
-		//var x = -72100;
-		//var y = 257500;
+		let objects = [];
+		//let x = -72100;
+		//let y = 257500;
 		
 
-		for(var i = 0; i < 3 ; i++) {
-			for(var j = 0; j < this._storage.length; j++) {
-				var npc = new Npc();
-				var item = this._storage[j];
-				var sign = Math.random() < 0.5 ? -1 : 1;
-				var [x, y] = npc.getRandomPos();
-				var z = -3115;
+		for(let i = 0; i < 3 ; i++) {
+			for(let j = 0; j < this._storage.length; j++) {
+				let npc = new Npc();
+				let item = this._storage[j];
+				let sign = Math.random() < 0.5 ? -1 : 1;
+				let [x, y] = npc.getRandomPos();
+				let z = -3115;
 
 				npc.objectId = this._idFactory.getNextId();
 				npc.id = item.id;

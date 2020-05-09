@@ -1,15 +1,15 @@
-var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
-var ClientPacket = require("./ClientPacket");
-var ALL = 0;
-var SHOUT = 1;
-var TELL = 2;
-var PARTY = 3;
-var CLAN = 4;
-var PRIVATE_CHAT_PLAYER = 6; // used for petition
-var PRIVATE_CHAT_GM = 7; // used for petition
-var TRADE = 8;
-var GM_MESSAGE = 9;
-var ANNOUNCEMENT = 10;
+let serverPackets = require("./../../gameserver/serverpackets/serverPackets");
+let ClientPacket = require("./ClientPacket");
+let ALL = 0;
+let SHOUT = 1;
+let TELL = 2;
+let PARTY = 3;
+let CLAN = 4;
+let PRIVATE_CHAT_PLAYER = 6; // used for petition
+let PRIVATE_CHAT_GM = 7; // used for petition
+let TRADE = 8;
+let GM_MESSAGE = 9;
+let ANNOUNCEMENT = 10;
 
 class Say2 {
 	constructor(packet, player) {

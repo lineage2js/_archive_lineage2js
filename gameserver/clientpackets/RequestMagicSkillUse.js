@@ -1,5 +1,5 @@
-var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
-var ClientPacket = require("./ClientPacket");
+let serverPackets = require("./../../gameserver/serverpackets/serverPackets");
+let ClientPacket = require("./ClientPacket");
 
 class RequestMagicSkillUse {
 	constructor(packet, player) {
@@ -19,8 +19,8 @@ class RequestMagicSkillUse {
 	}
 
 	_init() {
-		var skill = this._player.getSkill(this.getSkillId());
-		var gauge = {
+		let skill = this._player.getSkill(this.getSkillId());
+		let gauge = {
 			blue: 0,
 			red: 1,
 			cyan: 2

@@ -1,5 +1,5 @@
-var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
-var ClientPacket = require("./ClientPacket");
+let serverPackets = require("./../../gameserver/serverpackets/serverPackets");
+let ClientPacket = require("./ClientPacket");
 
 class MoveBackwardToLocation {
 	constructor(packet, player) {
@@ -37,7 +37,7 @@ class MoveBackwardToLocation {
 	}
 
 	_init() {
-		var positions = {
+		let positions = {
 			target: {
 				x: this.getTargetX(),
 				y: this.getTargetY(),

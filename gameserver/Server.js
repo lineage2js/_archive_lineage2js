@@ -1,26 +1,26 @@
-var net = require("net");
-var file = require("fs");
-var XOR = require("./../util/XOR");
-var log = require("./../util/log");
-var config = require("./../config/config");
-var Bots = require("./../gameserver/Bots");
-var Player = require("./../gameserver/Player");
-var Players = require("./../gameserver/Players");
-var Packet = require("./../gameserver/Packet");
-var templates = require("./../gameserver/templates/templates");
-var Item = require("./../gameserver/Item");
-var IdFactory = require("./../util/IdFactory");
-var Announcements = require("./../gameserver/Announcements");
-var HTML = require("./../gameserver/HTML");
-var NpcTable = require("./../gameserver/NpcTable");
-var Objects = require("./../gameserver/Objects");
-var Timer = require("./../gameserver/Timer");
-var serverPacket = require("./serverPackets/serverPackets");
+let net = require("net");
+let file = require("fs");
+let XOR = require("./../util/XOR");
+let log = require("./../util/log");
+let config = require("./../config/config");
+let Bots = require("./../gameserver/Bots");
+let Player = require("./../gameserver/Player");
+let Players = require("./../gameserver/Players");
+let Packet = require("./../gameserver/Packet");
+let templates = require("./../gameserver/templates/templates");
+let Item = require("./../gameserver/Item");
+let IdFactory = require("./../util/IdFactory");
+let Announcements = require("./../gameserver/Announcements");
+let HTML = require("./../gameserver/HTML");
+let NpcTable = require("./../gameserver/NpcTable");
+let Objects = require("./../gameserver/Objects");
+let Timer = require("./../gameserver/Timer");
+let serverPacket = require("./serverPackets/serverPackets");
 // db
-var low = require("lowdb");
-var FileSync = require("lowdb/adapters/FileSync");
-var database = new FileSync("data/database.json");
-var db = low(database);
+let low = require("lowdb");
+let FileSync = require("lowdb/adapters/FileSync");
+let database = new FileSync("data/database.json");
+let db = low(database);
 
 class Server {
 	constructor() {
@@ -41,17 +41,17 @@ class Server {
 		
 		// test
 		setInterval(() => {
-			var npcList = this.objects.getNpc();
+			let npcList = this.objects.getNpc();
 
-			for(var i = 0; i < npcList.length; i++) {
-				var npc = npcList[i];
-				var [x, y] = npc.getRandomPos();
-				var origin = {
+			for(let i = 0; i < npcList.length; i++) {
+				let npc = npcList[i];
+				let [x, y] = npc.getRandomPos();
+				let origin = {
 					x: npc.x,
 					y: npc.y,
 					z: npc.z
 				}		
-				var position = {
+				let position = {
 					target: {
 						x: npc.x = x,
 						y: npc.y = y,
@@ -79,9 +79,9 @@ class Server {
 	}
 
 	_socketHandler(socket) {
-		var xor = new XOR(config.base.key.XOR);
-		var player = new Player(socket, xor, this);
-		var packet = new Packet(player, this.players, this);
+		let xor = new XOR(config.base.key.XOR);
+		let player = new Player(socket, xor, this);
+		let packet = new Packet(player, this.players, this);
 
 		socket.on("data", packet.handler.bind(packet));
 		socket.on("close", packet.close.bind(packet));

@@ -1,4 +1,4 @@
-var Player = require("./Player.js");
+let Player = require("./Player.js");
 
 class Bot extends Player {
 

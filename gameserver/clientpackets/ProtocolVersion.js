@@ -1,6 +1,6 @@
-var config = require("./../../config/config");
-var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
-var ClientPacket = require("./ClientPacket");
+let config = require("./../../config/config");
+let serverPackets = require("./../../gameserver/serverpackets/serverPackets");
+let ClientPacket = require("./ClientPacket");
 
 class ProtocolVersion {
 	constructor(packet, player) {

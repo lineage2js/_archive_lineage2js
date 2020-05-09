@@ -1,6 +1,6 @@
-var config = require("./../../config/config");
-var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
-var ClientPacket = require("./ClientPacket");
+let config = require("./../../config/config");
+let serverPackets = require("./../../gameserver/serverpackets/serverPackets");
+let ClientPacket = require("./ClientPacket");
 
 class UseItem {
 	constructor(packet, player, server) {
@@ -23,7 +23,7 @@ class UseItem {
 		this._usedItem = this._player.getItem(this.getObjectId());
 
 		if(this._usedItem.category === "armor" || this._usedItem.category === "weapon") {
-			var items = this._server.items;
+			let items = this._server.items;
 
 			switch(this._usedItem.bodyPart) {
 				case items.types.SLOT_R_EAR:
@@ -97,21 +97,21 @@ class UseItem {
 
 	_putItem(bodyPart, twoHandedWeapon) {
 		if(bodyPart.objectId != 0) {
-			var item = this._player.getItem(bodyPart.objectId);
+			let item = this._player.getItem(bodyPart.objectId);
 			
 			item.isEquipped = false; // снять если надето
 		}
 
 		if(twoHandedWeapon) { // Всегда срабатывает false на обычных предметах
 			if(this._player.hand.right.objectId != 0) {
-				var item = this._player.getItem(this._player.hand.right.objectId);
+				let item = this._player.getItem(this._player.hand.right.objectId);
 		
 				item.isEquipped = false;
 				this._player.hand.right.objectId = 0;
 				this._player.hand.right.itemId = 0;
 			}
 			if(this._player.hand.left.objectId != 0) {
-				var item = this._player.getItem(this._player.hand.left.objectId);
+				let item = this._player.getItem(this._player.hand.left.objectId);
 		
 				item.isEquipped = false;
 				this._player.hand.left.objectId = 0;
@@ -119,7 +119,7 @@ class UseItem {
 			}
 		} else {
 			if(this._player.hand.leftAndRight.objectId != 0) {
-				var item = this._player.getItem(this._player.hand.leftAndRight.objectId);
+				let item = this._player.getItem(this._player.hand.leftAndRight.objectId);
 		
 				item.isEquipped = false;
 				this._player.hand.leftAndRight.objectId = 0;

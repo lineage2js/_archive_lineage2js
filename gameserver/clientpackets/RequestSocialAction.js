@@ -1,5 +1,5 @@
-var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
-var ClientPacket = require("./ClientPacket");
+let serverPackets = require("./../../gameserver/serverpackets/serverPackets");
+let ClientPacket = require("./ClientPacket");
 
 class RequestSocialAction {
 	constructor(packet, player) {
@@ -17,7 +17,7 @@ class RequestSocialAction {
 	}
 
 	_init() {
-		var actionId = this.getActionId();
+		let actionId = this.getActionId();
 
 		this._player.sendPacket(new serverPackets.SocialAction(this._player, actionId));
 		this._player.broadcast(new serverPackets.SocialAction(this._player, actionId));

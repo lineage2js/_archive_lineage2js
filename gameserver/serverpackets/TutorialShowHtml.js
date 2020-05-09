@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket");
+let ServerPacket = require("./ServerPacket");
 
 function TutorialShowHtml(html) {
 	this._packet = new ServerPacket(1 + ServerPacket.strlen(html));

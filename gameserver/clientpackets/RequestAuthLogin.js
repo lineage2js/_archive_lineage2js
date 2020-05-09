@@ -1,7 +1,7 @@
-var config = require("./../../config/config");
-var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
-var templates = require("./../../gameserver/templates/templates");
-var ClientPacket = require("./ClientPacket");
+let config = require("./../../config/config");
+let serverPackets = require("./../../gameserver/serverpackets/serverPackets");
+let templates = require("./../../gameserver/templates/templates");
+let ClientPacket = require("./ClientPacket");
 
 class RequestAuthLogin {
 	constructor(packet, player) {
@@ -23,7 +23,7 @@ class RequestAuthLogin {
 	}
 
 	getSessionKey1() {
-		var sessionKey1 = [];
+		let sessionKey1 = [];
 
 		sessionKey1[0] = this._data.getData()[4].toString(16);
 		sessionKey1[1] = this._data.getData()[5].toString(16);
@@ -32,7 +32,7 @@ class RequestAuthLogin {
 	}
 
 	getSessionKey2() {
-		var sessionKey2 = [];
+		let sessionKey2 = [];
 
 		sessionKey2[0] = this._data.getData()[3].toString(16);
 		sessionKey2[1] = this._data.getData()[2].toString(16);
@@ -41,15 +41,15 @@ class RequestAuthLogin {
 	}
 
 	_init() {
-		var sessionKey1Client = this.getSessionKey1();
-		var sessionKey2Client = this.getSessionKey2();
-		var charactersList = [];
-		var charactersData;
+		let sessionKey1Client = this.getSessionKey1();
+		let sessionKey2Client = this.getSessionKey2();
+		let charactersList = [];
+		let charactersData;
 
 		this._player.login = this.getLogin();
 		charactersData = this._player.getCharacters();
 
-		for(var i = 0; i < charactersData.length; i++) {
+		for(let i = 0; i < charactersData.length; i++) {
 			charactersList.push(new templates.Character(charactersData[i]));
 		}
 

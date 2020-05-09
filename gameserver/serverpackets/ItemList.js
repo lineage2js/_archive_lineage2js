@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket");
+let ServerPacket = require("./ServerPacket");
 
 function ItemList(player, showWindow = false) {
 	this._packet = new ServerPacket(5 + (28 * player.items.length));
@@ -12,7 +12,7 @@ function ItemList(player, showWindow = false) {
 
 	this._packet.writeH(player.items.length);
 
-	for(var i = 0; i < player.items.length; i++) {
+	for(let i = 0; i < player.items.length; i++) {
 		this._packet.writeH(player.items[i].type1)
 			.writeD(player.items[i].objectId)
 			.writeD(player.items[i].itemId)

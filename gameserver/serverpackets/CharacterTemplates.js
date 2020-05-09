@@ -1,11 +1,11 @@
-var ServerPacket = require("./ServerPacket");
+let ServerPacket = require("./ServerPacket");
 
 function CharacterTemplates(characters) {
 	this._packet = new ServerPacket(85 * characters.length);
 	this._packet.writeC(0x23)
 		.writeD(characters.length)
 
-	for(var i = 0; i < characters.length; i++) {
+	for(let i = 0; i < characters.length; i++) {
 		this._packet.writeD(characters[i].raceId)
 			.writeD(characters[i].classId)
 			.writeD(0x46)

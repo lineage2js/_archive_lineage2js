@@ -32,9 +32,9 @@ class Npc {
 	}
 
 	getVisibleObjects(objects, callback) {
-		var radius = 2000;
+		let radius = 2000;
 
-		for(var i = 0; i < objects.length; i++) {
+		for(let i = 0; i < objects.length; i++) {
 			if(!objects[i].bot && this._checkPointInCircle(this.x, this.y, objects[i].x, objects[i].y, radius)) {
 				callback(objects[i]);
 			}
@@ -42,20 +42,20 @@ class Npc {
 	}
 
 	_checkPointInCircle(x1, y1, x2, y2, radius) {
-		var dx = x2 - x1;
-		var dy = y2 - y1;
-		var sqrtDist = dx*dx + dy*dy;
-		var sqrtRadius = radius*radius;
+		let dx = x2 - x1;
+		let dy = y2 - y1;
+		let sqrtDist = dx*dx + dy*dy;
+		let sqrtRadius = radius*radius;
 
 		return sqrtDist < sqrtRadius;
 	}
 
 	_inPoly(xp, yp, x, y){
-		var npol = xp.length;
-		var j = npol - 1;
-		var c = false;
+		let npol = xp.length;
+		let j = npol - 1;
+		let c = false;
 
-		for (var i = 0; i < npol; i++){
+		for (let i = 0; i < npol; i++){
 			if ((((yp[i]<=y) && (y<yp[j])) || ((yp[j]<=y) && (y<yp[i]))) &&
 				(x > (xp[j] - xp[i]) * (y - yp[i]) / (yp[j] - yp[i]) + xp[i])) {
 				c = !c
@@ -67,14 +67,16 @@ class Npc {
 	}
 
 	getRandomPos() {
-		var max = { x: -80000, y: 270000 };
-		var min = { x: -60000, y: 250000 };
-		var xp = [-71921, -72081, -72277, -72105];
-		var yp = [257496, 257310, 257480, 257686];
+		let max = { x: -80000, y: 270000 };
+		let min = { x: -60000, y: 250000 };
+		let xp = [-71921, -72081, -72277, -72105];
+		let yp = [257496, 257310, 257480, 257686];
+		let x;
+		let y;
 			
 		do {
-			var x = Math.floor(min.x + Math.random() * (max.x + 1 - min.x));
-			var y = Math.floor(min.y + Math.random() * (max.y + 1 - min.y));
+			x = Math.floor(min.x + Math.random() * (max.x + 1 - min.x));
+			y = Math.floor(min.y + Math.random() * (max.y + 1 - min.y));
 		} while(!this._inPoly(xp, yp, x, y))
 
 		return [x, y]

@@ -1,8 +1,8 @@
-var config = require("./../../config/config");
-var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
-var templates = require("./../../gameserver/templates/templates");
-var characterTemplateData = require("./../../data/characterTemplates");
-var ClientPacket = require("./ClientPacket");
+let config = require("./../../config/config");
+let serverPackets = require("./../../gameserver/serverpackets/serverPackets");
+let templates = require("./../../gameserver/templates/templates");
+let characterTemplateData = require("./../../data/characterTemplates");
+let ClientPacket = require("./ClientPacket");
 
 class CharacterCreate {
 	constructor(packet, player, server) {
@@ -57,10 +57,10 @@ class CharacterCreate {
 	}
 
 	_init() {
-		var characterName = this.getCharacterName();
-		var characterTemplateTable = this._serialization(characterTemplateData);
-		var characterQuantity = this._player.getCharacterQuantity();
-		var MAXIMUM_QUANTITY_CHARACTERS = 7;
+		let characterName = this.getCharacterName();
+		let characterTemplateTable = this._serialization(characterTemplateData);
+		let characterQuantity = this._player.getCharacterQuantity();
+		let MAXIMUM_QUANTITY_CHARACTERS = 7;
 
 		if(characterQuantity === MAXIMUM_QUANTITY_CHARACTERS) {
 			this._player.sendPacket(new serverPackets.CharacterCreateFail(config.base.errors.gameserver.REASON_TOO_MANY_CHARACTERS));
@@ -70,9 +70,9 @@ class CharacterCreate {
 
 		if(characterName.length <= 16 && this._isAlphaNumeric(characterName)) {
 			if(this._characterNameisExist(characterName)) {
-				var character = new templates.Character(characterTemplateTable[this.getClassId()]);
-				var charactersData;
-				var charactersList = [];
+				let character = new templates.Character(characterTemplateTable[this.getClassId()]);
+				let charactersData;
+				let charactersList = [];
 
 				character.login = this._player.login;
 				character.objectId = this._server.idFactory.getNextId();
@@ -88,7 +88,7 @@ class CharacterCreate {
 				this._player.addCharacter(character.getData());
 				charactersData = this._player.getCharacters();
 				
-				for(var i = 0; i < charactersData.length; i++) {
+				for(let i = 0; i < charactersData.length; i++) {
 					charactersList.push(new templates.Character(charactersData[i]));
 				}
 
@@ -103,9 +103,9 @@ class CharacterCreate {
 	}
 
 	_createItems(itemsId) {
-		var items = [];
+		let items = [];
 
-		for(var i = 0; i < itemsId.length; i++) {
+		for(let i = 0; i < itemsId.length; i++) {
 			items.push(this._server.item.create(itemsId[i]));
 		}
 
@@ -113,9 +113,9 @@ class CharacterCreate {
 	}
 
 	_characterNameisExist(characterName) {
-		var names = this._player.getCharacterNames();
+		let names = this._player.getCharacterNames();
 
-		for(var i = 0; i < names.length; i++) {
+		for(let i = 0; i < names.length; i++) {
 			if(names[i].toLowerCase() === characterName.toLowerCase()) {
 				return false;
 			}
@@ -125,9 +125,9 @@ class CharacterCreate {
 	}
 
 	_isAlphaNumeric(string) {
-		var charCode;
+		let charCode;
 							
-		for(var i = 0; i < string.length; i++) {
+		for(let i = 0; i < string.length; i++) {
 	  		charCode = string[i].charCodeAt();
 					  	
 		  	if (!(charCode > 47 && charCode < 58) && // numeric (0-9)
@@ -141,9 +141,9 @@ class CharacterCreate {
 	}
 
 	_serialization(data) {
-		var result = {};
+		let result = {};
 
-		for(var i = 0; i < data.length; i++) {
+		for(let i = 0; i < data.length; i++) {
 			result[data[i].classId] = data[i];
 		}
 

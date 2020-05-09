@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket");
+let ServerPacket = require("./ServerPacket");
 
 function SocialAction(player, actionId) {
 	this._packet = new ServerPacket(9);

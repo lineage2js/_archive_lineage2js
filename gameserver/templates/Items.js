@@ -1,5 +1,5 @@
-var file = require("fs");
-var types = {
+let file = require("fs");
+let types = {
 	TYPE1_WEAPON_RING_EARRING_NECKLACE: 0,
 	TYPE1_SHIELD_ARMOR: 1,
 	TYPE1_ITEM_QUESTITEM_ADENA: 4,
@@ -89,7 +89,7 @@ var types = {
 	SLOT_FULL_ARMOR: 0x8000,
 }
 
-var stringTypes = {
+let stringTypes = {
 	MATERIAL: {
 		"paper": types.MATERIAL_PAPER,
 		"wood": types.MATERIAL_WOOD,
@@ -177,7 +177,7 @@ class Items {
 	}
 
 	_load() {
-		for(var i = 0; i < this._data.length; i++) {
+		for(let i = 0; i < this._data.length; i++) {
 			this._items.push({ items: JSON.parse(file.readFileSync(this._data[i].link, "utf-8")), category: this._data[i].category });
 		}
 	}
@@ -185,10 +185,10 @@ class Items {
 	_serialization() {
 		this._result = {};
 
-		for(var i = 0; i < this._items.length; i++) {
-			for(var j = 0; j < this._items[i].items.length; j++) {
-				var data = this._items[i];
-				var item = this._items[i].items[j];
+		for(let i = 0; i < this._items.length; i++) {
+			for(let j = 0; j < this._items[i].items.length; j++) {
+				let data = this._items[i];
+				let item = this._items[i].items[j];
 
 				switch(data.category) {
 					case "armor":

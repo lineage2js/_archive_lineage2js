@@ -1,7 +1,7 @@
-var classes = require("./../data/classes");
-var characterTemplatesData = require("./../data/characterTemplates");
-var Packet = require("./Packet");
-var Bot = require("./Bot");
+let classes = require("./../data/classes");
+let characterTemplatesData = require("./../data/characterTemplates");
+let Packet = require("./Packet");
+let Bot = require("./Bot");
 
 class Bots {
 	constructor(server) {
@@ -13,16 +13,16 @@ class Bots {
 	}
 
 	create(count) {
-		var x = -72100;
-		var y = 257500;
-		var z = -3080;
+		let x = -72100;
+		let y = 257500;
+		let z = -3080;
 
-		for(var i = 0; i < count; i++) {
-			var bot = new Bot();
-			var sign = Math.random() < 0.5 ? -1 : 1;
-			var classId = this._classes[Math.floor(Math.random() * this._classes.length)];
-			var character = this._characterTemplates[classId];
-			var raceId;
+		for(let i = 0; i < count; i++) {
+			let bot = new Bot();
+			let sign = Math.random() < 0.5 ? -1 : 1;
+			let classId = this._classes[Math.floor(Math.random() * this._classes.length)];
+			let character = this._characterTemplates[classId];
+			let raceId;
 			
 			switch(this._classes.indexOf(classId)) {
 				case 0:
@@ -108,9 +108,9 @@ class Bots {
 	}
 
 	_serialization(data) {
-		var result = {};
+		let result = {};
 
-			for(var i = 0; i < data.length; i++) {
+			for(let i = 0; i < data.length; i++) {
 				result[data[i].classId] = data[i];
 			}
 

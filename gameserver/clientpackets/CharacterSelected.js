@@ -1,6 +1,6 @@
-var templates = require("./../../gameserver/templates/templates");
-var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
-var ClientPacket = require("./ClientPacket");
+let templates = require("./../../gameserver/templates/templates");
+let serverPackets = require("./../../gameserver/serverpackets/serverPackets");
+let ClientPacket = require("./ClientPacket");
 
 class CharacterSelected {
 	constructor(packet, player, server) {
@@ -19,8 +19,8 @@ class CharacterSelected {
 	}
 
 	_init() {
-		var characterData = this._player.getCharacters()[this.getCharacterSlot()];
-		var character = new templates.Character(characterData);
+		let characterData = this._player.getCharacters()[this.getCharacterSlot()];
+		let character = new templates.Character(characterData);
 
 		this._player.fillData(character);
 		this._player.characterSlot = this.getCharacterSlot();

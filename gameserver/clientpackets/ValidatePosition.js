@@ -1,4 +1,4 @@
-var ClientPacket = require("./ClientPacket");
+let ClientPacket = require("./ClientPacket");
 
 class ValidatePosition {
 	constructor(packet, player) {

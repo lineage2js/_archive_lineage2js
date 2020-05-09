@@ -1,8 +1,8 @@
-var classes = require("./../../data/classes");
-var characterTemplateData = require("./../../data/characterTemplates");
-var templates = require("./../../gameserver/templates/templates");
-var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
-var ClientPacket = require("./ClientPacket");
+let classes = require("./../../data/classes");
+let characterTemplateData = require("./../../data/characterTemplates");
+let templates = require("./../../gameserver/templates/templates");
+let serverPackets = require("./../../gameserver/serverpackets/serverPackets");
+let ClientPacket = require("./ClientPacket");
 
 class NewCharacter {
 	constructor(packet, player) {
@@ -15,8 +15,8 @@ class NewCharacter {
 	}
 
 	_init() {
-		var characterTemplateTable = this._serialization(characterTemplateData); // Чтобы удобно было доставать данные по classId
-		var characterTemplates = [
+		let characterTemplateTable = this._serialization(characterTemplateData); // Чтобы удобно было доставать данные по classId
+		let characterTemplates = [
 			new templates.Character(characterTemplateTable[classes.fighter]),
 			new templates.Character(characterTemplateTable[classes.mage]),
 			new templates.Character(characterTemplateTable[classes.elvenFighter]),
@@ -32,9 +32,9 @@ class NewCharacter {
 	}
 
 	_serialization(data) {
-		var result = {};
+		let result = {};
 
-		for(var i = 0; i < data.length; i++) {
+		for(let i = 0; i < data.length; i++) {
 			result[data[i].classId] = data[i];
 		}
 

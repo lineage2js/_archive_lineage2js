@@ -1,11 +1,11 @@
 class Timer {
 	tick(milliseconds, callback) {
-		var time = 0;
-		var position = "default";
-		var start = 0;
-		var stop = milliseconds.length - 1;
+		let time = 0;
+		let position = "default";
+		let start = 0;
+		let stop = milliseconds.length - 1;
 
-		for(var i = 0; i < milliseconds.length; i++) {
+		for(let i = 0; i < milliseconds.length; i++) {
 			switch(i) {
 				case start:
 					position = "start";

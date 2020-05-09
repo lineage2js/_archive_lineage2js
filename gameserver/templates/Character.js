@@ -84,15 +84,15 @@ class Character {
 	}
 
 	fillData(){
-		for(var key in this._data) {
+		for(let key in this._data) {
 			this[key] = this._data[key]
 		}
 	}
 
 	getData(){
-		var data = {};
+		let data = {};
 
-		for(var key in this) {
+		for(let key in this) {
 			if(key === "_data") continue;
 			data[key] = this[key];
 		}

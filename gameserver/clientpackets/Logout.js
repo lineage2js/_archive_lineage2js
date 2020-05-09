@@ -1,7 +1,7 @@
-var XOR = require("./../../util/XOR");
-var config = require("./../../config/config");
-var serverPackets = require("./../../gameserver/serverpackets/serverPackets");
-var ClientPacket = require("./ClientPacket");
+let XOR = require("./../../util/XOR");
+let config = require("./../../config/config");
+let serverPackets = require("./../../gameserver/serverpackets/serverPackets");
+let ClientPacket = require("./ClientPacket");
 
 class Logout {
 	constructor(packet, player) {

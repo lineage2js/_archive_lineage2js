@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket");
+let ServerPacket = require("./ServerPacket");
 
 function CharacterSelectInfo(characters, player) {
 	this._packet = new ServerPacket(characters ? characters.length * 400 : 10); //
@@ -6,7 +6,7 @@ function CharacterSelectInfo(characters, player) {
 
 	if(characters) {
 		this._packet.writeD(characters.length)
-		for(var i = 0; i < characters.length; i++) {
+		for(let i = 0; i < characters.length; i++) {
 			this._packet.writeS(characters[i].characterName)
 				.writeD(characters[i].objectId)
 				.writeS(player.login)

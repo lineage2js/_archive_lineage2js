@@ -1,4 +1,4 @@
-var Npc = require("./Npc");
+let Npc = require("./Npc");
 
 class Objects {
 	constructor() {
@@ -7,7 +7,7 @@ class Objects {
 
 	add(objects) {
 		if(Array.isArray(objects)) {
-			for(var i = 0; i < objects.length; i++) {
+			for(let i = 0; i < objects.length; i++) {
 				this._objects.push(objects[i]);
 			}
 		} else {
@@ -20,9 +20,9 @@ class Objects {
 	}
 
 	getNpc() {
-		var objects = [];
+		let objects = [];
 
-		for(var i = 0; i < this._objects.length; i++) {
+		for(let i = 0; i < this._objects.length; i++) {
 			if(this._objects[i] instanceof Npc) {
 				objects.push(this._objects[i]);
 			}

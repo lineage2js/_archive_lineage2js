@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket");
+let ServerPacket = require("./ServerPacket");
 
 function CharacterSelected(character) {
 	this._packet = new ServerPacket(230 + ServerPacket.strlen(character.characterName) + ServerPacket.strlen(character.title));
@@ -30,7 +30,7 @@ function CharacterSelected(character) {
 		.writeD(character.dex)
 		.writeD(character.wit);
 
-	for (var i = 0; i < 30; i++) {
+	for (let i = 0; i < 30; i++) {
 		this._packet.writeD(0x00);
 	}
 

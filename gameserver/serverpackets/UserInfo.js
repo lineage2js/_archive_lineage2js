@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket");
+let ServerPacket = require("./ServerPacket");
 
 function UserInfo(player) {
 	this._packet = new ServerPacket(600 + ServerPacket.strlen(player.characterName));

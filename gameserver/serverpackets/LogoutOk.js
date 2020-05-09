@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket");
+let ServerPacket = require("./ServerPacket");
 
 function LogoutOK() {
 	this._packet = new ServerPacket(1);

@@ -1,6 +1,5 @@
-var serverPackets = require("./../gameserver/serverpackets/serverPackets");
-var config = require("./../config/config");
-var Bot = require("./Bot");
+let serverPackets = require("./../gameserver/serverpackets/serverPackets");
+let config = require("./../config/config");
 
 class Player {
 	constructor(socket, xor, server) {
@@ -122,13 +121,13 @@ class Player {
 	}
 
 	sendPacket(packet, encoding = false /* false for test */) {
-		var packetLength = new Buffer.from([0x00, 0x00]);
-		var packetCopy = new Buffer.from(packet);
+		let packetLength = new Buffer.from([0x00, 0x00]);
+		let packetCopy = new Buffer.from(packet);
 		
 		packetLength.writeInt16LE(packet.length + 2);
 		
 		if(encoding) {
-			var packetEncrypted = new Buffer.from(this.xor.encrypt(packetCopy));
+			let packetEncrypted = new Buffer.from(this.xor.encrypt(packetCopy));
 
 			packetEncrypted = Buffer.concat([packetLength, packetEncrypted]);
 			this.socket.write(packetEncrypted);
@@ -141,15 +140,15 @@ class Player {
 	}
 
 	broadcast(packet) {
-		var packetLength = new Buffer.from([0x00, 0x00]);
-		var players = this.server.players.getPlayers();
+		let packetLength = new Buffer.from([0x00, 0x00]);
+		let players = this.server.players.getPlayers();
 
 		packetLength.writeInt16LE(packet.length + 2);
 
-		for(var i = 0; i < players.length; i++) {
+		for(let i = 0; i < players.length; i++) {
 			if(players[i].online && players[i].socket !== this.socket && !players[i].bot) {
-				//var packetCopy = new Buffer.from(packet);
-				//var packetEncrypted = new Buffer.from(players[i].xor.encrypt(packetCopy));
+				//let packetCopy = new Buffer.from(packet);
+				//let packetEncrypted = new Buffer.from(players[i].xor.encrypt(packetCopy));
 
 				//packetEncrypted = Buffer.concat([packetLength, packetEncrypted]);
 				packet = Buffer.concat([packetLength, packet]); // for test
@@ -201,14 +200,14 @@ class Player {
 
 	// fix
 	attack(objectId) {
-		var attacks = {
+		let attacks = {
 			soulshot: false,
 			critical: false,
 			miss: false
 		}
 
-		//var Player = this.constructor;
-		var attacked = this.server.objects.get(objectId);
+		//let Player = this.constructor;
+		let attacked = this.server.objects.get(objectId);
 
 		if(true) {
 			this.changeCombatStateTask();
@@ -236,9 +235,9 @@ class Player {
 	}
 
 	getVisiblePlayers(players, callback) {
-		var radius = 2000;
+		let radius = 2000;
 
-		for(var i = 0; i < players.length; i++) {
+		for(let i = 0; i < players.length; i++) {
 			if(players[i].socket !== this.socket) {
 				if(players[i].online && this._checkPointInCircle(this.x, this.y, players[i].x, players[i].y, radius)) {
 					callback(players[i]);
@@ -248,9 +247,9 @@ class Player {
 	}
 
 	getVisibleObjects(objects, callback) {
-		var radius = 2000;
+		let radius = 2000;
 
-		for(var i = 0; i < objects.length; i++) {
+		for(let i = 0; i < objects.length; i++) {
 			if(this._checkPointInCircle(this.x, this.y, objects[i].x, objects[i].y, radius)) {
 				callback(objects[i]);
 			}
@@ -259,7 +258,7 @@ class Player {
 	//
 
 	fillData(data){
-		for(var key in data) {
+		for(let key in data) {
 			this[key] = data[key];
 		}
 	}
@@ -289,8 +288,8 @@ class Player {
 	}
 
 	changeCombatStateTask(attacker) {
-		var startingTime = this.gender === 0 ? this.maleAttackSpeedMultiplier * 1000 : this.femaleAttackSpeedMultiplier * 1000;
-		var endingTime = 3000;
+		let startingTime = this.gender === 0 ? this.maleAttackSpeedMultiplier * 1000 : this.femaleAttackSpeedMultiplier * 1000;
+		let endingTime = 3000;
 
 		this.server.timer.tick([startingTime, endingTime], type => {
 			switch(type) {
@@ -308,7 +307,7 @@ class Player {
 						this.broadcast(new serverPackets.CreateSay(this, 0, attacker.time.toString()));
 
 						//
-						var attackSpeedMultiplier = this.gender === 0 ? this.maleAttackSpeedMultiplier : this.femaleAttackSpeedMultiplier;
+						let attackSpeedMultiplier = this.gender === 0 ? this.maleAttackSpeedMultiplier : this.femaleAttackSpeedMultiplier;
 						
 						setTimeout(() => {
 							
@@ -337,8 +336,8 @@ class Player {
 	}
 
 	changeFlagTask() {
-		var startingTime = this.gender === 0 ? this.maleAttackSpeedMultiplier * 1000 : this.femaleAttackSpeedMultiplier * 1000;
-		var endingTime = 3000;
+		let startingTime = this.gender === 0 ? this.maleAttackSpeedMultiplier * 1000 : this.femaleAttackSpeedMultiplier * 1000;
+		let endingTime = 3000;
 		
 		this.server.timer.tick([startingTime, endingTime], type => {
 			switch(type) {
@@ -397,10 +396,10 @@ class Player {
 	}
 
 	_checkPointInCircle(x1, y1, x2, y2, radius) {
-		var dx = x2 - x1;
-		var dy = y2 - y1;
-		var sqrtDist = dx*dx + dy*dy;
-		var sqrtRadius = radius*radius;
+		let dx = x2 - x1;
+		let dy = y2 - y1;
+		let sqrtDist = dx*dx + dy*dy;
+		let sqrtRadius = radius*radius;
 
 		return sqrtDist < sqrtRadius;
 	}
