@@ -14,7 +14,7 @@ module.exports = {
 	StopMove: require("./StopMove"),
 	RequestActionUse: require("./RequestActionUse"),
 	Action: require("./Action"),
-	RequestTargetCanceled: require("./RequestTargetCanceled"),
+	RequestTargetCancel: require("./RequestTargetCancel"),
 	RequestItemList: require("./RequestItemList"),
 	UseItem: require("./UseItem"),
 	ValidatePosition: require("./ValidatePosition"),

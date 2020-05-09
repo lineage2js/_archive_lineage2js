@@ -104,7 +104,7 @@ class Packet {
 
 				break;
 			case 0x37:
-				new clientPackets.RequestTargetCanceled(this, this._player);
+				new clientPackets.RequestTargetCancel(this, this._player);
 
 				break;
 			case 0x0f:
