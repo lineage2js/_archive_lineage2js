@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket");
+let ServerPacket = require("./ServerPacket");
 
 function PlayOk(SessionKey2) {
 	this._packet = new ServerPacket(12);

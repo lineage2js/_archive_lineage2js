@@ -1,4 +1,4 @@
-var ServerPacket = require("./ServerPacket");
+let ServerPacket = require("./ServerPacket");
 
 function ServerList(host, port, maxPlayer) {
 	host = host.split(".");

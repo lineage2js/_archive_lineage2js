@@ -1,4 +1,4 @@
-var file = require("fs");
+let file = require("fs");
 
 function IdFactory(path) {
 	this._FIRST_OID = 0x10000000;
@@ -13,7 +13,7 @@ function IdFactory(path) {
 }
 
 IdFactory.prototype.getNextId = function() {
-	var id = this._data.id;
+	let id = this._data.id;
 	
 	this._data.id++;
 	this.saveCurrentState();
@@ -26,7 +26,7 @@ IdFactory.prototype.saveCurrentState = function() {
 }
 
 IdFactory.prototype.loadCurrentState = function() {
-	var data = file.readFileSync(this._path, "utf-8");
+	let data = file.readFileSync(this._path, "utf-8");
 
 	if(data.length === 0) {
 		return false

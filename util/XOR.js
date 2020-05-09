@@ -4,19 +4,19 @@ function XOR(key) {
 }
 
 XOR.prototype.decrypt = function(data) {
-	var temp = 0;
-	var count = 0;
+	let temp = 0;
+	let count = 0;
 		  
-	for (var i = 0; i < data.length; ++i) {
+	for (let i = 0; i < data.length; ++i) {
 		if(count == 8) count = 0;
 		    
-		var temp2 = data[i] & 0xff;
+		let temp2 = data[i] & 0xff;
 		data[i] = (temp2 ^ (this.decryptKey[count]) ^ temp);
 		temp = temp2;
 		count++;
 	}
 
-	var old = this.decryptKey[0] & 0xff;
+	let old = this.decryptKey[0] & 0xff;
 	old |= this.decryptKey[1] << 8 & 0xff00;
 	old |= this.decryptKey[2] << 0x10 & 0xff0000;
 	old |= this.decryptKey[3] << 0x18 & 0xff000000;
@@ -32,19 +32,19 @@ XOR.prototype.decrypt = function(data) {
 }
 
 XOR.prototype.encrypt = function(data) {
-	var temp = 0;
-	var count = 0;
+	let temp = 0;
+	let count = 0;
 		  
-	for (var i = 0; i < data.length; ++i) {
+	for (let i = 0; i < data.length; ++i) {
 		if(count == 8) count = 0;
 		    
-		var temp2 = data[i] & 0xff;
+		let temp2 = data[i] & 0xff;
 		data[i] = (temp2 ^ (this.encryptKey[count]) ^ temp);
 		temp = data[i];
 		count++;
 	}
 
-	var old = this.encryptKey[0] & 0xff;
+	let old = this.encryptKey[0] & 0xff;
 	old |= this.encryptKey[1] << 8 & 0xff00;
 	old |= this.encryptKey[2] << 0x10 & 0xff0000;
 	old |= this.encryptKey[3] << 0x18 & 0xff000000;

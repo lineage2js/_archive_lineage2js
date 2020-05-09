@@ -1,4 +1,4 @@
-var Server = require("./gameserver/Server");
-var server = new Server();
+let Server = require("./gameserver/Server");
+let server = new Server();
 
 server.start();

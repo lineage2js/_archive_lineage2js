@@ -1,6 +1,6 @@
-var log = require("./../../util/log");
-var serverPackets = require("./../../loginserver/serverpackets/serverPackets");
-var ClientPacket = require("./ClientPacket");
+let log = require("./../../util/log");
+let serverPackets = require("./../../loginserver/serverpackets/serverPackets");
+let ClientPacket = require("./ClientPacket");
 
 class RequestAuthLogin {
 	constructor(packet, player) {
@@ -23,7 +23,7 @@ class RequestAuthLogin {
 	}
 
 	_init() {
-		var status = this._player.checkAccount(this.getLogin(), this.getPassword());
+		let status = this._player.checkAccount(this.getLogin(), this.getPassword());
 
 		log(`player ${this.getLogin()} requesting auth login`);
 

@@ -1,7 +1,7 @@
-var log = require("./../../util/log");
-var serverPackets = require("./../../loginserver/serverpackets/serverPackets");
-var config = require("./../../config/config");
-var ClientPacket = require("./ClientPacket");
+let log = require("./../../util/log");
+let serverPackets = require("./../../loginserver/serverpackets/serverPackets");
+let config = require("./../../config/config");
+let ClientPacket = require("./ClientPacket");
 
 class RequestServerLogin {
 	constructor(packet, player) {
@@ -17,7 +17,7 @@ class RequestServerLogin {
 	}
 
 	getSessionKey1() {
-		var sessionKey1 = [];
+		let sessionKey1 = [];
 
 		sessionKey1[0] = this._data.getData()[1].toString(16);
 		sessionKey1[1] = this._data.getData()[2].toString(16);
@@ -30,8 +30,8 @@ class RequestServerLogin {
 	}
 
 	_init() {
-		var sessionKey1Client = this.getSessionKey1();
-		var serverNumber = this.getServerNumber();
+		let sessionKey1Client = this.getSessionKey1();
+		let serverNumber = this.getServerNumber();
 
 		if(this._packet.keyComparison(this._packet.getSessionKey2Server(), sessionKey1Client)) {
 			// Проверка на доступность сервера / Check server status

@@ -1,4 +1,4 @@
-var config = require(".././config/config");
+let config = require(".././config/config");
 
 class Player {
 	constructor(socket, blowfish, server) {
@@ -8,7 +8,7 @@ class Player {
 	}
 
 	sendPacket(packet, encoding = true) {
-		var packetLength = new Buffer.from([0x00, 0x00]);
+		let packetLength = new Buffer.from([0x00, 0x00]);
 		// Мутация аргументов - зло
 		packetLength.writeInt16LE(packet.length + 2);
 

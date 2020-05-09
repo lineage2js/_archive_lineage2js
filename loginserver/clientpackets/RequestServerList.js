@@ -1,7 +1,7 @@
-var log = require("./../../util/log");
-var serverPackets = require("./../../loginserver/serverpackets/serverPackets");
-var config = require("./../../config/config");
-var ClientPacket = require("./ClientPacket");
+let log = require("./../../util/log");
+let serverPackets = require("./../../loginserver/serverpackets/serverPackets");
+let config = require("./../../config/config");
+let ClientPacket = require("./ClientPacket");
 
 class RequestServerList {
 	constructor(packet, player) {
@@ -16,7 +16,7 @@ class RequestServerList {
 	}
 
 	getSessionKey1() {
-		var sessionKey1 = [];
+		let sessionKey1 = [];
 
 		sessionKey1[0] = this._data.getData()[1].toString(16);
 		sessionKey1[1] = this._data.getData()[2].toString(16);
@@ -25,7 +25,7 @@ class RequestServerList {
 	}
 
 	_init() {
-		var sessionKey1Client = this.getSessionKey1();
+		let sessionKey1Client = this.getSessionKey1();
 
 		if(this._packet.keyComparison(this._packet.getSessionKey1Server(), sessionKey1Client)) {
 			this._player.sendPacket(new serverPackets.ServerList(config.gameserver.host, config.gameserver.port, config.gameserver.maxPlayer));

@@ -1,7 +1,7 @@
-var fs = require("fs");
+let fs = require("fs");
 
 function log(text) {
-	var path = "./log.txt";
+	let path = "./log.txt";
 
  	fs.appendFile(path, text + "\n", err => {
 	  if (err) throw err;

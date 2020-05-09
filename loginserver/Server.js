@@ -1,15 +1,15 @@
-var net = require("net");
-var log = require("./../util/log");
-var Blowfish = require("./../util/blowfish");
-var config = require("./../config/config");
-var Player = require("./Player");
-var Packet = require("./Packet");
-var serverPackets = require("./serverpackets/serverPackets");
+let net = require("net");
+let log = require("./../util/log");
+let Blowfish = require("./../util/blowfish");
+let config = require("./../config/config");
+let Player = require("./Player");
+let Packet = require("./Packet");
+let serverPackets = require("./serverpackets/serverPackets");
 // db
-var low = require("lowdb");
-var FileSync = require("lowdb/adapters/FileSync");
-var database = new FileSync("data/database.json");
-var db = low(database);
+let low = require("lowdb");
+let FileSync = require("lowdb/adapters/FileSync");
+let database = new FileSync("data/database.json");
+let db = low(database);
 
 class Server {
 	constructor() {
@@ -23,9 +23,9 @@ class Server {
 	}
 
 	_socketHandler(socket) {
-		var blowfish = new Blowfish(config.base.key.blowfish);
-		var player = new Player(socket, blowfish, this);
-		var packet = new Packet(player);
+		let blowfish = new Blowfish(config.base.key.blowfish);
+		let player = new Player(socket, blowfish, this);
+		let packet = new Packet(player);
 
 		socket.on("data", packet.handler.bind(packet));
 		socket.on("close", packet.close.bind(packet));

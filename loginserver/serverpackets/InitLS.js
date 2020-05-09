@@ -1,8 +1,8 @@
-var ServerPacket = require("./ServerPacket");
-var config = require("./../../config/config");
+let ServerPacket = require("./ServerPacket");
+let config = require("./../../config/config");
 
 function InitLS() {
-	var sessionID = 0x03ed779c;
+	let sessionID = 0x03ed779c;
 	
 	this._packet = new ServerPacket(9);
 	this._packet.writeC(0x00)

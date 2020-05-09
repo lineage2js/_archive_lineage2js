@@ -1,6 +1,6 @@
-var log = require("./../util/log");
-var config = require("./../config/config");
-var clientPackets = require("./../loginserver/clientpackets/clientPackets");
+let log = require("./../util/log");
+let config = require("./../config/config");
+let clientPackets = require("./../loginserver/clientpackets/clientPackets");
 
 class Packet {
 	constructor(player) {
