@@ -1,10 +1,9 @@
 var fs = require("fs");
 
-class HTML {
+class Html {
 	constructor(dirname) {
 		this._dirname = dirname;
 		this._storage = {}
-
 		this._init();
 	}
 
@@ -33,4 +32,4 @@ class HTML {
 	}
 }
 
-module.exports = HTML;
+module.exports = Html;
