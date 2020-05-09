@@ -1,13 +1,13 @@
-var file = require("fs");
+let fs = require("fs");
 
 class Announcements {
-	constructor(filePath) {
-		this._announcements = JSON.parse(file.readFileSync(filePath, "utf-8"));
+	constructor(file) {
+		this._announcements = JSON.parse(fs.readFileSync(file, "utf-8"));
 	}
 
-	show(handler) {
-		for(var i = 0; i < this._announcements.length; i++) {
-			handler(this._announcements[i]);
+	show(callback) {
+		for(let i = 0; i < this._announcements.length; i++) {
+			callback(this._announcements[i]);
 		}
 	}
 }
