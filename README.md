@@ -43,7 +43,7 @@ serverStart.bat
 | RequestAddTradeItem | GetItem |
 | TradeDone | EquipItem |
 | RequestTeleport | UnequipItem |
-| :heavy_check_mark: RequestSocialAction | StatusUpdate |
+| :heavy_check_mark: RequestSocialAction | :warning: StatusUpdate |
 | ? ChangeMoveType | NpcHtmlMessage |
 | ? ChangeWaitType | SellList |
 | RequestSellItem | BuyList |
