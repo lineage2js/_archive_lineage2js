@@ -1,6 +1,5 @@
 let net = require("net");
 let file = require("fs");
-let XOR = require("./../util/XOR");
 let log = require("./../util/log");
 let config = require("./../config/config");
 let Bots = require("./../gameserver/Bots");
@@ -78,8 +77,7 @@ class Server {
 	}
 
 	_socketHandler(socket) {
-		let xor = new XOR(config.base.key.XOR);
-		let player = new Player(socket, xor, this);
+		let player = new Player(socket, this);
 		let packet = new Packet(player, this.players, this);
 
 		socket.on("data", packet.handler.bind(packet));

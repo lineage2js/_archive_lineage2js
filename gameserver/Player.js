@@ -1,10 +1,11 @@
 let serverPackets = require("./../gameserver/serverpackets/serverPackets");
 let config = require("./../config/config");
+let XOR = require("./../util/XOR");
 
 class Player {
-	constructor(socket, xor, server) {
+	constructor(socket, server) {
 		this.socket = socket || null;
-		this.xor = xor || null;
+		this.xor = new XOR(config.base.key.XOR) || null;
 		this.server = server || null;
 		this.bot = false;
 		

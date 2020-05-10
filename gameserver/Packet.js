@@ -1,10 +1,6 @@
-let file = require("fs");
 let log = require("./../util/log");
-let config = require("./../config/config");
-let XOR = require("./../util/XOR");
 let clientPackets = require("./../gameserver/clientpackets/clientPackets");
 let serverPackets = require("./../gameserver/serverpackets/serverPackets");
-let templates = require("./../gameserver/templates/templates");
 
 class Packet {
 	constructor(player, players, server) {
