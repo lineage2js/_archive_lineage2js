@@ -1,11 +1,11 @@
 let fs = require("fs");
 let Npc = require("./Npc");
+let idFactory = require("./../util/IdFactory");
 
 class NpcTable {
 	constructor(file, server) {
 		this._file = file;
 		this._server = server;
-		this._idFactory = this._server.idFactory;
 		this._storage = null;
 
 		this._init();
@@ -25,7 +25,7 @@ class NpcTable {
 				let [x, y] = npc.getRandomPos();
 				let z = -3115;
 
-				npc.objectId = this._idFactory.getNextId();
+				npc.objectId = idFactory.getNextId();
 				npc.id = item.id;
 				npc.name = item.name;
 				npc.x = x;

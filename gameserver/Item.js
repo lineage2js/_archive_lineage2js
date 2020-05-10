@@ -1,7 +1,8 @@
+let idFactory = require("./../util/IdFactory");
+
 class Item {
-	constructor(items, idFactory) {
+	constructor(items) {
 		this._items = items;
-		this._idFactory = idFactory;
 	}
 
 	get(id) {
@@ -12,7 +13,7 @@ class Item {
 		let item;
 
 		item = JSON.parse(JSON.stringify(this.get(id)));
-		item.objectId = this._idFactory.getNextId();
+		item.objectId = idFactory.getNextId();
 
 		return item;
 	}

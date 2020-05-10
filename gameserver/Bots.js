@@ -2,12 +2,12 @@ let classes = require("./../data/classes");
 let characterTemplatesData = require("./../data/characterTemplates");
 let Packet = require("./Packet");
 let Bot = require("./Bot");
+let idFactory = require("./../util/IdFactory");
 
 class Bots {
 	constructor(server) {
 		this._bots = [];
 		this._server = server
-		this._idFactory = this._server.idFactory;
 		this._characterTemplates = this._serialization(characterTemplatesData);
 		this._classes = [classes.fighter, classes.mage, classes.elvenFighter, classes.elvenMage, classes.darkFighter, classes.darkMage, classes.orcFighter, classes.orcMage, classes.dwarvenFighter];
 	}
@@ -52,7 +52,7 @@ class Bots {
 			}
 			
 			bot.server = this._server;
-			bot.objectId = this._idFactory.getNextId();;
+			bot.objectId = idFactory.getNextId();;
 			bot.characterName = "bot" + i;
 			bot.title = "bot";
 			bot.gender = Math.floor(Math.random() * 2);

@@ -1,40 +1,40 @@
-let file = require("fs");
+let fs = require("fs");
 
 class IdFactory {
-	constructor(path) {
+	constructor() {
 		this._FIRST_OID = 0x10000000;
+		this._data = null;
+		this._path = null;
+	}
+
+	addFile(path) {
 		this._path = path;
-		this._data = this.loadCurrentState();
-		
-		if(this._data === false) {
-			this._data = { id: this._FIRST_OID };
-			this.saveCurrentState();
-			this._data = this.loadCurrentState();
-		}
+		this._load();
 	}
 
 	getNextId() {
 		let id = this._data.id;
 		
 		this._data.id++;
-		this.saveCurrentState();
+		this._save();
 
 		return id;
 	}
 
-	saveCurrentState() {
-		file.writeFileSync(this._path, JSON.stringify(this._data));
+	_save() {
+		fs.writeFileSync(this._path, JSON.stringify(this._data));
 	}
 
-	loadCurrentState() {
-		let data = file.readFileSync(this._path, "utf-8");
+	_load() {
+		let data = fs.readFileSync(this._path, "utf-8");
 
 		if(data.length === 0) {
-			return false
+			this._data = { id: this._FIRST_OID };
+			this._save();
 		} else {
-			return JSON.parse(data);
+			this._data = JSON.parse(data);
 		}
 	}
 }
 
-module.exports = IdFactory;
+module.exports = new IdFactory();

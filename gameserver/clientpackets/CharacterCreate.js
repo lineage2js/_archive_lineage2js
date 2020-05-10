@@ -3,6 +3,7 @@ let serverPackets = require("./../../gameserver/serverpackets/serverPackets");
 let templates = require("./../../gameserver/templates/templates");
 let characterTemplateData = require("./../../data/characterTemplates");
 let ClientPacket = require("./ClientPacket");
+let idFactory = require("./../../util/IdFactory");
 
 class CharacterCreate {
 	constructor(packet, player, server) {
@@ -75,7 +76,7 @@ class CharacterCreate {
 				let charactersList = [];
 
 				character.login = this._player.login;
-				character.objectId = this._server.idFactory.getNextId();
+				character.objectId = idFactory.getNextId();
 				character.characterName = this.getCharacterName();
 				character.maximumHp = character.hp;
 				character.maximumMp = character.mp;

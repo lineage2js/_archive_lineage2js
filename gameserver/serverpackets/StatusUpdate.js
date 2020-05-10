@@ -5,10 +5,10 @@ function StatusUpdate(objectId) {
 	this._packet.writeC(0x1a)
 		.writeD(objectId)
 		.writeD(2) // attributes count
-		.writeD(0x09) // hp
-		.writeD(50)
-		.writeD(0x0a) // mapHP
-		.writeD(65) // mapHP
+		.writeD(0x09) // hp ID
+		.writeD(50) // hp value
+		.writeD(0x0a) // max hp id
+		.writeD(65) // max hp value
 
 	return this._packet.getBuffer();
 }
