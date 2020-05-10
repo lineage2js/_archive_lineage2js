@@ -1,6 +1,7 @@
 let config = require("./../../config/config");
 let serverPackets = require("./../../gameserver/serverpackets/serverPackets");
 let ClientPacket = require("./ClientPacket");
+let items = require("./../../gameserver/Items");
 
 class UseItem {
 	constructor(packet, player, server) {
@@ -23,8 +24,6 @@ class UseItem {
 		this._usedItem = this._player.getItem(this.getObjectId());
 
 		if(this._usedItem.category === "armor" || this._usedItem.category === "weapon") {
-			let items = this._server.items;
-
 			switch(this._usedItem.bodyPart) {
 				case items.types.SLOT_R_EAR:
 

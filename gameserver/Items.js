@@ -1,4 +1,5 @@
-let file = require("fs");
+let fs = require("fs");
+let idFactory = require("./../util/IdFactory");
 let types = {
 	TYPE1_WEAPON_RING_EARRING_NECKLACE: 0,
 	TYPE1_SHIELD_ARMOR: 1,
@@ -52,7 +53,6 @@ let types = {
 	CRYSTAL_A: 0x05,
 	CRYSTAL_S: 0x06,
 
-	// weapon
 	WEAPON_NONE: 0x01,
 	WEAPON_SWORD: 0x02,
 	WEAPON_BLUNT: 0x03,
@@ -64,7 +64,6 @@ let types = {
 	WEAPON_DUAL: 0x09,
 	WEAPON_DUALFIST: 0x0a,
 
-	// armor
 	ARMOR_NONE: 0x01,
 	ARMOR_LIGHT: 0x02,
 	ARMOR_HEAVY: 0x03,
@@ -88,7 +87,6 @@ let types = {
 	SLOT_LR_HAND: 0x4000,
 	SLOT_FULL_ARMOR: 0x8000,
 }
-
 let stringTypes = {
 	MATERIAL: {
 		"paper": types.MATERIAL_PAPER,
@@ -162,29 +160,36 @@ let stringTypes = {
 }
 
 class Items {
-	constructor(data) {
+	constructor() {
 		this.types = types;
 		this.stringTypes = stringTypes;
-		this._data = data;
 		this._items = [];
-		this._result = null;
-
-		this._init();
+		this._result = {};
+		this._data = null;
 	}
 
-	getData() {
-		return this._result;
+	addFiles(data) {
+		this._data = data;
+		this._load();
+		this._serialization();
+	}
+
+	create(id) {
+		let item;
+
+		item = JSON.parse(JSON.stringify(this._result[id]));
+		item.objectId = idFactory.getNextId();
+
+		return item;
 	}
 
 	_load() {
 		for(let i = 0; i < this._data.length; i++) {
-			this._items.push({ items: JSON.parse(file.readFileSync(this._data[i].link, "utf-8")), category: this._data[i].category });
+			this._items.push({ items: JSON.parse(fs.readFileSync(this._data[i].path, "utf-8")), category: this._data[i].category });
 		}
 	}
 
 	_serialization() {
-		this._result = {};
-
 		for(let i = 0; i < this._items.length; i++) {
 			for(let j = 0; j < this._items[i].items.length; j++) {
 				let data = this._items[i];
@@ -240,11 +245,6 @@ class Items {
 			}
 		}
 	}
-
-	_init() {
-		this._load();
-		this._serialization();
-	}
 }
 
-module.exports = Items;
+module.exports = new Items();

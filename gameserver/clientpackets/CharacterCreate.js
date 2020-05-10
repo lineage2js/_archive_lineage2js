@@ -4,6 +4,7 @@ let templates = require("./../../gameserver/templates/templates");
 let characterTemplateData = require("./../../data/characterTemplates");
 let ClientPacket = require("./ClientPacket");
 let idFactory = require("./../../util/IdFactory");
+let items = require("./../../gameserver/Items");
 
 class CharacterCreate {
 	constructor(packet, player, server) {
@@ -104,13 +105,13 @@ class CharacterCreate {
 	}
 
 	_createItems(itemsId) {
-		let items = [];
+		let data = [];
 
 		for(let i = 0; i < itemsId.length; i++) {
-			items.push(this._server.item.create(itemsId[i]));
+			data.push(items.create(itemsId[i]));
 		}
 
-		return items;
+		return data;
 	}
 
 	_characterNameisExist(characterName) {

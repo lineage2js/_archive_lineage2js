@@ -6,8 +6,6 @@ let Bots = require("./../gameserver/Bots");
 let Player = require("./../gameserver/Player");
 let Players = require("./../gameserver/Players");
 let Packet = require("./../gameserver/Packet");
-let templates = require("./../gameserver/templates/templates");
-let Item = require("./../gameserver/Item");
 let NpcTable = require("./../gameserver/NpcTable");
 let Objects = require("./../gameserver/Objects");
 let serverPacket = require("./serverPackets/serverPackets");
@@ -20,8 +18,6 @@ let db = low(database);
 class Server {
 	constructor() {
 		this.npcTable = new NpcTable("data/npc.json", this); // NpcTable ???
-		this.items = new templates.Items([{ link: "data/items/armor.json", category: "armor" }, { link: "data/items/weapon.json", category: "weapon" }, { link: "data/items/etc.json", category: "etc" }]);
-		this.item = new Item(this.items.getData());
 		this.bots = new Bots(this);
 		this.objects = new Objects();
 		this.players = new Players(this);
