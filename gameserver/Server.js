@@ -13,7 +13,6 @@ let Announcements = require("./../gameserver/Announcements");
 let HTML = require("./../gameserver/HTML");
 let NpcTable = require("./../gameserver/NpcTable");
 let Objects = require("./../gameserver/Objects");
-let Timer = require("./../gameserver/Timer");
 let serverPacket = require("./serverPackets/serverPackets");
 // db
 let low = require("lowdb");
@@ -30,7 +29,6 @@ class Server {
 		this.item = new Item(this.items.getData());
 		this.bots = new Bots(this);
 		this.objects = new Objects();
-		this.timer = new Timer();
 		this.players = new Players(this);
 		this.db = db;
 		this.players.addBots(this.bots.create(10));

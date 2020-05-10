@@ -1,6 +1,7 @@
 let serverPackets = require("./../gameserver/serverpackets/serverPackets");
 let config = require("./../config/config");
 let XOR = require("./../util/XOR");
+let timer = require("./../gameserver/Timer");
 
 class Player {
 	constructor(socket, server) {
@@ -292,7 +293,7 @@ class Player {
 		let startingTime = this.gender === 0 ? this.maleAttackSpeedMultiplier * 1000 : this.femaleAttackSpeedMultiplier * 1000;
 		let endingTime = 3000;
 
-		this.server.timer.tick([startingTime, endingTime], type => {
+		timer.tick([startingTime, endingTime], type => {
 			switch(type) {
 				case "start":
 					this.setCombatState(true);
@@ -340,7 +341,7 @@ class Player {
 		let startingTime = this.gender === 0 ? this.maleAttackSpeedMultiplier * 1000 : this.femaleAttackSpeedMultiplier * 1000;
 		let endingTime = 3000;
 		
-		this.server.timer.tick([startingTime, endingTime], type => {
+		timer.tick([startingTime, endingTime], type => {
 			switch(type) {
 				case "start":
 					this._flag.status = 1;
@@ -373,7 +374,7 @@ class Player {
 	}
 
 	_regenerationHp(callback) {
-		this.server.timer.tick([1000], type => {
+		timer.tick([1000], type => {
 			if(this.hp < this.maximumHp) {
 				this.hp++
 				callback();
@@ -385,7 +386,7 @@ class Player {
 	}
 
 	_regenerationMp(callback) {
-		this.server.timer.tick([1000], type => {
+		timer.tick([1000], type => {
 			if(this.mp < this.maximumMp) {
 				this.mp++
 				callback();

@@ -28,4 +28,4 @@ class Timer {
 	}
 }
 
-module.exports = Timer;
+module.exports = new Timer();
