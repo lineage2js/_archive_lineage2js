@@ -9,7 +9,7 @@ let Packet = require("./../gameserver/Packet");
 let templates = require("./../gameserver/templates/templates");
 let Item = require("./../gameserver/Item");
 //let idFactory = require("./../util/IdFactory");
-let Announcements = require("./../gameserver/Announcements");
+
 let HTML = require("./../gameserver/HTML");
 let NpcTable = require("./../gameserver/NpcTable");
 let Objects = require("./../gameserver/Objects");
@@ -24,7 +24,6 @@ class Server {
 	constructor() {
 		this.html = new HTML("data/html");
 		this.npcTable = new NpcTable("data/npc.json", this); // NpcTable ???
-		this.announcements =  new Announcements("data/announcements.json");
 		this.items = new templates.Items([{ link: "data/items/armor.json", category: "armor" }, { link: "data/items/weapon.json", category: "weapon" }, { link: "data/items/etc.json", category: "etc" }]);
 		this.item = new Item(this.items.getData());
 		this.bots = new Bots(this);

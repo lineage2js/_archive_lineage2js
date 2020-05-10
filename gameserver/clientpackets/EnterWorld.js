@@ -1,6 +1,7 @@
 let config = require("./../../config/config");
 let serverPackets = require("./../../gameserver/serverpackets/serverPackets");
 let ClientPacket = require("./ClientPacket");
+let announcements = require("./../../gameserver/Announcements");
 
 class EnterWorld {
 	constructor(packet, player, players, server) {
@@ -15,7 +16,7 @@ class EnterWorld {
 	}
 
 	_init() {
-		this._server.announcements.show(announcement => {
+		announcements.each(announcement => {
 			this._player.sendPacket(new serverPackets.CreateSay(this._player, config.base.MESSAGE_TYPE.ANNOUNCEMENT, announcement));
 		})
 
