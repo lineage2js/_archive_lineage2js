@@ -1,35 +1,27 @@
 let fs = require("fs");
 
 class Html {
-	constructor(dirname) {
-		this._dirname = dirname;
-		this._storage = {}
-		this._init();
+	constructor() {
+		this._data = {};
 	}
 
-	get(fileName) {
-		return this._storage[fileName];
-	}
-
-	_readFiles(dirname, callback) {
-		fs.readdir(dirname, (err, fileNames) => {
+	addFiles(directory) {
+		fs.readdir(directory, (err, fileNames) => {
 			fileNames.forEach(fileName => {
-	      		fs.readFile(`${dirname}/${fileName}`, 'utf-8', (err, content) => {	
-	        		callback(fileName, content);
+	      		fs.readFile(`${directory}/${fileName}`, 'utf-8', (err, content) => {	
+	        		this._add(fileName, content);
 	      		})
 	    	})
 	  	})
 	}
 
-	_add(fileName, content) {
-		this._storage[fileName.substring(0, fileName.indexOf('.'))] = content;
+	get(fileName) {
+		return this._data[fileName];
 	}
 
-	_init() {
-		this._readFiles(this._dirname, (fileName, content) => {
-			this._add(fileName, content);
-		});
+	_add(fileName, content) {
+		this._data[fileName.substring(0, fileName.indexOf('.'))] = content;
 	}
 }
 
-module.exports = Html;
+module.exports = new Html();

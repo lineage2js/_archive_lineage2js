@@ -2,6 +2,7 @@ let config = require("./../../config/config");
 let serverPackets = require("./../../gameserver/serverpackets/serverPackets");
 let ClientPacket = require("./ClientPacket");
 let announcements = require("./../../gameserver/Announcements");
+let html = require("./../../gameserver/Html");
 
 class EnterWorld {
 	constructor(packet, player, players, server) {
@@ -24,7 +25,7 @@ class EnterWorld {
 		this._player.sendPacket(new serverPackets.UserInfo(this._player));
 		this._player.sendPacket(new serverPackets.ItemList(this._player));
 
-		//this._player.sendPacket(new serverPackets.TutorialShowHtml(this._server.html.get("tutorial_001"))); // fix
+		//this._player.sendPacket(new serverPackets.TutorialShowHtml(html.get("tutorial_001"))); // fix
 		//this._player.sendPacket(new serverPackets.Ride(this._player));
 		this._player.broadcast(new serverPackets.CharacterInfo(this._player)); // Оповестить всех, что персонаж зашел в мир
 

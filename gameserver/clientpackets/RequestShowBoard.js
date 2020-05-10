@@ -1,5 +1,6 @@
 let serverPackets = require("./../../gameserver/serverpackets/serverPackets");
 let ClientPacket = require("./ClientPacket");
+let html = require("./../../gameserver/Html");
 
 class RequestShowBoard {
 	constructor(packet, player, server) {
@@ -14,7 +15,7 @@ class RequestShowBoard {
 	}
 
 	_init() {
-		this._player.sendPacket(new serverPackets.ShowBoard(this._server.html.get("tutorial_001")));
+		this._player.sendPacket(new serverPackets.ShowBoard(html.get("tutorial_001")));
 	}
 }
 
