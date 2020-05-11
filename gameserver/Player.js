@@ -36,8 +36,8 @@ class Player {
 		this.privateStoreType = 0;
 
 		// states
-		this._isStanding = 1; // 0 - sit, 1 - stand
-		this._isRunning = 1; // 0 - walk, 1 - run
+		this._waitType = 1; // 0 - sit, 1 - stand
+		this._moveType = 1; // 0 - walk, 1 - run
 		this._inCombat = 0; // 0 - idle, 1 - combat
 		this._isRegenerationHp = false;
 		this._isRegenerationMp = false;
@@ -161,36 +161,36 @@ class Player {
 		}
 	}
 
-	isStanding() {
-		return this._isStanding === 1;
+	getWaitType() {
+		return this._waitType;
 	}
 
-	getWaitType() {
-		return this._isStanding;
+	isStanding() {
+		return this._waitType === 1;
 	}
 
 	sitDown() {
-		this._isStanding = 0;
+		this._waitType = 0;
 	}
 
 	standUp() {
-		this._isStanding = 1;
-	}
-
-	isRunning() {
-		return this._isRunning === 1;
+		this._waitType = 1;
 	}
 
 	getMoveType() {
-		return this._isRunning;
+		return this._moveType;
+	}
+
+	isRunning() {
+		return this._moveType === 1;
 	}
 
 	setWalking() {
-		this._isRunning = 0;
+		this._moveType = 0;
 	}
 
 	setRunning() {
-		this._isRunning = 1;
+		this._moveType = 1;
 	}
 
 	setCombatState(value) {
