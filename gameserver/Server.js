@@ -2,9 +2,7 @@ let net = require("net");
 let file = require("fs");
 let log = require("./../util/log");
 let config = require("./../config/config");
-//let Bots = require("./../gameserver/Bots");
 let Player = require("./../gameserver/Player");
-//let Players = require("./../gameserver/Players");
 let Packet = require("./../gameserver/Packet");
 let npcList = require("./../gameserver/NpcList");
 let world = require("./../gameserver/World");
@@ -17,12 +15,7 @@ let db = low(database);
 
 class Server {
 	constructor() {
-		//this.bots = new Bots(this);
-		//this.players = new Players(this);
 		this.db = db;
-		//this.players.addBots(this.bots.create(10));
-		world.addNpc(npcList.get());
-		world.addBot();
 		
 		// test
 		setInterval(() => {

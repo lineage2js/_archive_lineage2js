@@ -5,9 +5,8 @@ let Bot = require("./Bot");
 let idFactory = require("./../util/IdFactory");
 
 class Bots {
-	constructor(server) {
+	constructor() {
 		this._bots = [];
-		this._server = server
 		this._characterTemplates = this._serialization(characterTemplatesData);
 		this._classes = [classes.fighter, classes.mage, classes.elvenFighter, classes.elvenMage, classes.darkFighter, classes.darkMage, classes.orcFighter, classes.orcMage, classes.dwarvenFighter];
 	}
@@ -51,7 +50,6 @@ class Bots {
 					break;
 			}
 			
-			bot.server = this._server;
 			bot.objectId = idFactory.getNextId();;
 			bot.characterName = "bot" + i;
 			bot.title = "bot";
@@ -99,11 +97,9 @@ class Bots {
 
 			this._bots.push(bot);
 		}
-
-		return this._bots;
 	}
 
-	get() {
+	getBots() {
 		return this._bots;
 	}
 
@@ -118,4 +114,4 @@ class Bots {
 	}
 }
 
-module.exports = Bots;
+module.exports = new Bots();

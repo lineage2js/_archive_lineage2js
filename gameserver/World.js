@@ -18,7 +18,14 @@ class World {
 	}
 
 	addBot(bot) {
-		this._bots.push(bot);
+		// fix
+		if(Array.isArray(bot)) {
+			for(let i = 0; i < bot.length; i++) {
+				this._bots.push(bot[i]);
+			}
+		} else {
+			this._bots.push(bot);
+		}
 	}
 
 	getBots() {

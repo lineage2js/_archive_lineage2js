@@ -32,7 +32,7 @@ class NpcList {
 		}
 	}
 
-	get() {
+	getList() {
 		return this._list;
 	}
 }

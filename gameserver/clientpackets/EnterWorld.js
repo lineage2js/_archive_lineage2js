@@ -37,6 +37,10 @@ class EnterWorld {
 		this._player.getVisiblePlayers(world.getPlayers(), anotherPlayer => {
 			this._player.sendPacket(new serverPackets.CharacterInfo(anotherPlayer));
 		});
+
+		this._player.getVisiblePlayers(world.getBots(), bot => {
+			this._player.sendPacket(new serverPackets.CharacterInfo(bot));
+		});
 	}
 }
 
