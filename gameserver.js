@@ -1,4 +1,4 @@
-let Server = require("./gameserver/Server");
+let server = require("./gameserver/Server");
 let idFactory = require("./util/IdFactory");
 let announcements = require("./gameserver/Announcements");
 let html = require("./gameserver/Html");
@@ -21,7 +21,4 @@ bots.create(10);
 world.addNpc(npcList.getList());
 world.addBot(bots.getBots());
 tasks.npcMove();
-
-let server = new Server();
-
 server.start();

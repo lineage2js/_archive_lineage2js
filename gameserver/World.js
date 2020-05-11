@@ -8,7 +8,6 @@ class World {
 		this._npcList = [];
 	}
 
-	//
 	addPlayer(player) {
 		this._players.push(player);
 	}
@@ -45,17 +44,6 @@ class World {
 
 	getNpcList() {
 		return this._npcList;
-	}
-	//
-
-	add(objects) {
-		if(Array.isArray(objects)) {
-			for(let i = 0; i < objects.length; i++) {
-				this._objects.push(objects[i]);
-			}
-		} else {
-			this._objects.push(objects);
-		}
 	}
 
 	find(objectId) {

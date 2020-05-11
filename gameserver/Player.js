@@ -3,12 +3,12 @@ let config = require("./../config/config");
 let XOR = require("./../util/XOR");
 let timer = require("./../gameserver/Timer");
 let world = require("./../gameserver/World");
+let server = require("./../gameserver/Server");
 
 class Player {
-	constructor(socket, server) {
+	constructor(socket) {
 		this.socket = socket || null;
 		this.xor = new XOR(config.base.key.XOR) || null;
-		this.server = server || null;
 		this.bot = false;
 		
 		this.objectId = null;
@@ -271,7 +271,8 @@ class Player {
 	}
 
 	getCharacters() {
-		return this.server.db.get("characters").filter({"login": this.login}).value();
+		console.log(server)
+		return server.db.get("characters").filter({"login": this.login}).value();
 	}
 
 	getObjectId() {
@@ -279,15 +280,15 @@ class Player {
 	}
 
 	getCharacterQuantity() {
-		return this.server.db.get("characters").filter({"login": this.login}).value().length;
+		return server.db.get("characters").filter({"login": this.login}).value().length;
 	}
 
 	getCharacterNames() {
-		return this.server.db.get("characters").map("characterName").value();
+		return server.db.get("characters").map("characterName").value();
 	}
 
 	addCharacter(character) {
-		this.server.db.get("characters").push(character).write();
+		server.db.get("characters").push(character).write();
 	}
 
 	changeCombatStateTask(attacker) {
