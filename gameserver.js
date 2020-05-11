@@ -4,6 +4,7 @@ let announcements = require("./gameserver/Announcements");
 let html = require("./gameserver/Html");
 let items = require("./gameserver/Items");
 let npcList = require("./gameserver/NpcList");
+let world = require("./gameserver/World");
 
 idFactory.addFile("./data/id.json");
 announcements.addFile("./data/announcements.json");

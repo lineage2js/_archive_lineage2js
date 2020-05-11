@@ -2,6 +2,7 @@ let serverPackets = require("./../gameserver/serverpackets/serverPackets");
 let config = require("./../config/config");
 let XOR = require("./../util/XOR");
 let timer = require("./../gameserver/Timer");
+let world = require("./../gameserver/World");
 
 class Player {
 	constructor(socket, server) {
@@ -143,7 +144,7 @@ class Player {
 
 	broadcast(packet) {
 		let packetLength = new Buffer.from([0x00, 0x00]);
-		let players = this.server.players.getPlayers();
+		let players = world.getPlayers();
 
 		packetLength.writeInt16LE(packet.length + 2);
 
@@ -209,7 +210,7 @@ class Player {
 		}
 
 		//let Player = this.constructor;
-		let attacked = this.server.objects.get(objectId);
+		let attacked = world.find(objectId);
 
 		if(true) {
 			this.changeCombatStateTask();

@@ -2,12 +2,12 @@ let net = require("net");
 let file = require("fs");
 let log = require("./../util/log");
 let config = require("./../config/config");
-let Bots = require("./../gameserver/Bots");
+//let Bots = require("./../gameserver/Bots");
 let Player = require("./../gameserver/Player");
-let Players = require("./../gameserver/Players");
+//let Players = require("./../gameserver/Players");
 let Packet = require("./../gameserver/Packet");
 let npcList = require("./../gameserver/NpcList");
-let Objects = require("./../gameserver/Objects");
+let world = require("./../gameserver/World");
 let serverPacket = require("./serverPackets/serverPackets");
 // db
 let low = require("lowdb");
@@ -17,17 +17,16 @@ let db = low(database);
 
 class Server {
 	constructor() {
-		this.bots = new Bots(this);
-		this.objects = new Objects();
-		this.players = new Players(this);
+		//this.bots = new Bots(this);
+		//this.players = new Players(this);
 		this.db = db;
-		this.players.addBots(this.bots.create(10));
-		this.objects.add(npcList.get());
-		this.objects.add(this.bots.get());
+		//this.players.addBots(this.bots.create(10));
+		world.addNpc(npcList.get());
+		world.addBot();
 		
 		// test
 		setInterval(() => {
-			let npcList = this.objects.getNpc();
+			let npcList = world.getNpcList();
 
 			for(let i = 0; i < npcList.length; i++) {
 				let npc = npcList[i];
@@ -50,7 +49,7 @@ class Server {
 					}
 				}
 
-				npc.getVisibleObjects(this.players.getPlayers(), player => {
+				npc.getVisibleObjects(world.getPlayers(), player => {
 					player.sendPacket(new serverPacket.MoveToLocation(position, npc));
 				})
 			}
@@ -72,7 +71,7 @@ class Server {
 		socket.on("close", packet.close.bind(packet));
 		socket.on("error", packet.error.bind(packet));
 		socket.setEncoding("binary");
-		this.players.addPlayer(player);
+		world.addPlayer(player);
 		log(`Connected to the game server: ${socket.remoteAddress}:${socket.remotePort}`);
 	}
 }
