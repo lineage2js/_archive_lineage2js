@@ -1,5 +1,3 @@
-let Npc = require("./Npc");
-
 class World {
 	constructor() {
 		this._objects = [];
@@ -9,8 +7,7 @@ class World {
 	}
 
 	addPlayer(player) {
-		this._players.push(player);
-		this._objects.push(player);
+		this._add(player, "players");
 	}
 
 	getPlayers() {
@@ -18,16 +15,7 @@ class World {
 	}
 
 	addBot(bot) {
-		// fix
-		if(Array.isArray(bot)) {
-			for(let i = 0; i < bot.length; i++) {
-				this._bots.push(bot[i]);
-				this._objects.push(bot[i]);
-			}
-		} else {
-			this._bots.push(bot);
-			this._objects.push(bot);
-		}
+		this._add(bot, "bots");
 	}
 
 	getBots() {
@@ -35,14 +23,7 @@ class World {
 	}
 
 	addNpc(npc) {
-		// fix
-		if(Array.isArray(npc)) {
-			for(let i = 0; i < npc.length; i++) {
-				this._npcList.push(npc[i]);
-			}
-		} else {
-			this._npcList.push(npc);
-		}
+		this._add(npc, "npcList");
 	}
 
 	getNpcList() {
@@ -51,6 +32,18 @@ class World {
 
 	find(objectId) {
 		return this._objects.find(object => object.objectId === objectId);
+	}
+
+	_add(object, section) {
+		if(Array.isArray(object)) {
+			for(let i = 0; i < object.length; i++) {
+				this._objects.push(object[i]);
+				this["_" + section].push(object[i]);
+			}
+		} else {
+			this._objects.push(object);
+			this["_" + section].push(object);
+		}
 	}
 }
 
