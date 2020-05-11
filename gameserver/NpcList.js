@@ -14,10 +14,11 @@ class NpcList {
 	}
 
 	spawn() {
-		for(let i = 0; i < 3 ; i++) {
-			for(let j = 0; j < this._data.length; j++) {
+		for(let i = 0; i < this._data.length ; i++) {
+			let item = this._data[i];
+
+			for(let j = 0; j < item.count; j++) {
 				let npc = new Npc();
-				let item = this._data[j];
 				let sign = Math.random() < 0.5 ? -1 : 1;
 				let [x, y] = npc.getRandomPos();
 				let z = -3115;

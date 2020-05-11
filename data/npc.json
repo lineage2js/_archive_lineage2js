@@ -24,7 +24,8 @@
 	    "runSpeed": 50,
 	    "class": "L2Monster",
 	    "collisionRadius": "10.0",
-	    "collisionHeight": "15.0"
+	    "collisionHeight": "15.0",
+	    "count": 3
 	},
 	{
 	    "id": 1000432,
@@ -51,6 +52,7 @@
 	    "runSpeed": 80,
 	    "class": "L2Monster",
 	    "collisionRadius": "5.0",
-	    "collisionHeight": "4.5"
+	    "collisionHeight": "4.5",
+	    "count": 3
 	}
 ]
