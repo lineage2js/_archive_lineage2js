@@ -2,25 +2,22 @@ let fs = require("fs");
 let Npc = require("./Npc");
 let idFactory = require("./../util/IdFactory");
 
-class NpcTable {
-	constructor(file, server) {
+class NpcList {
+	constructor(file) {
 		this._file = file;
-		this._server = server;
-		this._storage = null;
+		this._list = [];
+		this._data = null;
+	}
 
-		this._init();
+	addFile(path) {
+		this._data = JSON.parse(fs.readFileSync(path, "utf-8"))
 	}
 
 	spawn() {
-		let objects = [];
-		//let x = -72100;
-		//let y = 257500;
-		
-
 		for(let i = 0; i < 3 ; i++) {
-			for(let j = 0; j < this._storage.length; j++) {
+			for(let j = 0; j < this._data.length; j++) {
 				let npc = new Npc();
-				let item = this._storage[j];
+				let item = this._data[j];
 				let sign = Math.random() < 0.5 ? -1 : 1;
 				let [x, y] = npc.getRandomPos();
 				let z = -3115;
@@ -55,24 +52,14 @@ class NpcTable {
 				npc.collisionRadius = item.collisionRadius;
 				npc.collisionHeight = item.collisionHeight;
 
-				objects.push(npc);
+				this._list.push(npc);
 			}
 		}
-
-		return objects;
 	}
 
-	get(id) {
-		return this._storage.find(data => data.id === id);
-	}
-
-	_readFile() {
-		this._storage = JSON.parse(fs.readFileSync(this._file, "utf-8"))
-	}
-
-	_init(){ 
-		this._readFile();
+	get() {
+		return this._list;
 	}
 }
 
-module.exports = NpcTable;
+module.exports = new NpcList();

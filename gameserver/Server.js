@@ -6,7 +6,7 @@ let Bots = require("./../gameserver/Bots");
 let Player = require("./../gameserver/Player");
 let Players = require("./../gameserver/Players");
 let Packet = require("./../gameserver/Packet");
-let NpcTable = require("./../gameserver/NpcTable");
+let npcList = require("./../gameserver/NpcList");
 let Objects = require("./../gameserver/Objects");
 let serverPacket = require("./serverPackets/serverPackets");
 // db
@@ -17,13 +17,12 @@ let db = low(database);
 
 class Server {
 	constructor() {
-		this.npcTable = new NpcTable("data/npc.json", this); // NpcTable ???
 		this.bots = new Bots(this);
 		this.objects = new Objects();
 		this.players = new Players(this);
 		this.db = db;
 		this.players.addBots(this.bots.create(10));
-		this.objects.add(this.npcTable.spawn());
+		this.objects.add(npcList.get());
 		this.objects.add(this.bots.get());
 		
 		// test
