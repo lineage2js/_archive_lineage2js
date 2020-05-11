@@ -24,11 +24,11 @@ class Server {
 		let Packet = require("./../gameserver/Packet");
 		let world = require("./../gameserver/World");
 		let player = new Player(socket);
-		let packet = new Packet(player, this.players, this);
+		let packet = new Packet(player);
 
-		socket.on("data", packet.handler.bind(packet));
-		socket.on("close", packet.close.bind(packet));
-		socket.on("error", packet.error.bind(packet));
+		socket.on("data", packet.onData.bind(packet));
+		socket.on("close", packet.onClose.bind(packet));
+		socket.on("error", packet.onError.bind(packet));
 		socket.setEncoding("binary");
 		world.addPlayer(player);
 		log(`Connected to the game server: ${socket.remoteAddress}:${socket.remotePort}`);

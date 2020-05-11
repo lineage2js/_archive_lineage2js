@@ -4,10 +4,9 @@ let ClientPacket = require("./ClientPacket");
 let items = require("./../../gameserver/Items");
 
 class CharacterSelected {
-	constructor(packet, player, server) {
+	constructor(packet, player) {
 		this._packet = packet;
 		this._player = player;
-		this._server = server;
 		this._data = new ClientPacket(this._packet.getBuffer());
 		this._data.readC()
 			.readD();

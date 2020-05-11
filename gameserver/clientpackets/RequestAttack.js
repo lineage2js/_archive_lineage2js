@@ -3,10 +3,9 @@ let serverPackets = require("./../../gameserver/serverpackets/serverPackets");
 let ClientPacket = require("./ClientPacket");
 
 class Action {
-	constructor(packet, player, server) {
+	constructor(packet, player) {
 		this._packet = packet;
 		this._player = player;
-		this._server = server;
 		this._data = new ClientPacket(this._packet.getBuffer());
 		this._data.readC()
 			.readD()

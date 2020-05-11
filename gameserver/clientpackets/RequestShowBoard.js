@@ -3,10 +3,9 @@ let ClientPacket = require("./ClientPacket");
 let html = require("./../../gameserver/Html");
 
 class RequestShowBoard {
-	constructor(packet, player, server) {
+	constructor(packet, player) {
 		this._packet = packet;
 		this._player = player;
-		this._server = server;
 		this._data = new ClientPacket(this._packet.getBuffer());
 		this._data.readC()
 			.readD();

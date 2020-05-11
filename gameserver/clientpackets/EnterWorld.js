@@ -6,11 +6,9 @@ let html = require("./../../gameserver/Html");
 let world = require("./../../gameserver/World");
 
 class EnterWorld {
-	constructor(packet, player, players, server) {
+	constructor(packet, player) {
 		this._packet = packet;
 		this._player = player;
-		this._players = players;
-		this._server = server;
 		this._data = new ClientPacket(this._packet.getBuffer());
 		this._data.readC()
 

@@ -3,10 +3,8 @@ let clientPackets = require("./../gameserver/clientpackets/clientPackets");
 let serverPackets = require("./../gameserver/serverpackets/serverPackets");
 
 class Packet {
-	constructor(player, players, server) {
+	constructor(player) {
 		this._player = player;
-		this._players = players;
-		this._server = server;
 		this._sessionKey1Server = [0x55555555, 0x44444444];
 		this._sessionKey2Server = [0x55555555, 0x44444444];
 		this._encryption = false;
@@ -35,7 +33,7 @@ class Packet {
 		return this._sessionKey2Server;
 	}
 
-	handler(data) {
+	onData(data) {
 		this._encrypted = new Buffer.from(data, "binary").slice(2); // slice(2) - without first two byte responsible for packet size
 		//this._decrypted = new Buffer.from(this.getEncryption() ? this._player.xor.decrypt(this._encrypted) : this._encrypted);
 		this._decrypted = new Buffer.from(this._encrypted);
@@ -60,11 +58,11 @@ class Packet {
 
 				break;
 			case 0x0b:
-				new clientPackets.CharacterCreate(this, this._player, this._server);
+				new clientPackets.CharacterCreate(this, this._player);
 
 				break;
 			case 0x0d:
-				new clientPackets.CharacterSelected(this, this._player, this._server);
+				new clientPackets.CharacterSelected(this, this._player);
 
 				break;
 			case 0x63:
@@ -72,7 +70,7 @@ class Packet {
 
 				break;
 			case 0x03:
-				new clientPackets.EnterWorld(this, this._player, this._players, this._server);
+				new clientPackets.EnterWorld(this, this._player);
 				
 				break;
 			case 0x01:
@@ -108,7 +106,7 @@ class Packet {
 
 				break;
 			case 0x14: // доделать
-				new clientPackets.UseItem(this, this._player, this._server);
+				new clientPackets.UseItem(this, this._player);
 
 				break;
 			case 0x48:
@@ -124,11 +122,11 @@ class Packet {
 
 				break;
 			case 0x0a:
-				new clientPackets.RequestAttack(this, this._player, this._server);
+				new clientPackets.RequestAttack(this, this._player);
 
 				break;
 			case 0x57:
-				new clientPackets.RequestShowBoard(this, this._player, this._server);
+				new clientPackets.RequestShowBoard(this, this._player);
 
 				break;
 		}
@@ -142,11 +140,11 @@ class Packet {
 		}
 	}
 
-	close() {
+	onClose() {
 		log(`Connection to the game server is closed for: ${this._player.socket.remoteAddress}:${this._player.socket.remotePort}`);
 	}
 
-	error() {
+	onError() {
 		log(`Client connection lost for: ${this._player.socket.remoteAddress}:${this._player.socket.remotePort}`);
 	}
 }
