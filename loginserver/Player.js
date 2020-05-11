@@ -1,10 +1,10 @@
 let config = require(".././config/config");
+let server = require("./Server");
 
 class Player {
-	constructor(socket, blowfish, server) {
+	constructor(socket, blowfish) {
 		this.blowfish = blowfish;
 		this.socket = socket;
-		this.server = server;
 	}
 
 	sendPacket(packet, encoding = true) {
@@ -23,7 +23,7 @@ class Player {
 	}
 
 	getAccount(login) {
-		return this.server.db.get("accounts").find({"login": login}).value();
+		return server.db.get("accounts").find({"login": login}).value();
 	}
 
 	checkAccount(login, password) {

@@ -2,8 +2,6 @@ let net = require("net");
 let log = require("./../util/log");
 let Blowfish = require("./../util/blowfish");
 let config = require("./../config/config");
-let Player = require("./Player");
-let Packet = require("./Packet");
 let serverPackets = require("./serverpackets/serverPackets");
 // db
 let low = require("lowdb");
@@ -17,14 +15,16 @@ class Server {
 	}
 
 	start() {
-		net.createServer(this._socketHandler.bind(this)).listen(config.loginserver.port, config.loginserver.host, () => {
+		net.createServer(this._onSocket).listen(config.loginserver.port, config.loginserver.host, () => {
 			log(`Login server listening on ${config.loginserver.host}:${config.loginserver.port}`)
 		});
 	}
 
-	_socketHandler(socket) {
+	_onSocket(socket) {
+		let Player = require("./Player");
+		let Packet = require("./Packet");
 		let blowfish = new Blowfish(config.base.key.blowfish);
-		let player = new Player(socket, blowfish, this);
+		let player = new Player(socket, blowfish);
 		let packet = new Packet(player);
 
 		socket.on("data", packet.handler.bind(packet));
@@ -36,4 +36,4 @@ class Server {
 	}
 }
 
-module.exports = Server;
+module.exports = new Server();

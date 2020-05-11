@@ -1,4 +1,3 @@
-let Server = require("./loginserver/Server");
-let server = new Server();
+let server = require("./loginserver/Server");
 
 server.start();

@@ -270,7 +270,6 @@ class Player {
 	}
 
 	getCharacters() {
-		console.log(server)
 		return server.db.get("characters").filter({"login": this.login}).value();
 	}
 
