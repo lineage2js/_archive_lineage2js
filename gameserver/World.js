@@ -10,6 +10,7 @@ class World {
 
 	addPlayer(player) {
 		this._players.push(player);
+		this._objects.push(player);
 	}
 
 	getPlayers() {
@@ -21,9 +22,11 @@ class World {
 		if(Array.isArray(bot)) {
 			for(let i = 0; i < bot.length; i++) {
 				this._bots.push(bot[i]);
+				this._objects.push(bot[i]);
 			}
 		} else {
 			this._bots.push(bot);
+			this._objects.push(bot);
 		}
 	}
 

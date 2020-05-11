@@ -209,7 +209,6 @@ class Player {
 			miss: false
 		}
 
-		//let Player = this.constructor;
 		let attacked = world.find(objectId);
 
 		if(true) {
