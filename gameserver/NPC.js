@@ -1,34 +1,34 @@
 class Npc {
-	constructor() {
-		this.objectId = null;
-		this.id = null;
-		this.name = null;
-		this.x = null;
-		this.y = null;
-		this.z = null;
-		this.level = null;
-		this.gender = null;
-		this.type = null;
-		this.attackRange = null;
-		this.hp = null;
-		this.mp = null;
-		this.exp = null;
-		this.sp = null;
-		this.pAtk = null;
-		this.pDef = null;
-		this.mAtk = null;
-		this.mDef = null;
-		this.pSpd = null;
-		this.mSpd = null;
-		this.aggressive = null;
-		this.rightHand = null;
-		this.leftHand = null;
-		this.armor = null;
-		this.walkSpeed = null;
-		this.runSpeed = null;
-		this.class = null;
-		this.collisionRadius = null;
-		this.collisionHeight = null;
+	constructor(params) {
+		this.objectId = params.objectId || null;
+		this.id = params.id || null;
+		this.name = params.name || null;
+		this.x = params.x || null;
+		this.y = params.y || null;
+		this.z = params.z || null;
+		this.level = params.level || null;
+		this.gender = params.gender || null;
+		this.type = params.type || null;
+		this.attackRange = params.attackRange || null;
+		this.hp = params.hp || null;
+		this.mp = params.mp || null;
+		this.exp = params.exp || null;
+		this.sp = params.sp || null;
+		this.pAtk = params.pAtk || null;
+		this.pDef = params.pDef || null;
+		this.mAtk = params.mAtk || null;
+		this.mDef = params.mDef || null;
+		this.pSpd = params.pSpd || null;
+		this.mSpd = params.mSpd || null;
+		this.aggressive = params.aggressive || null;
+		this.rightHand = params.rightHand || null;
+		this.leftHand = params.leftHand || null;
+		this.armor = params.armor || null;
+		this.walkSpeed = params.walkSpeed || null;
+		this.runSpeed = params.runSpeed || null;
+		this.class = params.class || null;
+		this.collisionRadius = params.collisionRadius || null;
+		this.collisionHeight = params.collisionHeight || null;
 	}
 
 	getVisibleObjects(objects, callback) {
