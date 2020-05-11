@@ -163,13 +163,13 @@ class Items {
 	constructor() {
 		this.types = types;
 		this.stringTypes = stringTypes;
-		this._items = [];
-		this._result = {};
-		this._data = null;
+		this._data = [];
+		this._items = {};
+		this._paths = null;
 	}
 
-	addFiles(data) {
-		this._data = data;
+	addFiles(paths) {
+		this._paths = paths;
 		this._load();
 		this._serialization();
 	}
@@ -177,23 +177,23 @@ class Items {
 	create(id) {
 		let item;
 
-		item = JSON.parse(JSON.stringify(this._result[id]));
+		item = JSON.parse(JSON.stringify(this._items[id]));
 		item.objectId = idFactory.getNextId();
 
 		return item;
 	}
 
 	_load() {
-		for(let i = 0; i < this._data.length; i++) {
-			this._items.push({ items: JSON.parse(fs.readFileSync(this._data[i].path, "utf-8")), category: this._data[i].category });
+		for(let i = 0; i < this._paths.length; i++) {
+			this._data.push({ items: JSON.parse(fs.readFileSync(this._paths[i].path, "utf-8")), category: this._paths[i].category });
 		}
 	}
 
 	_serialization() {
-		for(let i = 0; i < this._items.length; i++) {
-			for(let j = 0; j < this._items[i].items.length; j++) {
-				let data = this._items[i];
-				let item = this._items[i].items[j];
+		for(let i = 0; i < this._data.length; i++) {
+			for(let j = 0; j < this._data[i].items.length; j++) {
+				let data = this._data[i];
+				let item = this._data[i].items[j];
 
 				switch(data.category) {
 					case "armor":
@@ -240,8 +240,8 @@ class Items {
 						break;
 				}
 
-				this._result[item.itemId] = item;
-				this._result[item.itemId].category = data.category;
+				this._items[item.itemId] = item;
+				this._items[item.itemId].category = data.category;
 			}
 		}
 	}
