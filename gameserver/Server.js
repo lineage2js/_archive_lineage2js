@@ -1,12 +1,9 @@
 let net = require("net");
-let file = require("fs");
 let log = require("./../util/log");
 let config = require("./../config/config");
 let Player = require("./../gameserver/Player");
 let Packet = require("./../gameserver/Packet");
-let npcList = require("./../gameserver/NpcList");
 let world = require("./../gameserver/World");
-let serverPacket = require("./serverPackets/serverPackets");
 // db
 let low = require("lowdb");
 let FileSync = require("lowdb/adapters/FileSync");
@@ -16,38 +13,6 @@ let db = low(database);
 class Server {
 	constructor() {
 		this.db = db;
-		
-		// test
-		setInterval(() => {
-			let npcList = world.getNpcList();
-
-			for(let i = 0; i < npcList.length; i++) {
-				let npc = npcList[i];
-				let [x, y] = npc.getRandomPos();
-				let origin = {
-					x: npc.x,
-					y: npc.y,
-					z: npc.z
-				}		
-				let position = {
-					target: {
-						x: npc.x = x,
-						y: npc.y = y,
-						z: npc.z
-					},
-					origin: {
-						x: origin.x,
-						y: origin.y,
-						z: origin.z
-					}
-				}
-
-				npc.getVisibleObjects(world.getPlayers(), player => {
-					player.sendPacket(new serverPacket.MoveToLocation(position, npc));
-				})
-			}
-		}, 10000)
-		//
 	}
 
 	start() {
