@@ -15,6 +15,7 @@ module.exports = {
 	SunSet: require("./SunSet"),
 	CharacterInfo: require("./CharacterInfo"),
 	SocialAction: require("./SocialAction"),
+	SpawnItem: require("./SpawnItem"),
 	StatusUpdate: require("./StatusUpdate"),
 	CreateSay: require("./CreateSay"),
 	StopMoveWithLocation: require("./StopMoveWithLocation"),

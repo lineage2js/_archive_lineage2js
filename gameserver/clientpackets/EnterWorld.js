@@ -4,6 +4,7 @@ let ClientPacket = require("./ClientPacket");
 let announcements = require("./../../gameserver/Announcements");
 let html = require("./../../gameserver/Html");
 let world = require("./../../gameserver/World");
+let items = require("./../../gameserver/Items");
 
 class EnterWorld {
 	constructor(packet, player) {
@@ -23,6 +24,8 @@ class EnterWorld {
 		this._player.sendPacket(new serverPackets.SunRise());
 		this._player.sendPacket(new serverPackets.UserInfo(this._player));
 		this._player.sendPacket(new serverPackets.ItemList(this._player));
+
+		//this._player.sendPacket(new serverPackets.SpawnItem(items.create(78), -70880, 257360, -3080));
 
 		//this._player.sendPacket(new serverPackets.TutorialShowHtml(html.get("tutorial_001"))); // fix
 		//this._player.sendPacket(new serverPackets.Ride(this._player));
