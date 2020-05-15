@@ -35,7 +35,7 @@ class Say2 {
 
 	_init() {
 		this._player.sendPacket(new serverPackets.CreateSay(this._player, this.getType(), this.getText()));
-		this._packet.broadcast(new serverPackets.CreateSay(this._player, this.getType(), this.getText()));
+		this._player.broadcast(new serverPackets.CreateSay(this._player, this.getType(), this.getText()));
 	}
 }
 

@@ -105,8 +105,8 @@ class Packet {
 				new clientPackets.RequestItemList(this, this._player);
 
 				break;
-			case 0x14: // доделать
-				new clientPackets.UseItem(this, this._player);
+			case 0x14:
+				new clientPackets.RequestUseItem(this, this._player);
 
 				break;
 			case 0x48:

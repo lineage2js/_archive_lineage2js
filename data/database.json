@@ -35,7 +35,7 @@
     {
       "objectId": 268435568,
       "login": "a",
-      "characterName": "A",
+      "name": "A",
       "title": "",
       "level": 1,
       "gender": 0,
@@ -406,7 +406,7 @@
     {
       "objectId": 268441586,
       "login": "a",
-      "characterName": "M",
+      "name": "M",
       "title": "",
       "level": 1,
       "gender": 0,
@@ -777,7 +777,7 @@
     {
       "objectId": 268446992,
       "login": "b",
-      "characterName": "Warrior",
+      "name": "Warrior",
       "title": "",
       "level": 1,
       "gender": 0,

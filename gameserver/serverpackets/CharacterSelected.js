@@ -1,9 +1,9 @@
 let ServerPacket = require("./ServerPacket");
 
 function CharacterSelected(character) {
-	this._packet = new ServerPacket(230 + ServerPacket.strlen(character.characterName) + ServerPacket.strlen(character.title));
+	this._packet = new ServerPacket(230 + ServerPacket.strlen(character.name) + ServerPacket.strlen(character.title));
 	this._packet.writeC(0x21)
-		.writeS(character.characterName)
+		.writeS(character.name)
 		.writeD(character.objectId)
 		.writeS(character.title)
 		.writeD(0x55555555)

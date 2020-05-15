@@ -1,31 +1,17 @@
-class Npc {
+let Character = require("./Character");
+
+class Npc extends Character {
 	constructor(params) {
-		this.objectId = params.objectId || null;
+		super(params);
+
 		this.id = params.id || null;
 		this.name = params.name || null;
-		this.x = params.x || null;
-		this.y = params.y || null;
-		this.z = params.z || null;
-		this.level = params.level || null;
-		this.gender = params.gender || null;
 		this.type = params.type || null;
 		this.attackRange = params.attackRange || null;
-		this.hp = params.hp || null;
-		this.mp = params.mp || null;
-		this.exp = params.exp || null;
-		this.sp = params.sp || null;
-		this.pAtk = params.pAtk || null;
-		this.pDef = params.pDef || null;
-		this.mAtk = params.mAtk || null;
-		this.mDef = params.mDef || null;
-		this.pSpd = params.pSpd || null;
-		this.mSpd = params.mSpd || null;
 		this.aggressive = params.aggressive || null;
 		this.rightHand = params.rightHand || null;
 		this.leftHand = params.leftHand || null;
 		this.armor = params.armor || null;
-		this.walkSpeed = params.walkSpeed || null;
-		this.runSpeed = params.runSpeed || null;
 		this.class = params.class || null;
 		this.collisionRadius = params.collisionRadius || null;
 		this.collisionHeight = params.collisionHeight || null;
@@ -39,6 +25,22 @@ class Npc {
 				callback(objects[i]);
 			}
 		}
+	}
+
+	getRandomPos() {
+		let max = { x: -80000, y: 270000 };
+		let min = { x: -60000, y: 250000 };
+		let xp = [-71921, -72081, -72277, -72105];
+		let yp = [257496, 257310, 257480, 257686];
+		let x;
+		let y;
+			
+		do {
+			x = Math.floor(min.x + Math.random() * (max.x + 1 - min.x));
+			y = Math.floor(min.y + Math.random() * (max.y + 1 - min.y));
+		} while(!this._inPoly(xp, yp, x, y))
+
+		return [x, y]
 	}
 
 	_checkPointInCircle(x1, y1, x2, y2, radius) {
@@ -64,22 +66,6 @@ class Npc {
 		}
 
 		return c;
-	}
-
-	getRandomPos() {
-		let max = { x: -80000, y: 270000 };
-		let min = { x: -60000, y: 250000 };
-		let xp = [-71921, -72081, -72277, -72105];
-		let yp = [257496, 257310, 257480, 257686];
-		let x;
-		let y;
-			
-		do {
-			x = Math.floor(min.x + Math.random() * (max.x + 1 - min.x));
-			y = Math.floor(min.y + Math.random() * (max.y + 1 - min.y));
-		} while(!this._inPoly(xp, yp, x, y))
-
-		return [x, y]
 	}
 }
 

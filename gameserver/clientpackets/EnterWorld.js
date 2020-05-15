@@ -29,11 +29,11 @@ class EnterWorld {
 		this._player.broadcast(new serverPackets.CharacterInfo(this._player)); // Оповестить всех, что персонаж зашел в мир
 
 		this._player.getVisibleObjects(world.getNpcList(), npc => {
-			this._player.sendPacket(new serverPackets.NpcInfo(npc, this._player));
+			this._player.sendPacket(new serverPackets.NpcInfo(npc));
 		})
 
-		this._player.getVisiblePlayers(world.getPlayers(), anotherPlayer => {
-			this._player.sendPacket(new serverPackets.CharacterInfo(anotherPlayer));
+		this._player.getVisiblePlayers(world.getPlayers(), player => {
+			this._player.sendPacket(new serverPackets.CharacterInfo(player));
 		});
 
 		this._player.getVisiblePlayers(world.getBots(), bot => {

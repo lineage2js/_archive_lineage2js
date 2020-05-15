@@ -1,23 +1,20 @@
-let serverPackets = require("./../gameserver/serverpackets/serverPackets");
+let serverPackets = require("./serverpackets/serverPackets");
 let config = require("./../config/config");
 let XOR = require("./../util/XOR");
-let timer = require("./../gameserver/Timer");
-let world = require("./../gameserver/World");
-let server = require("./../gameserver/Server");
+let timer = require("./Timer");
+let world = require("./World");
+let server = require("./Server");
+let Character = require("./Character");
 
-class Player {
+class Player extends Character {
 	constructor(socket) {
+		super();
+
 		this.socket = socket || null;
 		this.xor = new XOR(config.base.key.XOR) || null;
-		this.bot = false;
 		
-		this.objectId = null;
 		this.target = null;
 		this.login = null;
-		this.characterName = null;
-		this.title = "";
-		this.level = 1;
-		this.gender = null;
 		this.hairStyle = null;
 		this.hairColor = null;
 		this.face = null;
@@ -30,8 +27,6 @@ class Player {
 		this.clanCrestId = 0;
 		this.allianceId = 0;
 		this.allianceCrestId = 0;
-		this.exp = 0;
-		this.sp = 0;
 		this.gm = 0; // 0 - false, 1 - true;
 		this.privateStoreType = 0;
 
@@ -52,38 +47,7 @@ class Player {
 
 		this.classId = null;
 		this.className = null;
-		this.raceId = null;
-		
-		this.str = null;
-	 	this.dex = null;
-		this.con = null;
-		this.int = null;
-		this.wit = null;
-		this.men = null;
-		this.hp = null;
-		this.maximumHp = null;
-		this.mp = null;
-		this.maximumMp = null;
-
-		this.pAtk = null;
-		this.pDef = null;
-		this.mAtk = null;
-		this.mDef = null;
-		this.pSpd = null;
-		this.mSpd = null;
-
-		this.accuracy = null;
-		this.critical = null;
-		this.evasion = null;
-		this.runSpeed = null;
-		this.walkSpeed = null
-		this.swimsSpeed = null;
-		this.maximumLoad = null;
-		
-		this.x = null;
-		this.y = null;
-		this.z = null;
-		
+		this.raceId = null;		
 		this.canCraft = null;
 		
 		this.maleMovementMultiplier = null;
@@ -282,7 +246,7 @@ class Player {
 	}
 
 	getCharacterNames() {
-		return server.db.get("characters").map("characterName").value();
+		return server.db.get("characters").map("name").value();
 	}
 
 	addCharacter(character) {

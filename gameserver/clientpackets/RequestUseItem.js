@@ -3,7 +3,7 @@ let serverPackets = require("./../../gameserver/serverpackets/serverPackets");
 let ClientPacket = require("./ClientPacket");
 let items = require("./../../gameserver/Items");
 
-class UseItem {
+class RequestUseItem {
 	constructor(packet, player) {
 		this._packet = packet;
 		this._player = player;
@@ -131,4 +131,4 @@ class UseItem {
 	}
 }
 
-module.exports = UseItem;
+module.exports = RequestUseItem;

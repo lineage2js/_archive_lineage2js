@@ -2,7 +2,7 @@ let world = require("./World");
 let serverPacket = require("./serverPackets/serverPackets");
 
 class Tasks {
-	npcMove() {
+	startNpcMove() {
 		// test
 		setInterval(() => {
 			let npcList = world.getNpcList();

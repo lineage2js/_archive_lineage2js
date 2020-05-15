@@ -8,7 +8,7 @@ function CharacterInfo(player) {
 		.writeD(player.z)
 		.writeD(player.heading)
 		.writeD(player.objectId)
-		.writeS(player.characterName)
+		.writeS(player.name)
 		.writeD(player.raceId)
 		.writeD(player.gender)
 		.writeD(player.classId)

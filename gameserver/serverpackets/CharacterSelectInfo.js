@@ -7,7 +7,7 @@ function CharacterSelectInfo(characters, player) {
 	if(characters) {
 		this._packet.writeD(characters.length)
 		for(let i = 0; i < characters.length; i++) {
-			this._packet.writeS(characters[i].characterName)
+			this._packet.writeS(characters[i].name)
 				.writeD(characters[i].objectId)
 				.writeS(player.login)
 				.writeD(0x55555555)	// getSessionId

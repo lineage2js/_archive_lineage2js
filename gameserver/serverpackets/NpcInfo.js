@@ -1,6 +1,6 @@
 let ServerPacket = require("./ServerPacket");
 
-function NpcInfo(npc, player) {
+function NpcInfo(npc) {
 	this._packet = new ServerPacket(600); //
 	this._packet.writeC(0x22)
 

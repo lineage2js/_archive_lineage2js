@@ -29,7 +29,7 @@ class CharacterCreate {
 		this._init();
 	}
 
-	getCharacterName() {
+	getName() {
 		return this._data.getData()[1];
 	}
 
@@ -58,7 +58,7 @@ class CharacterCreate {
 	}
 
 	_init() {
-		let characterName = this.getCharacterName();
+		let name = this.getName();
 		let characterTemplateTable = this._serialization(characterTemplateData);
 		let characterQuantity = this._player.getCharacterQuantity();
 		let MAXIMUM_QUANTITY_CHARACTERS = 7;
@@ -69,15 +69,15 @@ class CharacterCreate {
 			return false;
 		}
 
-		if(characterName.length <= 16 && this._isAlphaNumeric(characterName)) {
-			if(this._characterNameisExist(characterName)) {
+		if(name.length <= 16 && this._isAlphaNumeric(name)) {
+			if(this._checkNameIsExist(name)) {
 				let character = new templates.Character(characterTemplateTable[this.getClassId()]);
 				let charactersData;
 				let charactersList = [];
 
 				character.login = this._player.login;
 				character.objectId = idFactory.getNextId();
-				character.characterName = this.getCharacterName();
+				character.name = this.getName();
 				character.maximumHp = character.hp;
 				character.maximumMp = character.mp;
 				character.gender = this.getGender();
@@ -113,11 +113,11 @@ class CharacterCreate {
 		return data;
 	}
 
-	_characterNameisExist(characterName) {
+	_checkNameIsExist(name) {
 		let names = this._player.getCharacterNames();
 
 		for(let i = 0; i < names.length; i++) {
-			if(names[i].toLowerCase() === characterName.toLowerCase()) {
+			if(names[i].toLowerCase() === name.toLowerCase()) {
 				return false;
 			}
 		}

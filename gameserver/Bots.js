@@ -51,7 +51,7 @@ class Bots {
 			}
 			
 			bot.objectId = idFactory.getNextId();;
-			bot.characterName = "bot" + i;
+			bot.name = "bot" + i;
 			bot.title = "bot";
 			bot.gender = Math.floor(Math.random() * 2);
 			bot.hairStyle = 1;

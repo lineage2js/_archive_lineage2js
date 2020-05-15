@@ -4,7 +4,7 @@ class Character {
 
 		this.objectId = null;
 		this.login = null;
-		this.characterName = null;
+		this.name = null;
 		this.title = "";
 		this.level = 1;
 		this.gender = null;

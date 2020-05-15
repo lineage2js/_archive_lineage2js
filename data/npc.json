@@ -54,5 +54,33 @@
 	    "collisionRadius": "5.0",
 	    "collisionHeight": "4.5",
 	    "count": 3
+	},
+	{
+	    "id": 1000481,
+	    "name": "keltir",
+	    "level": 1,
+	    "gender": "male",
+	    "type": "L2Monster",
+	    "attackRange": 36,
+	    "hp": 63,
+	    "mp": 30,
+	    "exp": 29,
+	    "sp": 2,
+	    "pAtk": 4,
+	    "pDef": 39,
+	    "mAtk": 3,
+	    "mDef": 32,
+	    "pSpd": 273,
+	    "mSpd": 333,
+	    "aggressive": 0,
+	    "rightHand": 0,
+	    "leftHand": 0,
+	    "armor": 0,
+	    "walkSpeed": 23,
+	    "runSpeed": 110,
+	    "class": "L2Monster",
+	    "collisionRadius": "9.5",
+	    "collisionHeight": "10.0",
+	    "count": 3
 	}
 ]
