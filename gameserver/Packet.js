@@ -129,6 +129,10 @@ class Packet {
 				new clientPackets.RequestShowBoard(this, this._player);
 
 				break;
+			case 0x21:
+				new clientPackets.RequestBypassToServer(this, this._player);
+
+				break;
 		}
 	}
 

@@ -49,7 +49,7 @@ serverStart.bat
 | RequestSellItem | BuyList |
 | RequestBuyItem | :heavy_check_mark: DeleteObject |
 | RequestLinkHtml | :warning: CharacterSelectionInfo |
-| RequestBypassToServer | ? LoginFail |
+| :warning: RequestBypassToServer | ? LoginFail |
 | RequestBBSWrite | :heavy_check_mark: CharacterSelected |
 | RequestCreatePledge | :warning: NpcInfo |
 | RequestJoinPledge | :heavy_check_mark: CharacterTemplates |

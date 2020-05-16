@@ -1,6 +1,7 @@
 module.exports = {
 	ProtocolVersion: require("./ProtocolVersion"),
 	RequestAuthLogin: require("./RequestAuthLogin"),
+	RequestBypassToServer: require("./RequestBypassToServer"),
 	NewCharacter: require("./NewCharacter"),
 	Logout: require("./Logout"),
 	CharacterCreate: require("./CharacterCreate"),
