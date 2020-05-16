@@ -7,6 +7,7 @@ module.exports = {
 	CharacterCreateFail: require("./CharacterCreateFail"),
 	CharacterSelected: require("./CharacterSelected"),
 	QuestList: require("./QuestList"),
+	RadarControl: require("./RadarControl"),
 	UserInfo: require("./UserInfo"),
 	MoveToLocation: require("./MoveToLocation"),
 	LogoutOk: require("./LogoutOk"),

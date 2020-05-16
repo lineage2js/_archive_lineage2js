@@ -24,6 +24,7 @@ class EnterWorld {
 		this._player.sendPacket(new serverPackets.SunRise());
 		this._player.sendPacket(new serverPackets.UserInfo(this._player));
 		this._player.sendPacket(new serverPackets.ItemList(this._player));
+		//this._player.sendPacket(new serverPackets.RadarControl(0, 2, -71311, 257303, -3115));
 
 		//this._player.sendPacket(new serverPackets.SpawnItem(items.create(78), -70880, 257360, -3080));
 

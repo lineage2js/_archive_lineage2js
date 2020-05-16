@@ -198,7 +198,7 @@ serverStart.bat
 |  | ShowTutorialMark |
 |  | TutorialEnableClientEvent |
 |  | TutorialCloseHtml |
-|  | ShowRadar |
+|  | :heavy_check_mark: RadarControl |
 |  | DeleteRadar |
 |  | MyTargetSelected |
 |  | PartyMemberPosition |
