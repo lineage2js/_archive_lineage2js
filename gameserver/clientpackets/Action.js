@@ -1,5 +1,8 @@
 let serverPackets = require("./../../gameserver/serverpackets/serverPackets");
 let ClientPacket = require("./ClientPacket");
+let html = require("./../../gameserver/Html");
+let world = require("./../../gameserver/World");
+let Npc = require("./../../gameserver/Npc");
 
 class Action {
 	constructor(packet, player) {
@@ -39,6 +42,16 @@ class Action {
 				this._player.sendPacket(new serverPackets.TargetSelected(this.getObjectId()));
 				this._player.sendPacket(new serverPackets.StatusUpdate(this.getObjectId()));
 				this._player.target = this.getObjectId();
+				
+				// for test
+				let object = world.find(this._player.target);
+
+				if(object instanceof Npc) {
+					if(object.type === "npc") {
+						this._player.sendPacket(new serverPackets.NpcHtmlMessage(html.get(object.id)));
+					}
+				}
+				//
 
 				break;
 			case 1: // click + shift

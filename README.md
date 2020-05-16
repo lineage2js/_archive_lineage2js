@@ -44,7 +44,7 @@ serverStart.bat
 | TradeDone | EquipItem |
 | RequestTeleport | UnequipItem |
 | :heavy_check_mark: RequestSocialAction | :warning: StatusUpdate |
-| ? ChangeMoveType | NpcHtmlMessage |
+| ? ChangeMoveType | :heavy_check_mark: NpcHtmlMessage |
 | ? ChangeWaitType | SellList |
 | RequestSellItem | BuyList |
 | RequestBuyItem | :heavy_check_mark: DeleteObject |

@@ -31,6 +31,7 @@ module.exports = {
 	MagicSkillUse: require("./MagicSkillUse"),
 	SystemMessage: require("./SystemMessage"),
 	MoveToPawn: require("./MoveToPawn"),
+	NpcHtmlMessage: require("./NpcHtmlMessage"),
 	Attack: require("./Attack"),
 	AttackCanceled: require("./AttackCanceled"),
 	AutoAttackStart: require("./AutoAttackStart"),

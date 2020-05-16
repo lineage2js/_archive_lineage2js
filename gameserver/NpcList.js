@@ -23,9 +23,21 @@ class NpcList {
 				let z = -3115;
 
 				npc.objectId = idFactory.getNextId();
-				npc.x = x;
-				npc.y = y;
-				npc.z = z;
+				
+				switch(params.type) {
+					case "L2Monster":
+						npc.x = x;
+						npc.y = y;
+						npc.z = z;
+
+						break;
+					case "L2Npc":
+						npc.x = params.x;
+						npc.y = params.y;
+						npc.z = params.z;
+
+						break;
+				}
 
 				this._list.push(npc);
 			}

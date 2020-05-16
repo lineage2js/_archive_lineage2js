@@ -9,6 +9,7 @@ class Npc extends Character {
 		this.type = params.type || null;
 		this.attackRange = params.attackRange || null;
 		this.aggressive = params.aggressive || null;
+		this.attacked = params.attacked || null;
 		this.rightHand = params.rightHand || null;
 		this.leftHand = params.leftHand || null;
 		this.armor = params.armor || null;
