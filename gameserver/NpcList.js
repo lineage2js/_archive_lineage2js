@@ -25,13 +25,13 @@ class NpcList {
 				npc.objectId = idFactory.getNextId();
 				
 				switch(params.type) {
-					case "L2Monster":
+					case "monster":
 						npc.x = x;
 						npc.y = y;
 						npc.z = z;
 
 						break;
-					case "L2Npc":
+					case "npc":
 						npc.x = params.x;
 						npc.y = params.y;
 						npc.z = params.z;
