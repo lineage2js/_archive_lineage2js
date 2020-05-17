@@ -4,6 +4,7 @@ let XOR = require("./../util/XOR");
 let timer = require("./Timer");
 let world = require("./World");
 let server = require("./Server");
+let items = require("./Items");
 let Character = require("./Character");
 
 class Player extends Character {
@@ -176,6 +177,19 @@ class Player extends Character {
 		let attacked = world.find(objectId);
 
 		if(true) {
+			// for test
+			attacked.hp -= 10;
+			
+			if(attacked.hp <= 0) {
+				this.sendPacket(new serverPackets.Die(attacked));
+				this.broadcast(new serverPackets.Die(attacked));
+				this.sendPacket(new serverPackets.DropItem(attacked, items.create(57)));
+				this.broadcast(new serverPackets.DropItem(attacked, items.create(57)));
+			}
+
+			this.sendPacket(new serverPackets.StatusUpdate(objectId, attacked.hp, attacked.maximumHp));
+			//
+
 			this.changeCombatStateTask();
 			this.changeFlagTask();
 			attacked.changeCombatStateTask(this); // arguments for test
@@ -221,7 +235,6 @@ class Player extends Character {
 			}
 		}
 	}
-	//
 
 	fillData(data){
 		for(let key in data) {

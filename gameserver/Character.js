@@ -19,9 +19,9 @@ class Character {
 		this.wit = params.wit || null;
 		this.men = params.men || null;
 		this.hp = params.hp || null;
-		this.maximumHp = params.maximumHp || null;
+		this.maximumHp = params.hp || null;
 		this.mp = params.mp || null;
-		this.maximumMp = params.maximumMp || null;
+		this.maximumMp = params.mp || null;
 
 		this.pAtk = params.pAtk || null;
 		this.pDef = params.pDef || null;

@@ -26,6 +26,7 @@ module.exports = {
 	TargetSelected: require("./TargetSelected"),
 	TargetUnselected: require("./TargetUnselected"),
 	TutorialShowHtml: require("./TutorialShowHtml"),
+	DropItem: require("./DropItem"),
 	ItemList: require("./ItemList"),
 	DeleteObject: require("./DeleteObject"),
 	SkillList: require("./SkillList"),

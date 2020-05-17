@@ -26,6 +26,7 @@ class NpcList {
 				
 				switch(params.type) {
 					case "monster":
+					case "guard":
 						npc.x = x;
 						npc.y = y;
 						npc.z = z;

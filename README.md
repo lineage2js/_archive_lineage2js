@@ -39,7 +39,7 @@ serverStart.bat
 | RequestUnEquipItem | AuthLoginSuccess |
 | RequestDropItem | :heavy_check_mark: AuthLoginFail |
 | :warning: RequestUseItem | :warning: SpawnItem |
-| RequestTrade | DropItem |
+| RequestTrade | :warning: DropItem |
 | RequestAddTradeItem | GetItem |
 | TradeDone | EquipItem |
 | RequestTeleport | UnequipItem |

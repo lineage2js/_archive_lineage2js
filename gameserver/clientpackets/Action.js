@@ -38,20 +38,25 @@ class Action {
 	_init() {
 		switch (this.getActionId()) {
 			case 0: // click
-				//this._player.sendPacket(new serverPackets.ActionFailed());
-				this._player.sendPacket(new serverPackets.TargetSelected(this.getObjectId()));
-				this._player.sendPacket(new serverPackets.StatusUpdate(this.getObjectId()));
-				this._player.target = this.getObjectId();
+				let object = world.find(this.getObjectId());
 				
-				// for test
-				let object = world.find(this._player.target);
+				//
+				if(object) {
+					this._player.sendPacket(new serverPackets.TargetSelected(object.objectId));
+					this._player.target = object.objectId;
+				} else {
+					this._player.sendPacket(new serverPackets.ActionFailed());
+				}
 
 				if(object instanceof Npc) {
 					if(object.type === "npc") {
 						this._player.sendPacket(new serverPackets.NpcHtmlMessage(html.get(object.id)));
 					}
+
+					if(object.type === "monster") {
+						this._player.sendPacket(new serverPackets.StatusUpdate(object.objectId, object.hp, object.maximumHp));
+					}
 				}
-				//
 
 				break;
 			case 1: // click + shift

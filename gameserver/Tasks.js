@@ -10,7 +10,7 @@ class Tasks {
 			for(let i = 0; i < npcList.length; i++) {
 				let npc = npcList[i];
 				
-				if(npc.type === "monster") {
+				if(npc.type === "monster" || npc.type === "guard") {
 					let [x, y] = npc.getRandomPos();
 					let origin = {
 						x: npc.x,
