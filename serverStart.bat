@@ -1,2 +1,2 @@
-start cmd /c node loginserver.js
-start cmd /c node gameserver.js
+start cmd /c node --experimental-worker loginserver.js
+start cmd /c node --experimental-worker gameserver.js
