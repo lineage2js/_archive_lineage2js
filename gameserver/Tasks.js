@@ -1,42 +1,51 @@
 let world = require("./World");
 let serverPacket = require("./serverPackets/serverPackets");
+let NPC = require("./NPC");
+
+const { Worker } = require('worker_threads')
+
+
 
 class Tasks {
-	startNpcMove() {
-		// test
-		setInterval(() => {
-			let npcList = world.getNpcList();
+	
+	runTask(workerName, workerData) {
+	  return new Promise((resolve, reject) => {
+		const worker = new Worker('./gameserver/Tasks/'+workerName+'.js', { workerData });
+		//console.info(`Starting Task ${workerName} ${worker.threadId}`);
+		
+		worker.on('message', resolve);
+		worker.on('error', reject);
+		worker.on('exit', (code) => {
+		  if (code !== 0)
+			reject(new Error(`Worker ${workerName} stopped with exit code ${code}`));
+		})
+	  })
+	}
 
-			for(let i = 0; i < npcList.length; i++) {
-				let npc = npcList[i];
-				
-				if(npc.type === "monster" || npc.type === "guard") {
-					let [x, y] = npc.getRandomPos();
-					let origin = {
-						x: npc.x,
-						y: npc.y,
-						z: npc.z
-					}		
-					let position = {
-						target: {
-							x: npc.x = x,
-							y: npc.y = y,
-							z: npc.z
-						},
-						origin: {
-							x: origin.x,
-							y: origin.y,
-							z: origin.z
-						}
-					}
+	
+	async startNpcMove() {
+		
+		try{
+			const npcList = world.getNpcList(); 
+			const moveNpc = await this.runTask('npcMove',npcList)
+			//const moveNpc = await this.runService('npcMove',null)
 
-					npc.getVisibleObjects(world.getPlayers(), player => {
-						player.sendPacket(new serverPacket.MoveToLocation(position, npc));
-					})
-				}
+			for(var i in moveNpc){
+				let npc = new NPC(moveNpc[i].npc);
+				let position = moveNpc[i].position;
+				npc.getVisibleObjects(world.getPlayers(), player => {
+					player.sendPacket(new serverPacket.MoveToLocation(position, npc));
+				})
 			}
-		}, 10000)
-		//
+			
+			//where we go again
+			setTimeout(()=>{
+				this.startNpcMove();
+			},500); //500ms delay
+		}
+		catch(err){
+			console.error(err);
+		}
 	}
 }
 
