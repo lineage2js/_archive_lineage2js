@@ -35,7 +35,7 @@ class Character {
 		this.evasion = params.evasion || null;
 		this.runSpeed = params.runSpeed || null;
 		this.walkSpeed = params.walkSpeed || null
-		this.swimsSpeed = params.swimsSpeed || null;
+		this.swimSpeed = params.swimSpeed || null;
 		this.maximumLoad = params.maximumLoad || null;
 		
 		this.x = params.x || null;

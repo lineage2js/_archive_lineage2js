@@ -69,7 +69,7 @@ class Bots {
 			bot.evasion = character.evesion;
 			bot.runSpeed = character.runSpeed;
 			bot.walkSpeed = character.walkSpeed
-			bot.swimsSpeed = character.swimsSpeed;
+			bot.swimSpeed = character.swimSpeed;
 			bot.maximumLoad = character.maximumLoad;
 
 			bot.pAtk = character.pAtk;

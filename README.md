@@ -1,6 +1,6 @@
 # lineage 2 js
 
-node.js emulator server  
+node.js server emulator  
 server for lineage 2 chronicle 1 harbingers of war
 
 config: data/config.json  

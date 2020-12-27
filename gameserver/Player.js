@@ -150,11 +150,11 @@ class Player extends Character {
 		return this._moveType === 1;
 	}
 
-	setWalking() {
+	walk() {
 		this._moveType = 0;
 	}
 
-	setRunning() {
+	run() {
 		this._moveType = 1;
 	}
 
@@ -199,7 +199,14 @@ class Player extends Character {
 			this.broadcast(new serverPackets.Attack(this, attacks));
 		}
 	}
+	//
+	// hit(character) {
+	// 	let hp = character.getHp();
+	// 	let damage = 10;
 
+	// 	character.setHp(hp - damage);
+	// }
+	//
 	getFlagDisplay() {
 		return this._flag.display;
 	}

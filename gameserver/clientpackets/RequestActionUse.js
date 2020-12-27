@@ -39,9 +39,9 @@ class RequestActionUse {
 				break;
 			case 1:
 				if(this._player.isRunning()) {
-					this._player.setWalking();
+					this._player.walk();
 				} else {
-					this._player.setRunning();
+					this._player.run();
 				}
 
 				this._player.sendPacket(new serverPackets.ChangeMoveType(this._player));

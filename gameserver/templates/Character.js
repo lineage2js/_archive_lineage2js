@@ -51,7 +51,7 @@ class Character {
 		this.evasion = null;
 		this.runSpeed = null;
 		this.walkSpeed = null;
-		this.swimsSpeed = null;
+		this.swimSpeed = null;
 		this.maximumLoad = null;
 		
 		this.x = null;

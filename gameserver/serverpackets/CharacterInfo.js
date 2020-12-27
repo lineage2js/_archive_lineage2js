@@ -35,8 +35,8 @@ function CharacterInfo(player) {
 
 		.writeD(player.runSpeed)
 		.writeD(player.walkSpeed)
-		.writeD(player.swimsSpeed)
-		.writeD(player.swimsSpeed)
+		.writeD(player.swimSpeed)
+		.writeD(player.swimSpeed)
 		.writeD(player.runSpeed) // getFloatingRunSpeed
 		.writeD(player.walkSpeed) // getFloatingWalkSpeed
 		.writeD(player.runSpeed) // getFlyingRunSpeed
