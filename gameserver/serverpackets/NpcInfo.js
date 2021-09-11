@@ -25,7 +25,7 @@ function NpcInfo(npc) {
 			.writeD(100) // getFlyingWalkSpeed
 			
 			.writeF(1) // getMovementMultiplier
-			.writeF(1) // getAttackSpeedMultiplier
+			.writeF((npc.pSpd / 500) / 0.555) // getAttackSpeedMultiplier
 			.writeF(npc.collisionRadius) // getCollisionRadius
 			.writeF(npc.collisionHeight) // getCollisionHeight
 			.writeD(npc.rightHand) // getRightHandItem

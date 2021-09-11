@@ -4,6 +4,7 @@ class Npc extends Character {
 	constructor(params) {
 		super(params);
 
+		this.npc = true;
 		this.id = params.id || null;
 		this.name = params.name || null;
 		this.type = params.type || null;

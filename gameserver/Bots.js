@@ -16,7 +16,8 @@ class Bots {
 		let y = 257500;
 		let z = -3080;
 
-		for(let i = 0; i < count; i++) {
+		for(let i = 0; i < 20; i++) {
+			let pSpd = Math.floor(Math.random() * (1020 - 220 + 1)) + 220;
 			let bot = new Bot();
 			let sign = Math.random() < 0.5 ? -1 : 1;
 			let classId = this._classes[Math.floor(Math.random() * this._classes.length)];
@@ -52,13 +53,14 @@ class Bots {
 			
 			bot.objectId = idFactory.getNextId();;
 			bot.name = "bot" + i;
-			bot.title = "bot";
+			bot.title = "pSpd: " + pSpd;
 			bot.gender = Math.floor(Math.random() * 2);
 			bot.hairStyle = 1;
 			bot.hairColor = 1;
 			bot.face = 0;
 			bot.online = true;
 			bot.bot = true;
+			bot.player = false; //
 
 			bot.classId = classId;
 			bot.className = character.className;
@@ -72,11 +74,13 @@ class Bots {
 			bot.swimSpeed = character.swimSpeed;
 			bot.maximumLoad = character.maximumLoad;
 
+			bot.hp = character.hp;
+			bot.maximumHp = character.maximumHp;
 			bot.pAtk = character.pAtk;
 			bot.pDef = character.pDef;
 			bot.mAtk = character.mAtk;
 			bot.mDef = character.mDef;
-			bot.pSpd = character.pSpd;
+			bot.pSpd = pSpd;
 			bot.mSpd = character.mSpd;
 			
 			bot.x = Math.floor(Math.random()*(500 * sign)) + x;

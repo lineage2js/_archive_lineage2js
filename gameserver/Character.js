@@ -49,30 +49,52 @@ class Character {
 			critical: false,
 			miss: false
 		}
-		let attacked = world.find(objectId);
 
-		attacked.changeCombatStateTask();
-		this.broadcast(new serverPackets.Attack(this, attacks));
-	}
+		if (this.player) {
+			let target = world.find(objectId);
 
-	changeCombatStateTask(attacker) {
-		let startingTime = 1000;
-		let endingTime = 3000;
+			if (target.hp <= 0) {
+				this.sendPacket(new serverPackets.Die(target));
+				this.broadcast(new serverPackets.Die(target));
+				this.sendPacket(new serverPackets.DropItem(target, items.create(57)));
+				this.broadcast(new serverPackets.DropItem(target, items.create(57)));
+			} else {
+				this.sendPacket(new serverPackets.StatusUpdate(objectId, target.hp, target.maximumHp));
+				this.changeCombatStateTask();
+				this.changeFlagTask();
+				this.sendPacket(new serverPackets.MoveToPawn(this));
+				this.sendPacket(new serverPackets.Attack(this, attacks));
+				this.sendPacket(new serverPackets.UserInfo(this));
+				this.broadcast(new serverPackets.Attack(this, attacks));
 
-		timer.tick([startingTime, endingTime], type => {
-			switch(type) {
-				case "start":
-					this.broadcast(new serverPackets.AutoAttackStart(this.objectId));
-					this.target = attacker.objectId;
-					this.attack(this.target)
+				setTimeout(() => {
+					target.attack(this.objectId);
+				}, 500000 / target.pSpd);
+			}	
+		}
 
-					break;
-				case "stop":
-					this.broadcast(new serverPackets.AutoAttackStop(this.objectId));
-
-					break;
+		if (!this.player) {
+			if (this.bot) {
+				this.changeCombatStateTask();
 			}
-		})
+
+			if (!this.time) this.time = 0;
+
+			let target = world.find(objectId);
+
+			this.target = target.objectId;
+			
+			setTimeout(() => {
+				this.time++;
+
+				if (this.time <= 3) {
+					this.attack(this.target);
+					this.broadcast(new serverPackets.Attack(this, attacks));
+				} else {
+					this.time = 0;
+				}
+			}, 500000 / this.pSpd);
+		}
 	}
 
 	broadcast(packet) { // for test

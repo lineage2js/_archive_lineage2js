@@ -14,6 +14,7 @@ class Player extends Character {
 		this.socket = socket || null;
 		this.xor = new XOR(config.base.key.XOR) || null;
 		
+		this.player = true;
 		this.target = null;
 		this.login = null;
 		this.hairStyle = null;
@@ -101,6 +102,7 @@ class Player extends Character {
 			this.socket.write(packetEncrypted);
 		} else {
 			packet = Buffer.concat([packetLength, packet]);
+			
 			if(!this.bot) {
 				this.socket.write(packet);
 			}
@@ -166,47 +168,6 @@ class Player extends Character {
 		return this._inCombat;
 	}
 
-	// fix
-	attack(objectId) {
-		let attacks = {
-			soulshot: false,
-			critical: false,
-			miss: false
-		}
-
-		let attacked = world.find(objectId);
-
-		if(true) {
-			// for test
-			attacked.hp -= 10;
-			
-			if(attacked.hp <= 0) {
-				this.sendPacket(new serverPackets.Die(attacked));
-				this.broadcast(new serverPackets.Die(attacked));
-				this.sendPacket(new serverPackets.DropItem(attacked, items.create(57)));
-				this.broadcast(new serverPackets.DropItem(attacked, items.create(57)));
-			}
-
-			this.sendPacket(new serverPackets.StatusUpdate(objectId, attacked.hp, attacked.maximumHp));
-			//
-
-			this.changeCombatStateTask();
-			this.changeFlagTask();
-			attacked.changeCombatStateTask(this); // arguments for test
-			this.sendPacket(new serverPackets.MoveToPawn(this));
-			this.sendPacket(new serverPackets.Attack(this, attacks));
-			this.sendPacket(new serverPackets.UserInfo(this));
-			this.broadcast(new serverPackets.Attack(this, attacks));
-		}
-	}
-	//
-	// hit(character) {
-	// 	let hp = character.getHp();
-	// 	let damage = 10;
-
-	// 	character.setHp(hp - damage);
-	// }
-	//
 	getFlagDisplay() {
 		return this._flag.display;
 	}
@@ -273,39 +234,14 @@ class Player extends Character {
 		server.db.get("characters").push(character).write();
 	}
 
-	changeCombatStateTask(attacker) {
-		let startingTime = this.gender === 0 ? this.maleAttackSpeedMultiplier * 1000 : this.femaleAttackSpeedMultiplier * 1000;
-		let endingTime = 3000;
-
-		timer.tick([startingTime, endingTime], type => {
+	changeCombatStateTask() {
+		timer.tick([0, 5000], type => {
 			switch(type) {
 				case "start":
 					this.setCombatState(true);
 					this.sendPacket(new serverPackets.AutoAttackStart(this.objectId));
 					this.broadcast(new serverPackets.AutoAttackStart(this.objectId));
 					this.sendPacket(new serverPackets.SystemMessage(35, [{ type: config.base.systemMessageType.NUMBER, value: 1000 }]));
-					
-					// for test
-					if(this.bot && attacker) {
-						this.target = attacker.objectId;
-						this.attack(this.target)
-						if(!attacker.time) attacker.time = 1500;
-						this.broadcast(new serverPackets.CreateSay(this, 0, attacker.time.toString()));
-
-						//
-						let attackSpeedMultiplier = this.gender === 0 ? this.maleAttackSpeedMultiplier : this.femaleAttackSpeedMultiplier;
-						
-						setTimeout(() => {
-							
-							attacker.time -= 100;
-							attacker.hp -= 10;
-							attacker.sendPacket(new serverPackets.UserInfo(this));
-
-							this.changeCombatStateTask(attacker)
-						}, attackSpeedMultiplier * this.pSpd + this.dex);
-						//
-					}
-					//
 
 					break;
 				case "stop":
@@ -322,21 +258,20 @@ class Player extends Character {
 	}
 
 	changeFlagTask() {
-		let startingTime = this.gender === 0 ? this.maleAttackSpeedMultiplier * 1000 : this.femaleAttackSpeedMultiplier * 1000;
-		let endingTime = 3000;
-		
-		timer.tick([startingTime, endingTime], type => {
+		timer.tick([0, 5000], type => {
 			switch(type) {
 				case "start":
 					this._flag.status = 1;
 					this._flag.display = 1;
 					this.sendPacket(new serverPackets.UserInfo(this));
+					this.broadcast(new serverPackets.UserInfo(this));
 
 					break;
 				case "stop":
 					this._flag.status = 0;
 					this._flag.display = 0;
 					this.sendPacket(new serverPackets.UserInfo(this));
+					this.broadcast(new serverPackets.UserInfo(this));
 
 					break;
 			}

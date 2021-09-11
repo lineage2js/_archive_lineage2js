@@ -45,7 +45,7 @@ function CharacterInfo(player) {
 	// male
 	if(player.gender === 0) {
 		this._packet.writeF(player.maleMovementMultiplier)
-			.writeF(player.maleAttackSpeedMultiplier)
+			.writeF((player.pSpd / 500) / 0.555)
 			.writeF(player.maleCollisionRadius)
 			.writeF(player.maleCollisionHeight)
 	}
@@ -53,7 +53,7 @@ function CharacterInfo(player) {
 	// female
 	if(player.gender === 1) {
 		this._packet.writeF(player.femaleMovementMultiplier)
-			.writeF(player.femaleAttackSpeedMultiplier)
+			.writeF((player.pSpd / 500) / 0.555)
 			.writeF(player.femaleCollisionRadius)
 			.writeF(player.femaleCollisionHeight)
 	}
