@@ -5,7 +5,7 @@ function MoveToPawn(player) {
 	this._packet.writeC(0x75)
 		.writeD(player.objectId)
 		.writeD(player.target)
-		.writeD(1) // distance
+		.writeD(36) // distance
 		.writeD(player.x)
 		.writeD(player.y)
 		.writeD(player.z)

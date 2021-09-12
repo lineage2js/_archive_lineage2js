@@ -62,7 +62,6 @@ class Character {
 				this.sendPacket(new serverPackets.StatusUpdate(objectId, target.hp, target.maximumHp));
 				this.changeCombatStateTask();
 				this.changeFlagTask();
-				this.sendPacket(new serverPackets.MoveToPawn(this));
 				this.sendPacket(new serverPackets.Attack(this, attacks));
 				this.sendPacket(new serverPackets.UserInfo(this));
 				this.broadcast(new serverPackets.Attack(this, attacks));
@@ -84,16 +83,23 @@ class Character {
 
 			this.target = target.objectId;
 			
+			this.broadcast(new serverPackets.MoveToPawn(this));
+			
+			// test
+			// Надо дожидатся окончания MoveToPawn и начинать атаку
 			setTimeout(() => {
-				this.time++;
-
-				if (this.time <= 3) {
-					this.attack(this.target);
-					this.broadcast(new serverPackets.Attack(this, attacks));
-				} else {
-					this.time = 0;
-				}
-			}, 500000 / this.pSpd);
+				setTimeout(() => {
+					this.time++;
+	
+					if (this.time <= 3) {
+						this.attack(this.target);
+						this.broadcast(new serverPackets.Attack(this, attacks));
+						
+					} else {
+						this.time = 0;
+					}
+				}, 500000 / this.pSpd);
+			}, 3000)
 		}
 	}
 

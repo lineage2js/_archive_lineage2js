@@ -43,5 +43,6 @@ module.exports = {
 	MagicSkillLaunched: require("./MagicSkillLaunched"),
 	ShowMiniMap: require("./ShowMiniMap"),
 	Ride: require("./Ride"),
-	Die: require("./Die")
+	Die: require("./Die"),
+	StopMove: require("./StopMove")
 }

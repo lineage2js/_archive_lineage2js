@@ -104,7 +104,7 @@ serverStart.bat
 | RequestFriendInvite | ShortCutRegister |
 | RequestFriendAddReply | ShortCutInit |
 | RequestFriendInfoList | ShortCutDelete |
-| RequestFriendDel | StopMove |
+| RequestFriendDel | :heavy_check_mark: StopMove |
 | RequestCharacterRestore | :heavy_check_mark: MagicSkillUse |
 | :warning: RequestQuestList | MagicSkillCanceled |
 | RequestDestroyQuest | :heavy_check_mark: CreateSay |
