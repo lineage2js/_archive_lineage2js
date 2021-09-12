@@ -88,17 +88,19 @@ class Character {
 			// test
 			// Надо дожидатся окончания MoveToPawn и начинать атаку
 			setTimeout(() => {
-				setTimeout(() => {
-					this.time++;
+				this.broadcast(new serverPackets.StopMove(this));
+				// setTimeout(() => {
+				// 	this.time++;
 	
-					if (this.time <= 3) {
-						this.attack(this.target);
-						this.broadcast(new serverPackets.Attack(this, attacks));
+				// 	if (this.time <= 3) {
+				// 		this.attack(this.target);
 						
-					} else {
-						this.time = 0;
-					}
-				}, 500000 / this.pSpd);
+				// 		this.broadcast(new serverPackets.Attack(this, attacks));
+						
+				// 	} else {
+				// 		this.time = 0;
+				// 	}
+				// }, 500000 / this.pSpd);
 			}, 3000)
 		}
 	}

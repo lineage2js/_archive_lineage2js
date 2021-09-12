@@ -20,5 +20,5 @@ npcList.spawn();
 bots.create(10);
 world.addNpc(npcList.getList());
 world.addBot(bots.getBots());
-tasks.startNpcMove();
+//tasks.startNpcMove();
 server.start();
